@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B2EE16EEC767E903751A6A8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB1318832B44E81A62D9C1E /* libPods.a */; };
 		27318B091A0F24CB009B72F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B081A0F24CB009B72F2 /* AppDelegate.swift */; };
 		27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27318B0A1A0F24CB009B72F2 /* ShareASale.xcdatamodeld */; };
 		27318B0E1A0F24CB009B72F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B0D1A0F24CB009B72F2 /* ViewController.swift */; };
@@ -14,6 +15,9 @@
 		27318B131A0F24CB009B72F2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27318B121A0F24CB009B72F2 /* Images.xcassets */; };
 		27318B161A0F24CB009B72F2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27318B141A0F24CB009B72F2 /* LaunchScreen.xib */; };
 		27318B221A0F24CB009B72F2 /* ShareASaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B211A0F24CB009B72F2 /* ShareASaleTests.swift */; };
+		27318B2E1A0F27AC009B72F2 /* BreeRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 27318B2D1A0F27AC009B72F2 /* BreeRegular.otf */; };
+		27318B371A0F373F009B72F2 /* star_big2.png in Resources */ = {isa = PBXBuildFile; fileRef = 27318B361A0F373F009B72F2 /* star_big2.png */; };
+		27FC4A121A0F3C6B00B39EB2 /* star_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 27FC4A111A0F3C6B00B39EB2 /* star_big.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,13 @@
 		27318B1B1A0F24CB009B72F2 /* ShareASaleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShareASaleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27318B201A0F24CB009B72F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27318B211A0F24CB009B72F2 /* ShareASaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareASaleTests.swift; sourceTree = "<group>"; };
+		27318B2D1A0F27AC009B72F2 /* BreeRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = BreeRegular.otf; path = ../BreeRegular.otf; sourceTree = "<group>"; };
+		27318B361A0F373F009B72F2 /* star_big2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_big2.png; sourceTree = "<group>"; };
+		276BF62F1A0FDA6700FC81D3 /* ShareASale-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ShareASale-Bridging-Header.h"; sourceTree = "<group>"; };
+		27FC4A111A0F3C6B00B39EB2 /* star_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_big.png; sourceTree = "<group>"; };
+		6AB1318832B44E81A62D9C1E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		911F05252911B32AFA22BFEB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		DACD1A9D8DE3B03E35B5ECCA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B2EE16EEC767E903751A6A8 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +76,8 @@
 				27318B051A0F24CB009B72F2 /* ShareASale */,
 				27318B1E1A0F24CB009B72F2 /* ShareASaleTests */,
 				27318B041A0F24CB009B72F2 /* Products */,
+				5288B036B5F4050F2C06A1D6 /* Pods */,
+				5D34126D066F8579859B0505 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,6 +99,7 @@
 				27318B121A0F24CB009B72F2 /* Images.xcassets */,
 				27318B141A0F24CB009B72F2 /* LaunchScreen.xib */,
 				27318B0A1A0F24CB009B72F2 /* ShareASale.xcdatamodeld */,
+				27318B311A0F2887009B72F2 /* images */,
 				27318B061A0F24CB009B72F2 /* Supporting Files */,
 			);
 			path = ShareASale;
@@ -93,6 +108,8 @@
 		27318B061A0F24CB009B72F2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				276BF62F1A0FDA6700FC81D3 /* ShareASale-Bridging-Header.h */,
+				27318B2D1A0F27AC009B72F2 /* BreeRegular.otf */,
 				27318B071A0F24CB009B72F2 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -115,6 +132,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		27318B311A0F2887009B72F2 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				27FC4A111A0F3C6B00B39EB2 /* star_big.png */,
+				27318B361A0F373F009B72F2 /* star_big2.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		5288B036B5F4050F2C06A1D6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DACD1A9D8DE3B03E35B5ECCA /* Pods.debug.xcconfig */,
+				911F05252911B32AFA22BFEB /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		5D34126D066F8579859B0505 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6AB1318832B44E81A62D9C1E /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -122,9 +165,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 27318B251A0F24CB009B72F2 /* Build configuration list for PBXNativeTarget "ShareASale" */;
 			buildPhases = (
+				58CF0CA35A36037B8D8C63A0 /* Check Pods Manifest.lock */,
 				27318AFF1A0F24CB009B72F2 /* Sources */,
 				27318B001A0F24CB009B72F2 /* Frameworks */,
 				27318B011A0F24CB009B72F2 /* Resources */,
+				E4F64984EFACCEE64A275A63 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -197,6 +242,9 @@
 			files = (
 				27318B111A0F24CB009B72F2 /* Main.storyboard in Resources */,
 				27318B161A0F24CB009B72F2 /* LaunchScreen.xib in Resources */,
+				27FC4A121A0F3C6B00B39EB2 /* star_big.png in Resources */,
+				27318B2E1A0F27AC009B72F2 /* BreeRegular.otf in Resources */,
+				27318B371A0F373F009B72F2 /* star_big2.png in Resources */,
 				27318B131A0F24CB009B72F2 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,6 +257,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		58CF0CA35A36037B8D8C63A0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E4F64984EFACCEE64A275A63 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		27318AFF1A0F24CB009B72F2 /* Sources */ = {
@@ -338,21 +419,27 @@
 		};
 		27318B261A0F24CB009B72F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DACD1A9D8DE3B03E35B5ECCA /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ShareASale/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		27318B271A0F24CB009B72F2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 911F05252911B32AFA22BFEB /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ShareASale/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "/Users/ryanfrey/Desktop/ShareASale/ShareASale/ShareASale-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -409,6 +496,7 @@
 				27318B271A0F24CB009B72F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		27318B281A0F24CB009B72F2 /* Build configuration list for PBXNativeTarget "ShareASaleTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +505,7 @@
 				27318B2A1A0F24CB009B72F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
