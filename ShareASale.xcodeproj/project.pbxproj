@@ -17,6 +17,9 @@
 		27318B221A0F24CB009B72F2 /* ShareASaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B211A0F24CB009B72F2 /* ShareASaleTests.swift */; };
 		27318B2E1A0F27AC009B72F2 /* BreeRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 27318B2D1A0F27AC009B72F2 /* BreeRegular.otf */; };
 		27318B371A0F373F009B72F2 /* star_big2.png in Resources */ = {isa = PBXBuildFile; fileRef = 27318B361A0F373F009B72F2 /* star_big2.png */; };
+		276BF6361A100CE700FC81D3 /* AffiliateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276BF6351A100CE700FC81D3 /* AffiliateSettings.swift */; };
+		276BF6381A100CF700FC81D3 /* MerchantSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276BF6371A100CF700FC81D3 /* MerchantSettings.swift */; };
+		276BF63A1A103AC900FC81D3 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 276BF6391A103AC900FC81D3 /* default.png */; };
 		27FC4A121A0F3C6B00B39EB2 /* star_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 27FC4A111A0F3C6B00B39EB2 /* star_big.png */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +48,9 @@
 		27318B2D1A0F27AC009B72F2 /* BreeRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = BreeRegular.otf; path = ../BreeRegular.otf; sourceTree = "<group>"; };
 		27318B361A0F373F009B72F2 /* star_big2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_big2.png; sourceTree = "<group>"; };
 		276BF62F1A0FDA6700FC81D3 /* ShareASale-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ShareASale-Bridging-Header.h"; sourceTree = "<group>"; };
+		276BF6351A100CE700FC81D3 /* AffiliateSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliateSettings.swift; sourceTree = "<group>"; };
+		276BF6371A100CF700FC81D3 /* MerchantSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MerchantSettings.swift; sourceTree = "<group>"; };
+		276BF6391A103AC900FC81D3 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		27FC4A111A0F3C6B00B39EB2 /* star_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_big.png; sourceTree = "<group>"; };
 		6AB1318832B44E81A62D9C1E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		911F05252911B32AFA22BFEB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -96,6 +102,7 @@
 				27318B081A0F24CB009B72F2 /* AppDelegate.swift */,
 				27318B0D1A0F24CB009B72F2 /* ViewController.swift */,
 				27318B0F1A0F24CB009B72F2 /* Main.storyboard */,
+				276BF6341A100A6500FC81D3 /* Settings */,
 				27318B121A0F24CB009B72F2 /* Images.xcassets */,
 				27318B141A0F24CB009B72F2 /* LaunchScreen.xib */,
 				27318B0A1A0F24CB009B72F2 /* ShareASale.xcdatamodeld */,
@@ -135,10 +142,20 @@
 		27318B311A0F2887009B72F2 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				276BF6391A103AC900FC81D3 /* default.png */,
 				27FC4A111A0F3C6B00B39EB2 /* star_big.png */,
 				27318B361A0F373F009B72F2 /* star_big2.png */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		276BF6341A100A6500FC81D3 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				276BF6351A100CE700FC81D3 /* AffiliateSettings.swift */,
+				276BF6371A100CF700FC81D3 /* MerchantSettings.swift */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		5288B036B5F4050F2C06A1D6 /* Pods */ = {
@@ -242,6 +259,7 @@
 			files = (
 				27318B111A0F24CB009B72F2 /* Main.storyboard in Resources */,
 				27318B161A0F24CB009B72F2 /* LaunchScreen.xib in Resources */,
+				276BF63A1A103AC900FC81D3 /* default.png in Resources */,
 				27FC4A121A0F3C6B00B39EB2 /* star_big.png in Resources */,
 				27318B2E1A0F27AC009B72F2 /* BreeRegular.otf in Resources */,
 				27318B371A0F373F009B72F2 /* star_big2.png in Resources */,
@@ -296,6 +314,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				276BF6361A100CE700FC81D3 /* AffiliateSettings.swift in Sources */,
+				276BF6381A100CF700FC81D3 /* MerchantSettings.swift in Sources */,
 				27318B0E1A0F24CB009B72F2 /* ViewController.swift in Sources */,
 				27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */,
 				27318B091A0F24CB009B72F2 /* AppDelegate.swift in Sources */,
@@ -425,7 +445,7 @@
 				INFOPLIST_FILE = ShareASale/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "/Users/ryanfrey/Desktop/ShareASale/ShareASale/ShareASale-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;

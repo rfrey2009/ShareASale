@@ -25,17 +25,6 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var affBtn: UIButton!
     
-    @IBAction func affBtnAction(sender: AnyObject) {
-        
-        
-    }
-    
-    
-    @IBAction func merchBtnAction(sender: AnyObject) {
-        
-        
-    }
-    
     
 }
 
