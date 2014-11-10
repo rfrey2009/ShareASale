@@ -24,6 +24,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     let reuseableCell = "Cell"
     // MARK: - IBOutlets
     @IBOutlet var tapper: UITapGestureRecognizer!
+    @IBOutlet var portrait: UIImageView!
     @IBOutlet var name: UITextField!
     @IBOutlet var merchantID: UITextField!
     @IBOutlet var org: UITextField!
@@ -86,7 +87,6 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         NSUserDefaults.standardUserDefaults().synchronize()
         
     }
-    
     // MARK: - inits
     override func viewDidLoad() {
         super.viewDidLoad()

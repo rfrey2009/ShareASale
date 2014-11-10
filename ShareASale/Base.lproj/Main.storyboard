@@ -281,6 +281,7 @@
                         <outlet property="merchantID" destination="21c-wp-o9r" id="Ysg-2Z-Cp0"/>
                         <outlet property="name" destination="Lta-E2-ctq" id="ZLJ-nd-6CX"/>
                         <outlet property="org" destination="EV0-sd-fwZ" id="8an-Ko-ULs"/>
+                        <outlet property="portrait" destination="71l-C0-F9A" id="0Sc-aB-ZeH"/>
                         <outlet property="ppcSwitch" destination="j3B-e7-igV" id="iuw-WU-IoV"/>
                         <outlet property="tableView" destination="CQQ-PL-44E" id="3Ch-9a-Mvc"/>
                         <outlet property="tapper" destination="InZ-Ym-JeR" id="bsy-81-KS8"/>
