@@ -22,8 +22,8 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     let usaKey = "usa"
     let disallowedKey = "disallowed"
     let reuseableCell = "Cell"
-    
     // MARK: - IBOutlets
+    @IBOutlet var tapper: UITapGestureRecognizer!
     @IBOutlet var name: UITextField!
     @IBOutlet var merchantID: UITextField!
     @IBOutlet var org: UITextField!
@@ -34,6 +34,29 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     @IBOutlet var incentiveSwitch: UISwitch!
     @IBOutlet var usaSwitch: UISwitch!
     // MARK: - IBActions
+    @IBAction func handleSingleTap(sender: AnyObject) {
+        
+        self.view.endEditing(true)
+        
+    }
+    @IBAction func nameChanged(sender: AnyObject) {
+        
+        if sender as NSObject == self.name{
+            NSUserDefaults.standardUserDefaults().setObject(self.name.text, forKey: nameKey)
+        }
+    }
+    @IBAction func merchantIDChanged(sender: AnyObject) {
+        
+        if sender as NSObject == self.merchantID{
+            NSUserDefaults.standardUserDefaults().setObject(self.merchantID.text, forKey: merchantIDKey)
+        }
+    }
+    @IBAction func orgChanged(sender: AnyObject) {
+        
+        if sender as NSObject == self.org{
+            NSUserDefaults.standardUserDefaults().setObject(self.org.text, forKey: orgKey)
+        }
+    }
     @IBAction func bloggerSwitchChanged(sender: AnyObject) {
         
         NSUserDefaults.standardUserDefaults().setBool(self.bloggerSwitch.on, forKey: bloggerKey)
@@ -67,7 +90,13 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     // MARK: - inits
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: reuseableCell)
+        
+        self.name.text = NSUserDefaults.standardUserDefaults().stringForKey(nameKey)
+        self.merchantID.text = NSUserDefaults.standardUserDefaults().stringForKey(merchantIDKey)
+        self.org.text = NSUserDefaults.standardUserDefaults().stringForKey(orgKey)
+
         
         self.bloggerSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(bloggerKey)
         self.couponSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(couponKey)
@@ -82,7 +111,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     // MARK: - delegates and data sources
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Disallow States"
+        return "Disallowed States"
     }
     
     func tableView(tableView: UITableView, numberOfSectionsInTableView section: Int) -> Int{
@@ -127,7 +156,25 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
 
     
     }
-
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        var disallowedIndexPaths = tableView.indexPathsForSelectedRows() as Array<NSIndexPath>!
+        var disallowedRows = [Int]()
+        
+        if disallowedIndexPaths != nil{
+            for indexPath in disallowedIndexPaths {
+            
+                disallowedRows.append(indexPath.row)
+            
+            }
+        }
+        NSUserDefaults.standardUserDefaults().setObject(disallowedRows, forKey: disallowedKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
+    }
+    
+    //MARK: - Helpers
     
 }
 
