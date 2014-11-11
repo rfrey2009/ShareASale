@@ -14,7 +14,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     let nameKey = "name"
     let merchantIDKey = "merchantID"
-    let orgKey = "org"
+    let emailKey = "email"
     let bloggerKey = "blogger"
     let couponKey = "coupon"
     let ppcKey = "ppc"
@@ -27,7 +27,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     @IBOutlet var portrait: UIImageView!
     @IBOutlet var name: UITextField!
     @IBOutlet var merchantID: UITextField!
-    @IBOutlet var org: UITextField!
+    @IBOutlet var email: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var bloggerSwitch: UISwitch!
     @IBOutlet var couponSwitch: UISwitch!
@@ -35,6 +35,39 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     @IBOutlet var incentiveSwitch: UISwitch!
     @IBOutlet var usaSwitch: UISwitch!
     // MARK: - IBActions
+    @IBAction func saveBtn(sender: AnyObject) {
+        
+        if (self.merchantID.text != "" && self.name.text != "" && self.email.text != ""){
+            
+            var currentUser = PFUser.currentUser()
+            
+            if(currentUser == nil){
+                
+                var newUser = PFUser()
+                newUser.username = self.merchantID.text
+                newUser.password = self.name.text
+                newUser.signUpInBackgroundWithBlock({ (succeeded, error) -> Void in
+                    
+                    if succeeded{
+                        self.performSegueWithIdentifier("MerchantSettingsToAffiliateResults", sender: self)
+                    }
+                })
+                
+            }else{
+                
+                performSegueWithIdentifier("MerchantSettingsToAffiliateResults", sender: self)
+                println(currentUser)
+
+            }
+        }else{
+            var alert = UIAlertController(title: "Info Missing", message: "Please enter a merchant ID, name, and email address", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        
+        
+    }
+        
     @IBAction func handleSingleTap(sender: AnyObject) {
         
         self.view.endEditing(true)
@@ -52,10 +85,10 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
             NSUserDefaults.standardUserDefaults().setObject(self.merchantID.text, forKey: merchantIDKey)
         }
     }
-    @IBAction func orgChanged(sender: AnyObject) {
+    @IBAction func emailChanged(sender: AnyObject) {
         
-        if sender as NSObject == self.org{
-            NSUserDefaults.standardUserDefaults().setObject(self.org.text, forKey: orgKey)
+        if sender as NSObject == self.email{
+            NSUserDefaults.standardUserDefaults().setObject(self.email.text, forKey: emailKey)
         }
     }
     @IBAction func bloggerSwitchChanged(sender: AnyObject) {
@@ -95,8 +128,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         
         self.name.text = NSUserDefaults.standardUserDefaults().stringForKey(nameKey)
         self.merchantID.text = NSUserDefaults.standardUserDefaults().stringForKey(merchantIDKey)
-        self.org.text = NSUserDefaults.standardUserDefaults().stringForKey(orgKey)
-
+        self.email.text = NSUserDefaults.standardUserDefaults().stringForKey(emailKey)
         
         self.bloggerSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(bloggerKey)
         self.couponSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(couponKey)

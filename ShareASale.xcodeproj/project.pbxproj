@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B2EE16EEC767E903751A6A8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB1318832B44E81A62D9C1E /* libPods.a */; };
+		270691A51A109A340033D4E3 /* AffiliateResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270691A41A109A340033D4E3 /* AffiliateResults.swift */; };
 		27318B091A0F24CB009B72F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B081A0F24CB009B72F2 /* AppDelegate.swift */; };
 		27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27318B0A1A0F24CB009B72F2 /* ShareASale.xcdatamodeld */; };
 		27318B0E1A0F24CB009B72F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B0D1A0F24CB009B72F2 /* ViewController.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		270691A41A109A340033D4E3 /* AffiliateResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliateResults.swift; sourceTree = "<group>"; };
 		27318B031A0F24CB009B72F2 /* ShareASale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareASale.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27318B071A0F24CB009B72F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27318B081A0F24CB009B72F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +78,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270691A11A10991C0033D4E3 /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				270691A41A109A340033D4E3 /* AffiliateResults.swift */,
+			);
+			name = Results;
+			sourceTree = "<group>";
+		};
 		27318AFA1A0F24CB009B72F2 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +113,7 @@
 				27318B0D1A0F24CB009B72F2 /* ViewController.swift */,
 				27318B0F1A0F24CB009B72F2 /* Main.storyboard */,
 				276BF6341A100A6500FC81D3 /* Settings */,
+				270691A11A10991C0033D4E3 /* Results */,
 				27318B121A0F24CB009B72F2 /* Images.xcassets */,
 				27318B141A0F24CB009B72F2 /* LaunchScreen.xib */,
 				27318B0A1A0F24CB009B72F2 /* ShareASale.xcdatamodeld */,
@@ -318,6 +329,7 @@
 				276BF6381A100CF700FC81D3 /* MerchantSettings.swift in Sources */,
 				27318B0E1A0F24CB009B72F2 /* ViewController.swift in Sources */,
 				27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */,
+				270691A51A109A340033D4E3 /* AffiliateResults.swift in Sources */,
 				27318B091A0F24CB009B72F2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
