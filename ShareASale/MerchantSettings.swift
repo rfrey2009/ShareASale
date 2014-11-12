@@ -6,9 +6,21 @@
 //  Copyright (c) 2014 Air Bronto. All rights reserved.
 //
 
-import Foundation
+/*
 
-class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSource {
+TO DO: 
+
+1. remove save bar button, change it to "see affiliates" bar button
+2. remove save IBAction functionality. Make a new user on viewdidload, or update existing user in background if any field changes in one profile dictionary object
+3. mirror profile pic in coredata locally, only upload profile pic to parse on user's new pic selection using uploadimage helper
+
+*/
+
+import Foundation
+import UIKit
+import MobileCoreServices
+
+class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     // MARK: - constants and variables
     let states = ["ALABAMA","ALASKA","ARIZONA","ARKANSAS","CALIFORNIA","COLORADO","CONNECTICUT","DELAWARE","DISTRICT OF COLUMBIA","FLORIDA","GEORGIA","HAWAII","IDAHO","ILLINOIS","INDIANA","IOWA","KANSAS","KENTUCKY","LOUISIANA","MAINE","MARYLAND","MASSACHUSETTS","MICHIGAN","MINNESOTA","MISSISSIPPI","MISSOURI","MONTANA","NEBRASKA","NEVADA","NEW HAMPSHIRE","NEW JERSEY","NEW MEXICO","NEW YORK","NORTH CAROLINA","NORTH DAKOTA","OHIO","OKLAHOMA","OREGON","PENNSYLVANIA","RHODE ISLAND","SOUTH CAROLINA","SOUTH DAKOTA","TENNESSEE","TEXAS","UTAH","VERMONT","VIRGINIA","WASHINGTON","WEST VIRGINIA","WISCONSIN","WYOMING"]
     
@@ -23,7 +35,6 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     let disallowedKey = "disallowed"
     let reuseableCell = "Cell"
     // MARK: - IBOutlets
-    @IBOutlet var tapper: UITapGestureRecognizer!
     @IBOutlet var portrait: UIImageView!
     @IBOutlet var name: UITextField!
     @IBOutlet var merchantID: UITextField!
@@ -35,30 +46,51 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     @IBOutlet var incentiveSwitch: UISwitch!
     @IBOutlet var usaSwitch: UISwitch!
     // MARK: - IBActions
+    
+    //remove this
     @IBAction func saveBtn(sender: AnyObject) {
         
-        if (self.merchantID.text != "" && self.name.text != "" && self.email.text != ""){
+        if (self.merchantID.text != nil && self.name.text != "" && self.email.text != ""){
             
-            var currentUser = PFUser.currentUser()
-            
-            if(currentUser == nil){
+            PFGeoPoint.geoPointForCurrentLocationInBackground() { (point, error) -> Void in
                 
-                var newUser = PFUser()
-                newUser.username = self.merchantID.text
-                newUser.password = self.name.text
-                newUser.signUpInBackgroundWithBlock({ (succeeded, error) -> Void in
+                if error == nil{
                     
-                    if succeeded{
-                        self.performSegueWithIdentifier("MerchantSettingsToAffiliateResults", sender: self)
+                    var currentUser = PFUser.currentUser()
+                    var isNew = false
+                    //we've got a new user to signup
+                    if(currentUser == nil){
+                        
+                        currentUser = PFUser()
+                        isNew = true
+                        
                     }
-                })
-                
-            }else{
-                
-                performSegueWithIdentifier("MerchantSettingsToAffiliateResults", sender: self)
-                println(currentUser)
-
+                    
+                    currentUser.username = self.merchantID.text
+                    currentUser.password = self.name.text
+                    currentUser.email = self.email.text
+                    currentUser.setObject(self.name.text, forKey: "name")
+                    currentUser.setObject(point, forKey: "geoPoint")
+                    
+                    //use update or signup method
+                    if isNew{
+                        //no reason to use with block, but just signUpInBackground() isn't available in Swift...
+                        currentUser.signUpInBackgroundWithBlock({ (success, error) -> Void in
+                            println("new user created on parse")
+                        })
+                        
+                    }else{
+                        //no reason to use with block, but just saveUpInBackground() isn't available in Swift...
+                        currentUser.saveInBackgroundWithBlock({ (success, error) -> Void in
+                            println("user updated on parse")
+                        })
+                        
+                    }
+                    self.performSegueWithIdentifier("MerchantSettingsToAffiliateResults", sender: self)
+                    
+                }
             }
+            
         }else{
             var alert = UIAlertController(title: "Info Missing", message: "Please enter a merchant ID, name, and email address", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
@@ -67,12 +99,29 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         
         
     }
+    @IBAction func handleImageUpdate(sender: UIImageView) {
         
+        println("image tapped")
+        
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum){
+            
+            var image = UIImagePickerController()
+            image.delegate = self
+            image.sourceType = .SavedPhotosAlbum;
+            image.allowsEditing = false
+            
+            self.presentViewController(image, animated: true, completion: nil)
+        }
+    
+        
+    }
+    
     @IBAction func handleSingleTap(sender: AnyObject) {
-        
+        //dismisses keyboard when tapped out of text field
         self.view.endEditing(true)
         
     }
+    //add parse saves next to each nsuserdefault save on field change
     @IBAction func nameChanged(sender: AnyObject) {
         
         if sender as NSObject == self.name{
@@ -122,8 +171,9 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     // MARK: - inits
     override func viewDidLoad() {
-        super.viewDidLoad()
         
+        //add new user creation if necessary and save to parse
+        super.viewDidLoad()
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: reuseableCell)
         
         self.name.text = NSUserDefaults.standardUserDefaults().stringForKey(nameKey)
@@ -135,6 +185,25 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         self.ppcSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(ppcKey)
         self.incentiveSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(incentiveKey)
         self.usaSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(usaKey)
+        /*
+        self.portrait.image = //coredata image
+        */
+        var query = PFQuery(className: "UserPhoto")
+        var currentUser = PFUser.currentUser()
+        query.whereKey("user", equalTo: currentUser)
+        query.findObjectsInBackgroundWithBlock { (object, error) -> Void in
+            if object.count > 0{
+                //first user photo object
+                var userPhoto: PFObject = object[0] as PFObject
+                //actual image object from that user photo object
+                var imageFile: PFFile = userPhoto.objectForKey("imageFile") as PFFile
+                //transformable data from imageFile object
+                var imageData: NSData = imageFile.getData()
+                //data to UIImage object
+                var displayPhoto: UIImage = UIImage(data: imageData)!
+                self.portrait.image = displayPhoto
+            }
+        }
         
     }
     
@@ -164,9 +233,9 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         
         if disallowedRows != nil{
             if contains(disallowedRows, indexPath.row) {
-            
+                
                 tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: UITableViewScrollPosition.None)
-            
+                
             }
         }
         return cell
@@ -185,8 +254,8 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
         NSUserDefaults.standardUserDefaults().setObject(disallowedRows, forKey: disallowedKey)
         NSUserDefaults.standardUserDefaults().synchronize()
-
-    
+        
+        
     }
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
@@ -196,9 +265,9 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         
         if disallowedIndexPaths != nil{
             for indexPath in disallowedIndexPaths {
-            
+                
                 disallowedRows.append(indexPath.row)
-            
+                
             }
         }
         NSUserDefaults.standardUserDefaults().setObject(disallowedRows, forKey: disallowedKey)
@@ -206,8 +275,45 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         
     }
     
-    //MARK: - Helpers
-    
-}
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
+        //crop
+        UIGraphicsBeginImageContext(CGSizeMake(100, 120))
+        image.drawInRect(CGRectMake(0, 0, 100, 120))
+        var smallImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext();
+        //set immediate profile pic
+        self.portrait.image = smallImage
+        //upload
+        var imageData = UIImageJPEGRepresentation(smallImage, 1.0);
+        self.uploadImage(imageData)
+        //save to coredata and refresh portrait uiimageview
 
+        
+    }
+    
+    //MARK: - Helpers
+    func uploadImage(imageData: NSData){
+        println("image is \(imageData.length) bytes!")
+        var imageFile = PFFile(name: "Image.jpg", data: imageData)
+        imageFile.saveInBackgroundWithBlock { (success, error) -> Void in
+            
+            if error == nil{
+            
+                var currentUser = PFUser.currentUser()
+                
+                var userPhoto = PFObject(className: "UserPhoto")
+                userPhoto.setObject(imageFile, forKey: "imageFile")
+                userPhoto.ACL = PFACL(user: currentUser)
+                userPhoto.setObject(currentUser, forKey: "user")
+                //save
+                userPhoto.saveInBackgroundWithBlock({ (success, error) -> Void in
+                    println("Saved image to parse cloud")
+                })
+            }
+        }
+    }
+}
 

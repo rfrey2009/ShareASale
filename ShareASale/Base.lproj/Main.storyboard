@@ -94,7 +94,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vhl-C7-VUP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1148" y="619"/>
+            <point key="canvasLocation" x="1178" y="622"/>
         </scene>
         <!--Merchant Settings-->
         <scene sceneID="hUk-4J-Y1t">
@@ -190,11 +190,15 @@
                                     <outlet property="delegate" destination="bWc-ht-jd0" id="f6I-7v-1YY"/>
                                 </connections>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default.png" translatesAutoresizingMaskIntoConstraints="NO" id="71l-C0-F9A">
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default.png" translatesAutoresizingMaskIntoConstraints="NO" id="71l-C0-F9A">
                                 <rect key="frame" x="16" y="72" width="100" height="120"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="8VQ-74-KRi"/>
                                     <constraint firstAttribute="width" constant="100" id="GDz-1N-2Zw"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="FYr-TS-3nh" appends="YES" id="mIF-dc-qxP"/>
+                                </connections>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lta-E2-ctq">
                                 <rect key="frame" x="178" y="72" width="126" height="36.5"/>
@@ -290,7 +294,6 @@
                         <outlet property="portrait" destination="71l-C0-F9A" id="0Sc-aB-ZeH"/>
                         <outlet property="ppcSwitch" destination="j3B-e7-igV" id="iuw-WU-IoV"/>
                         <outlet property="tableView" destination="CQQ-PL-44E" id="3Ch-9a-Mvc"/>
-                        <outlet property="tapper" destination="InZ-Ym-JeR" id="byh-2g-cw8"/>
                         <outlet property="usaSwitch" destination="lGr-g4-ldl" id="u4W-N7-y7c"/>
                         <segue destination="Ga8-5E-R15" kind="push" identifier="MerchantSettingsToAffiliateResults" id="V1T-Nw-RGU"/>
                     </connections>
@@ -299,6 +302,11 @@
                 <tapGestureRecognizer cancelsTouchesInView="NO" id="InZ-Ym-JeR">
                     <connections>
                         <action selector="handleSingleTap:" destination="bWc-ht-jd0" id="7m6-DQ-LUS"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="FYr-TS-3nh">
+                    <connections>
+                        <action selector="handleImageUpdate:" destination="bWc-ht-jd0" id="p0T-GB-Ezy"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
