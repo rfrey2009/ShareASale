@@ -18,6 +18,8 @@
 		27318B221A0F24CB009B72F2 /* ShareASaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B211A0F24CB009B72F2 /* ShareASaleTests.swift */; };
 		27318B2E1A0F27AC009B72F2 /* BreeRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 27318B2D1A0F27AC009B72F2 /* BreeRegular.otf */; };
 		27318B371A0F373F009B72F2 /* star_big2.png in Resources */ = {isa = PBXBuildFile; fileRef = 27318B361A0F373F009B72F2 /* star_big2.png */; };
+		2735CD0F1A188F8700511AA8 /* UserPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2735CD0E1A188F8700511AA8 /* UserPhoto.swift */; };
+		274C89BE1A182AD20069F8BD /* check23.png in Resources */ = {isa = PBXBuildFile; fileRef = 274C89BD1A182AD20069F8BD /* check23.png */; };
 		276BF6361A100CE700FC81D3 /* AffiliateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276BF6351A100CE700FC81D3 /* AffiliateSettings.swift */; };
 		276BF6381A100CF700FC81D3 /* MerchantSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276BF6371A100CF700FC81D3 /* MerchantSettings.swift */; };
 		276BF63A1A103AC900FC81D3 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 276BF6391A103AC900FC81D3 /* default.png */; };
@@ -49,6 +51,8 @@
 		27318B211A0F24CB009B72F2 /* ShareASaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareASaleTests.swift; sourceTree = "<group>"; };
 		27318B2D1A0F27AC009B72F2 /* BreeRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = BreeRegular.otf; path = ../BreeRegular.otf; sourceTree = "<group>"; };
 		27318B361A0F373F009B72F2 /* star_big2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_big2.png; sourceTree = "<group>"; };
+		2735CD0E1A188F8700511AA8 /* UserPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserPhoto.swift; path = ../UserPhoto.swift; sourceTree = "<group>"; };
+		274C89BD1A182AD20069F8BD /* check23.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check23.png; sourceTree = "<group>"; };
 		276BF62F1A0FDA6700FC81D3 /* ShareASale-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ShareASale-Bridging-Header.h"; sourceTree = "<group>"; };
 		276BF6351A100CE700FC81D3 /* AffiliateSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliateSettings.swift; sourceTree = "<group>"; };
 		276BF6371A100CF700FC81D3 /* MerchantSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MerchantSettings.swift; sourceTree = "<group>"; };
@@ -114,6 +118,7 @@
 				27318B0F1A0F24CB009B72F2 /* Main.storyboard */,
 				276BF6341A100A6500FC81D3 /* Settings */,
 				270691A11A10991C0033D4E3 /* Results */,
+				2735CD101A188FAF00511AA8 /* Models */,
 				27318B121A0F24CB009B72F2 /* Images.xcassets */,
 				27318B141A0F24CB009B72F2 /* LaunchScreen.xib */,
 				27318B0A1A0F24CB009B72F2 /* ShareASale.xcdatamodeld */,
@@ -153,11 +158,20 @@
 		27318B311A0F2887009B72F2 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				274C89BD1A182AD20069F8BD /* check23.png */,
 				276BF6391A103AC900FC81D3 /* default.png */,
 				27FC4A111A0F3C6B00B39EB2 /* star_big.png */,
 				27318B361A0F373F009B72F2 /* star_big2.png */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		2735CD101A188FAF00511AA8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2735CD0E1A188F8700511AA8 /* UserPhoto.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		276BF6341A100A6500FC81D3 /* Settings */ = {
@@ -268,6 +282,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				274C89BE1A182AD20069F8BD /* check23.png in Resources */,
 				27318B111A0F24CB009B72F2 /* Main.storyboard in Resources */,
 				27318B161A0F24CB009B72F2 /* LaunchScreen.xib in Resources */,
 				276BF63A1A103AC900FC81D3 /* default.png in Resources */,
@@ -326,6 +341,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				276BF6361A100CE700FC81D3 /* AffiliateSettings.swift in Sources */,
+				2735CD0F1A188F8700511AA8 /* UserPhoto.swift in Sources */,
 				276BF6381A100CF700FC81D3 /* MerchantSettings.swift in Sources */,
 				27318B0E1A0F24CB009B72F2 /* ViewController.swift in Sources */,
 				27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */,
@@ -454,10 +470,12 @@
 			baseConfigurationReference = DACD1A9D8DE3B03E35B5ECCA /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ShareASale/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "/Users/ryanfrey/Desktop/ShareASale/ShareASale/ShareASale-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -467,6 +485,7 @@
 			baseConfigurationReference = 911F05252911B32AFA22BFEB /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ShareASale/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

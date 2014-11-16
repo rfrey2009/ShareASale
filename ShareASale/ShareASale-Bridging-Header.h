@@ -7,6 +7,8 @@
 //
 
 #import <Parse/Parse.h>
+#import <FacebookSDK/FacebookSDK.h>
+#import <ParseFacebookUtils/PFFacebookUtils.h>
 
 #ifndef ShareASale_ShareASale_Bridging_Header_h
 #define ShareASale_ShareASale_Bridging_Header_h
