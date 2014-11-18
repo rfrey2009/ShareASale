@@ -11,6 +11,7 @@
 TO DO: 
 
 add disallowed states to userSettings on parse
+update parse usersettings after each setting change
 
 */
 
@@ -19,17 +20,38 @@ import UIKit
 import CoreData
 import MobileCoreServices
 
+protocol MerchantSettingsViewControllerDelegate{
+    
+    func myVCDidFinish(controller:MerchantSettings)
+    
+}
+
 class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, NSURLConnectionDataDelegate {
     // MARK: - constants and variables
     let states = ["ALABAMA","ALASKA","ARIZONA","ARKANSAS","CALIFORNIA","COLORADO","CONNECTICUT","DELAWARE","DISTRICT OF COLUMBIA","FLORIDA","GEORGIA","HAWAII","IDAHO","ILLINOIS","INDIANA","IOWA","KANSAS","KENTUCKY","LOUISIANA","MAINE","MARYLAND","MASSACHUSETTS","MICHIGAN","MINNESOTA","MISSISSIPPI","MISSOURI","MONTANA","NEBRASKA","NEVADA","NEW HAMPSHIRE","NEW JERSEY","NEW MEXICO","NEW YORK","NORTH CAROLINA","NORTH DAKOTA","OHIO","OKLAHOMA","OREGON","PENNSYLVANIA","RHODE ISLAND","SOUTH CAROLINA","SOUTH DAKOTA","TENNESSEE","TEXAS","UTAH","VERMONT","VIRGINIA","WASHINGTON","WEST VIRGINIA","WISCONSIN","WYOMING"]
-    
+    //current parse user
     let currentUser = PFUser.currentUser()
+    //general reusable error pointer
+    var errorPointer: NSError?
+    //coredata context
+    lazy var managedObjectContext : NSManagedObjectContext? = {
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        if let managedObjectContext = appDelegate.managedObjectContext {
+            return managedObjectContext
+        }
+        else {
+            return nil
+        }
+    }()
+    //general keys
     let userSettingsKey = "userSettings"
     let userProfileKey = "userProfile"
     let userPhotoKey = "UserPhoto"
     let imageFileKey = "imageFile"
     let userKey = "user"
     let geoPointKey = "geoPoint"
+    let typeKey = "type"
+    let merchantKey = "merchant"
     let nameKey = "name"
     let firstNameKey = "firstName"
     let lastNameKey = "lastName"
@@ -50,6 +72,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     let usaKey = "usa"
     let disallowedKey = "disallowed"
     let reuseableCell = "Cell"
+    var delegate: MerchantSettingsViewControllerDelegate? = nil
     var imageData = NSMutableData()
     // MARK: - IBOutlets
     @IBOutlet var portrait: UIImageView!
@@ -91,7 +114,6 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     
         
     }
-    
     @IBAction func handleSingleTap(sender: AnyObject) {
         //dismisses keyboard when tapped out of text field
         self.view.endEditing(true)
@@ -99,8 +121,32 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     @IBAction func logoutBtnPressed(sender: AnyObject) {
         
-        PFUser.logOut()
-        self.navigationController?.popViewControllerAnimated(true)
+        //delete user's UserPhoto from parse upon log out
+        var query = PFQuery(className: userPhotoKey)
+        query.whereKey(userKey, equalTo: self.currentUser)
+        query.getFirstObjectInBackgroundWithBlock { (UserPhoto, errorPointer) -> Void in
+            
+            UserPhoto.deleteInBackgroundWithBlock({ (success, error) -> Void in
+                if success {
+                    PFUser.logOut()
+                }
+            })
+            
+        }
+        //delete user's coredata local UserPhoto mirror too
+        let fetchedResults = getUserImageFromCoreData()
+        if let results = fetchedResults {
+            if results.isEmpty == false{
+                managedObjectContext!.deleteObject(results[0])
+            }
+        } else {
+            println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
+        }
+        //finally transition back to home screen and disable aff/merchant buttons until fb re-login
+        if (delegate != nil) {
+            delegate!.myVCDidFinish(self)
+        }
+        
         
     }
     //add parse saves next to each nsuserdefault save on field change
@@ -149,24 +195,16 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         //add new user creation if necessary and save to parse
         super.viewDidLoad()
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: reuseableCell)
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        let managedContext = appDelegate.managedObjectContext!
-        let fetchRequest = NSFetchRequest(entityName: self.userPhotoKey)
         
-        let sortDescriptor = NSSortDescriptor(key: self.userKey, ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        let predicate = NSPredicate(format: "user == %@", self.currentUser.objectId)
-        fetchRequest.predicate = predicate
-    
-        var error: NSError?
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
+        let fetchedResults = getUserImageFromCoreData()
         
         if let results = fetchedResults {
             if results.isEmpty == false{
+                //initial portrait/avatar image is what's saved last from coredata locally
                 self.portrait.image = UIImage(data: results[0].valueForKey(self.imageFileKey) as NSData)
             }
         } else {
-            println("Could not fetch \(error), \(error!.userInfo)")
+            println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
         }
         
         self.org.text = NSUserDefaults.standardUserDefaults().stringForKey(orgKey)
@@ -181,7 +219,6 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         updateUser()
       
     }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -207,6 +244,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         var disallowedRows = NSUserDefaults.standardUserDefaults().arrayForKey(disallowedKey) as Array<Int>!
         
         if disallowedRows != nil{
+            //reselect/highlight the disallowed rows
             if contains(disallowedRows, indexPath.row) {
                 
                 tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: UITableViewScrollPosition.None)
@@ -215,7 +253,6 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
         return cell
     }
-    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         var disallowedIndexPaths = tableView.indexPathsForSelectedRows() as Array!
@@ -232,7 +269,6 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         
         
     }
-    
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         
         var disallowedIndexPaths = tableView.indexPathsForSelectedRows() as Array<NSIndexPath>!
@@ -252,7 +288,6 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
         
         self.dismissViewControllerAnimated(true, completion: nil)
-        
         //crop
         UIGraphicsBeginImageContext(CGSizeMake(100, 120))
         image.drawInRect(CGRectMake(0, 0, 100, 120))
@@ -260,7 +295,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         UIGraphicsEndImageContext();
         //upload
         var imageData = UIImageJPEGRepresentation(smallImage, 1.0);
-        self.saveImage(imageData)
+        self.saveImageToParse(imageData)
         //save to coredata and refresh portrait uiimageview
 
         
@@ -272,7 +307,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         
     }
     func connectionDidFinishLoading(connection: NSURLConnection) {
-        saveImage(self.imageData)
+        saveImageToParse(self.imageData)
         println("Tried to upload image")
     }
     //MARK: - Helpers
@@ -287,13 +322,13 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
                 var userProfile = Dictionary<String,String>()
                 let userSettings = [self.bloggerKey: self.bloggerSwitch.on, self.couponKey: self.couponSwitch.on, self.ppcKey: self.ppcSwitch.on, self.incentiveKey: self.incentiveSwitch.on, self.usaKey: self.usaSwitch.on]
                 
-                var facebookID: String = userDictionary["id"] as String!
+                let facebookID: String = userDictionary["id"] as String!
                 userProfile[self.facebookIDKey] = facebookID
-                var pictureURL : NSURL = NSURL(string: "https://graph.facebook.com/\(facebookID)/picture?type=large&return_ssl_source=1")!
+                let pictureURL : NSURL = NSURL(string: "https://graph.facebook.com/\(facebookID)/picture?type=large&return_ssl_source=1")!
                 /*
                 setup URL connection from pictureURL using requestImage() helper
                 NSURLRequest delegate method gets data
-                NSURLRequest finished downloading delegate method hits saveImage() helper
+                NSURLRequest finished downloading delegate method hits saveImageToParse() helper
                 */
                 self.requestImage(pictureURL)
                 userProfile[self.orgKey] = self.org.text
@@ -331,7 +366,8 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
                 }
                 self.currentUser.setObject(userSettings, forKey: self.userSettingsKey)
                 self.currentUser.setObject(userProfile, forKey: self.userProfileKey)
-                
+                self.currentUser.setObject(self.merchantKey, forKey: self.typeKey)
+                //get user's current location
                 PFGeoPoint.geoPointForCurrentLocationInBackground() { (point, error) -> Void in
                     
                     self.currentUser.setObject(point, forKey: self.geoPointKey)
@@ -344,9 +380,9 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
             }
         }
     }
-    func saveImage(imageData: NSData){
+    func saveImageToParse(imageData: NSData){
         println("image is \(imageData.length) bytes!")
-        //save locally
+        //mirror locally too
         saveImageToCoreData(imageData)
 
         var imageFile = PFFile(name: "Image.jpg", data: imageData)
@@ -387,45 +423,46 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
     }
     func saveImageToCoreData(imageData: NSData){
-        
-        let delegate = UIApplication.sharedApplication().delegate as AppDelegate
-        let managedContext = delegate.managedObjectContext!
-        let fetchRequest = NSFetchRequest(entityName: self.userPhotoKey)
-        let sortDescriptor = NSSortDescriptor(key: self.userKey, ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        let predicate = NSPredicate(format: "user == %@", self.currentUser.objectId)
-        fetchRequest.predicate = predicate
-        var error: NSError?
-        
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
+
+        let fetchedResults = getUserImageFromCoreData()
         
         if let results = fetchedResults {
+            //if user has a no picture mirrored locally yet
             if results.isEmpty == true{
-                let entity = NSEntityDescription.entityForName(self.userPhotoKey, inManagedObjectContext: managedContext)
-                let newUserPhoto = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext)
+                let entity = NSEntityDescription.entityForName(self.userPhotoKey, inManagedObjectContext: managedObjectContext!)
+                let newUserPhoto = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedObjectContext!)
                 newUserPhoto.setValue(self.currentUser.objectId, forKey: self.userKey)
                 newUserPhoto.setValue(imageData, forKey: self.imageFileKey)
                 
-                if !managedContext.save(&error) {
-                    println("Could not save \(error), \(error?.userInfo)")
+                if !managedObjectContext!.save(&errorPointer) {
+                    println("Could not save \(errorPointer), \(errorPointer?.userInfo)")
                 }
+            //if they do have a local mirrored pic, update it instead of adding new one
             }else{
                 results[0].setValue(self.currentUser.objectId, forKey: self.userKey)
                 results[0].setValue(imageData, forKey: self.imageFileKey)
             }
             self.portrait.image = UIImage(data: imageData)
         } else {
-            println("Could not fetch \(error), \(error!.userInfo)")
+            println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
         }
 
     }
-    /*MARK: - Segues
-    override func prepareForSegue(segue: (UIStoryboardSegue!), sender: AnyObject!) {
-        if (segue.identifier == "Load View") {
-            // pass data to next view
-        }
+    func getUserImageFromCoreData() -> [NSManagedObject]?{
+        
+        let fetchRequest = NSFetchRequest(entityName: self.userPhotoKey)
+        let sortDescriptor = NSSortDescriptor(key: self.userKey, ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        let predicate = NSPredicate(format: "user == %@", self.currentUser.objectId)
+        fetchRequest.predicate = predicate
+        
+        let fetchedResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: &errorPointer) as [NSManagedObject]?
+        //should only be one user image but return all just in case...
+        return fetchedResults
+        
     }
-    */
+    //MARK: - Segues
+    
     
 }
 

@@ -8,7 +8,23 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MerchantSettingsViewControllerDelegate {
+    
+    //MARK: - Protocol conformation
+    
+    func myVCDidFinish(controller: MerchantSettings) {
+        self.merchBtn.enabled = false
+        self.affBtn.enabled = false
+        controller.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    //MARK: - Segues
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if segue.identifier == "LoginToMerchantSettings"{
+            let vc = segue.destinationViewController as MerchantSettings
+            vc.delegate = self
+        }
+    }
 
     //MARK: - IBOutlets
     @IBOutlet weak var loginActivityIndicator: UIActivityIndicatorView!
@@ -56,6 +72,15 @@ class ViewController: UIViewController {
         self.loginActivityIndicator.stopAnimating()
         self.merchBtn.enabled = false
         self.affBtn.enabled = false
+    }
+    override func viewDidAppear(animated: Bool) {
+        
+        //skip login if user already logged in
+        if (PFUser.currentUser() != nil && PFFacebookUtils.isLinkedWithUser(PFUser.currentUser())){
+            
+            self.performSegueWithIdentifier("LoginToMerchantSettings", sender: self)
+            
+        }
     }
 
     override func didReceiveMemoryWarning() {

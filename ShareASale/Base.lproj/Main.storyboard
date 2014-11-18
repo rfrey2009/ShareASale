@@ -48,7 +48,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="bWc-ht-jd0" kind="push" id="g0R-36-2Db"/>
+                                    <segue destination="bWc-ht-jd0" kind="push" identifier="LoginToMerchantSettings" id="g0R-36-2Db"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oEc-k9-ap4">
@@ -88,11 +88,51 @@
                                     <constraint firstAttribute="height" constant="20" id="lAB-KW-gFB"/>
                                 </constraints>
                             </activityIndicatorView>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dn6-Kk-m6M">
+                                <rect key="frame" x="132" y="174" width="61" height="137"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pdc-ie-qqs">
+                                        <rect key="frame" x="20" y="20" width="20" height="20"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="cIF-sB-Nfd"/>
+                                            <constraint firstAttribute="height" constant="20" id="mVm-4z-rtv"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="20"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ukc-sK-w52">
+                                        <rect key="frame" x="21" y="97" width="20" height="20"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="ZK7-XN-zeR"/>
+                                            <constraint firstAttribute="width" constant="20" id="aVz-3A-wSN"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="20"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RjT-P9-Bgi">
+                                        <rect key="frame" x="20" y="58" width="20" height="20"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="Mf5-zN-9Vd"/>
+                                            <constraint firstAttribute="height" constant="20" id="iDu-F9-AEw"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="20"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="daa-jh-n8M" firstAttribute="centerY" secondItem="oEc-k9-ap4" secondAttribute="centerY" constant="0.5" id="67h-5s-fKs"/>
                             <constraint firstItem="k20-Ht-EyL" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="123" id="89M-ZT-QsG"/>
+                            <constraint firstItem="dn6-Kk-m6M" firstAttribute="centerX" secondItem="daa-jh-n8M" secondAttribute="centerX" id="AwE-JU-ISD"/>
                             <constraint firstItem="TEp-4g-40v" firstAttribute="top" secondItem="oEc-k9-ap4" secondAttribute="top" constant="29" id="Bhc-Hb-3NC"/>
                             <constraint firstItem="oEc-k9-ap4" firstAttribute="centerX" secondItem="k20-Ht-EyL" secondAttribute="centerX" constant="-1" id="E3M-ul-jka"/>
                             <constraint firstItem="daa-jh-n8M" firstAttribute="centerX" secondItem="oEc-k9-ap4" secondAttribute="centerX" constant="0.5" id="FNM-Th-lr6"/>
@@ -100,6 +140,7 @@
                             <constraint firstItem="oEc-k9-ap4" firstAttribute="top" secondItem="k20-Ht-EyL" secondAttribute="bottom" constant="7" id="HZ3-sA-JmP"/>
                             <constraint firstItem="TEp-4g-40v" firstAttribute="centerX" secondItem="oEc-k9-ap4" secondAttribute="centerX" id="LcX-Kd-Wjv"/>
                             <constraint firstItem="TEp-4g-40v" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="96" id="Qdc-vK-tjC"/>
+                            <constraint firstItem="dn6-Kk-m6M" firstAttribute="top" secondItem="daa-jh-n8M" secondAttribute="top" id="QrI-N8-o47"/>
                             <constraint firstItem="daa-jh-n8M" firstAttribute="top" secondItem="Op3-9l-4Am" secondAttribute="bottom" constant="8" symbolic="YES" id="Vd9-bn-lwI"/>
                             <constraint firstItem="TEp-4g-40v" firstAttribute="top" secondItem="oEc-k9-ap4" secondAttribute="bottom" constant="8" symbolic="YES" id="Xc7-II-ssX"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="daa-jh-n8M" secondAttribute="bottom" constant="56" id="cgD-1F-d3t"/>
@@ -112,6 +153,7 @@
                             <constraint firstItem="Op3-9l-4Am" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="54" id="pup-Gr-F3D"/>
                             <constraint firstItem="Op3-9l-4Am" firstAttribute="top" secondItem="cA5-fS-gkh" secondAttribute="bottom" constant="8" symbolic="YES" id="s1h-P2-tsO"/>
                             <constraint firstItem="mtn-rj-1vO" firstAttribute="top" secondItem="cA5-fS-gkh" secondAttribute="bottom" constant="22" id="twG-BG-FxB"/>
+                            <constraint firstItem="dn6-Kk-m6M" firstAttribute="bottom" secondItem="daa-jh-n8M" secondAttribute="bottom" constant="-201" id="uA9-ww-zek"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qPW-bX-eE2"/>
