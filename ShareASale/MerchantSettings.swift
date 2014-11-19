@@ -10,8 +10,6 @@
 
 TO DO: 
 
-add disallowed states to userSettings on parse
-update parse usersettings after each setting change
 
 */
 
@@ -151,43 +149,25 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     //add parse saves next to each nsuserdefault save on field change
     @IBAction func orgChanged(sender: AnyObject) {
-        
-        NSUserDefaults.standardUserDefaults().setObject(self.org.text, forKey: orgKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        saveSettingToParseAndNSUserDefaults(orgKey, value: self.org.text)
     }
     @IBAction func merchantIDChanged(sender: AnyObject) {
-        
-        NSUserDefaults.standardUserDefaults().setObject(self.merchantID.text, forKey: merchantIDKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        saveSettingToParseAndNSUserDefaults(merchantIDKey, value: self.merchantID.text)
     }
     @IBAction func bloggerSwitchChanged(sender: AnyObject) {
-        
-        NSUserDefaults.standardUserDefaults().setBool(self.bloggerSwitch.on, forKey: bloggerKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
-        
+        saveSettingToParseAndNSUserDefaults(bloggerKey, value: self.bloggerSwitch.on)
     }
     @IBAction func couponSwitchChanged(sender: AnyObject) {
-        
-        NSUserDefaults.standardUserDefaults().setBool(self.couponSwitch.on, forKey: couponKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        saveSettingToParseAndNSUserDefaults(couponKey, value: self.couponSwitch.on)
     }
     @IBAction func ppcSwitchChanged(sender: AnyObject) {
-        
-        NSUserDefaults.standardUserDefaults().setBool(self.ppcSwitch.on, forKey: ppcKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
-        
+        saveSettingToParseAndNSUserDefaults(ppcKey, value: self.ppcSwitch.on)
     }
     @IBAction func incentiveSwitchChanged(sender: AnyObject) {
-        
-        NSUserDefaults.standardUserDefaults().setBool(self.incentiveSwitch.on, forKey: incentiveKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
-        
+        saveSettingToParseAndNSUserDefaults(incentiveKey, value: self.incentiveSwitch.on)
     }
     @IBAction func usaSwitchChanged(sender: AnyObject) {
-        
-        NSUserDefaults.standardUserDefaults().setBool(self.usaSwitch.on, forKey: usaKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
-        
+        saveSettingToParseAndNSUserDefaults(usaKey, value: self.usaSwitch.on)
     }
     // MARK: - inits
     override func viewDidLoad() {
@@ -264,9 +244,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
             disallowedRows.append(indexPath.row)
             
         }
-        NSUserDefaults.standardUserDefaults().setObject(disallowedRows, forKey: disallowedKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
-        
+        saveSettingToParseAndNSUserDefaults(disallowedKey, value: disallowedRows)
         
     }
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
@@ -281,8 +259,8 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
                 
             }
         }
-        NSUserDefaults.standardUserDefaults().setObject(disallowedRows, forKey: disallowedKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        saveSettingToParseAndNSUserDefaults(disallowedKey, value: disallowedRows)
+
         
     }
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
@@ -460,6 +438,42 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         //should only be one user image but return all just in case...
         return fetchedResults
         
+    }
+    func saveSettingToParseAndNSUserDefaults (forKey: String, value: AnyObject){
+        
+        if value is Bool {
+            
+            NSUserDefaults.standardUserDefaults().setBool(value as Bool, forKey: forKey)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
+            var userSettings = self.currentUser.valueForKey(userSettingsKey)! as Dictionary<String, Bool>
+            userSettings[forKey] = value as? Bool
+            self.currentUser.setObject(userSettings, forKey: self.userSettingsKey)
+            self.currentUser.saveInBackgroundWithBlock { (success, error) -> Void in
+                println("user's \(forKey) changed on parse")
+            }
+        }else if value is String{
+            
+            NSUserDefaults.standardUserDefaults().setObject(value as String, forKey: forKey)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
+            var userProfile = self.currentUser.valueForKey(userProfileKey)! as Dictionary<String, String>
+            userProfile[forKey] = value as? String
+            self.currentUser.setObject(userProfile, forKey: self.userProfileKey)
+            self.currentUser.saveInBackgroundWithBlock { (success, error) -> Void in
+                println("user's \(forKey) changed on parse")
+            }
+        }else if value is [Int]{
+            
+            NSUserDefaults.standardUserDefaults().setObject(value as [Int], forKey: forKey)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
+            self.currentUser.setObject(value, forKey: self.disallowedKey)
+            self.currentUser.saveInBackgroundWithBlock { (success, error) -> Void in
+                println("user's \(forKey) changed on parse")
+            }
+            
+        }
     }
     //MARK: - Segues
     
