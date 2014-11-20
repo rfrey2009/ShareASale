@@ -119,6 +119,15 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     @IBAction func logoutBtnPressed(sender: AnyObject) {
         
+        //delete user's coredata local UserPhoto mirror
+        let fetchedResults = getUserImageFromCoreData()
+        if let results = fetchedResults {
+            if results.isEmpty == false{
+                managedObjectContext!.deleteObject(results[0])
+            }
+        } else {
+            println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
+        }
         //delete user's UserPhoto from parse upon log out
         var query = PFQuery(className: userPhotoKey)
         query.whereKey(userKey, equalTo: self.currentUser)
@@ -130,15 +139,6 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
                 }
             })
             
-        }
-        //delete user's coredata local UserPhoto mirror too
-        let fetchedResults = getUserImageFromCoreData()
-        if let results = fetchedResults {
-            if results.isEmpty == false{
-                managedObjectContext!.deleteObject(results[0])
-            }
-        } else {
-            println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
         }
         //finally transition back to home screen and disable aff/merchant buttons until fb re-login
         if (delegate != nil) {
@@ -174,6 +174,9 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         
         //add new user creation if necessary and save to parse
         super.viewDidLoad()
+        //only way back is via logout button...
+        self.navigationItem.hidesBackButton = true
+
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: reuseableCell)
         
         let fetchedResults = getUserImageFromCoreData()

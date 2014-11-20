@@ -13,9 +13,36 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate {
     //MARK: - Protocol conformation
     
     func myVCDidFinish(controller: MerchantSettings) {
-        self.merchBtn.enabled = false
-        self.affBtn.enabled = false
+        
         controller.navigationController?.popViewControllerAnimated(true)
+        
+        UIView.animateWithDuration(0.3, animations: {
+            
+            self.guideBallThree.alpha = 0
+            self.merchBtn.enabled = false
+            self.affBtn.enabled = false
+            
+            }, completion: {(success: Bool) in
+                
+                UIView.animateWithDuration(0.3, animations: {
+                    
+                    self.guideBallTwo.alpha = 0
+                    
+                    }, completion: {(success: Bool) in
+                        
+                        UIView.animateWithDuration(0.3, animations: {
+                            
+                            self.guideBallOne.alpha = 0
+                            
+                            }, completion: { (success: Bool) in
+                                
+                                self.fbLoginBtn.backgroundColor = UIColor(red: (47/255), green: (67/255), blue: (140/255), alpha: 1)
+                                self.fbLoginBtn.enabled = true
+                                
+                        })
+                })
+                
+        })
     }
     
     //MARK: - Segues
@@ -25,12 +52,14 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate {
             vc.delegate = self
         }
     }
-
     //MARK: - IBOutlets
+    @IBOutlet weak var fbLoginBtn: UIButton!
     @IBOutlet weak var loginActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var merchBtn: UIButton!
     @IBOutlet weak var affBtn: UIButton!
-    
+    @IBOutlet weak var guideBallOne: UIView!
+    @IBOutlet weak var guideBallTwo: UIView!
+    @IBOutlet weak var guideBallThree: UIView!
     //MARK: - IBActions
     @IBAction func loginWithFacebookPressed(sender: AnyObject) {
         
@@ -44,7 +73,7 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate {
             if currentUser == nil{
                 if error == nil{
                     println("Uh oh. The user cancelled the Facebook login.")
-                    errorMessage = "Uh oh. The user cancelled the Facebook login."
+                    errorMessage = "Uh oh. You cancelled the Facebook login."
                 }else{
                     println("Uh oh. Error occurred: \(error)")
                     errorMessage = error.localizedDescription
@@ -54,8 +83,34 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate {
                 self.presentViewController(alert, animated: true, completion: nil)
             }else{
                 self.loginActivityIndicator.stopAnimating()
-                self.merchBtn.enabled = true
-                self.affBtn.enabled = true
+                self.fbLoginBtn.enabled = false
+                self.fbLoginBtn.backgroundColor = UIColor.grayColor()
+                UIView.animateWithDuration(0.3, animations: {
+                    
+                    self.guideBallOne.alpha = 1.0
+                    
+                    }, completion: {(success: Bool) in
+                        
+                        UIView.animateWithDuration(0.3, animations: {
+                        
+                            self.guideBallTwo.alpha = 1.0
+                        
+                        }, completion: {(success: Bool) in
+                            
+                            UIView.animateWithDuration(0.3, animations: {
+                                
+                                self.guideBallThree.alpha = 1.0
+                                
+                                }, completion: { (success: Bool) in
+                                    
+                                    self.merchBtn.enabled = true
+                                    self.affBtn.enabled = true
+
+                            })
+                        })
+                        
+                    })
+                
                 if currentUser.isNew == true{
                     println("User with facebook signed up and logged in!")
                 }else{
