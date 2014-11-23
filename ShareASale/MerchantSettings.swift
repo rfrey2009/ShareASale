@@ -87,7 +87,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         
         if (self.merchantID.text != nil && self.org.text != "" ){
             
-                self.performSegueWithIdentifier("MerchantSettingsToAffiliateResults", sender: self)
+                self.performSegueWithIdentifier("MerchantSettingsToResults", sender: self)
             
         }else{
             var alert = UIAlertController(title: "Info Missing", message: "Please enter a merchant ID, name, and email address", preferredStyle: UIAlertControllerStyle.Alert)

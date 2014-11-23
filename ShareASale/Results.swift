@@ -1,5 +1,5 @@
 //
-//  AffiliateResults.swift
+//  Results.swift
 //  ShareASale
 //
 //  Created by Ryan Frey on 11/10/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AffiliateResults: UITableViewController {
+class Results: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

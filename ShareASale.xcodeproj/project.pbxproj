@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B2EE16EEC767E903751A6A8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB1318832B44E81A62D9C1E /* libPods.a */; };
-		270691A51A109A340033D4E3 /* AffiliateResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270691A41A109A340033D4E3 /* AffiliateResults.swift */; };
+		270691A51A109A340033D4E3 /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270691A41A109A340033D4E3 /* Results.swift */; };
 		27318B091A0F24CB009B72F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B081A0F24CB009B72F2 /* AppDelegate.swift */; };
 		27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27318B0A1A0F24CB009B72F2 /* ShareASale.xcdatamodeld */; };
 		27318B0E1A0F24CB009B72F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B0D1A0F24CB009B72F2 /* ViewController.swift */; };
@@ -24,6 +24,11 @@
 		276BF6381A100CF700FC81D3 /* MerchantSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276BF6371A100CF700FC81D3 /* MerchantSettings.swift */; };
 		276BF63A1A103AC900FC81D3 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 276BF6391A103AC900FC81D3 /* default.png */; };
 		27FC4A121A0F3C6B00B39EB2 /* star_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 27FC4A111A0F3C6B00B39EB2 /* star_big.png */; };
+		27FEC0D01A21B3C1004D87E7 /* AffiliateMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FEC0CF1A21B3C1004D87E7 /* AffiliateMoreInfo.swift */; };
+		27FEC0D21A21B3D8004D87E7 /* MerchantMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FEC0D11A21B3D8004D87E7 /* MerchantMoreInfo.swift */; };
+		27FEC0D41A21B3F1004D87E7 /* ResultsDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FEC0D31A21B3F1004D87E7 /* ResultsDetails.swift */; };
+		27FEC0D61A21B413004D87E7 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FEC0D51A21B413004D87E7 /* Chat.swift */; };
+		27FEC0D91A21B43F004D87E7 /* MeetingResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FEC0D81A21B43F004D87E7 /* MeetingResults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		270691A41A109A340033D4E3 /* AffiliateResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliateResults.swift; sourceTree = "<group>"; };
+		270691A41A109A340033D4E3 /* Results.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 		27318B031A0F24CB009B72F2 /* ShareASale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareASale.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27318B071A0F24CB009B72F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27318B081A0F24CB009B72F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +63,11 @@
 		276BF6371A100CF700FC81D3 /* MerchantSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MerchantSettings.swift; sourceTree = "<group>"; };
 		276BF6391A103AC900FC81D3 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		27FC4A111A0F3C6B00B39EB2 /* star_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_big.png; sourceTree = "<group>"; };
+		27FEC0CF1A21B3C1004D87E7 /* AffiliateMoreInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliateMoreInfo.swift; sourceTree = "<group>"; };
+		27FEC0D11A21B3D8004D87E7 /* MerchantMoreInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MerchantMoreInfo.swift; sourceTree = "<group>"; };
+		27FEC0D31A21B3F1004D87E7 /* ResultsDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsDetails.swift; sourceTree = "<group>"; };
+		27FEC0D51A21B413004D87E7 /* Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		27FEC0D81A21B43F004D87E7 /* MeetingResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingResults.swift; sourceTree = "<group>"; };
 		6AB1318832B44E81A62D9C1E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		911F05252911B32AFA22BFEB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		DACD1A9D8DE3B03E35B5ECCA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -85,7 +95,9 @@
 		270691A11A10991C0033D4E3 /* Results */ = {
 			isa = PBXGroup;
 			children = (
-				270691A41A109A340033D4E3 /* AffiliateResults.swift */,
+				27FEC0D31A21B3F1004D87E7 /* ResultsDetails.swift */,
+				270691A41A109A340033D4E3 /* Results.swift */,
+				27FEC0D81A21B43F004D87E7 /* MeetingResults.swift */,
 			);
 			name = Results;
 			sourceTree = "<group>";
@@ -116,6 +128,7 @@
 				27318B081A0F24CB009B72F2 /* AppDelegate.swift */,
 				27318B0D1A0F24CB009B72F2 /* ViewController.swift */,
 				27318B0F1A0F24CB009B72F2 /* Main.storyboard */,
+				27FEC0D71A21B41F004D87E7 /* Chat */,
 				276BF6341A100A6500FC81D3 /* Settings */,
 				270691A11A10991C0033D4E3 /* Results */,
 				2735CD101A188FAF00511AA8 /* Models */,
@@ -177,10 +190,20 @@
 		276BF6341A100A6500FC81D3 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				27FEC0CF1A21B3C1004D87E7 /* AffiliateMoreInfo.swift */,
+				27FEC0D11A21B3D8004D87E7 /* MerchantMoreInfo.swift */,
 				276BF6351A100CE700FC81D3 /* AffiliateSettings.swift */,
 				276BF6371A100CF700FC81D3 /* MerchantSettings.swift */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		27FEC0D71A21B41F004D87E7 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				27FEC0D51A21B413004D87E7 /* Chat.swift */,
+			);
+			name = Chat;
 			sourceTree = "<group>";
 		};
 		5288B036B5F4050F2C06A1D6 /* Pods */ = {
@@ -342,11 +365,16 @@
 			files = (
 				276BF6361A100CE700FC81D3 /* AffiliateSettings.swift in Sources */,
 				2735CD0F1A188F8700511AA8 /* UserPhoto.swift in Sources */,
+				27FEC0D91A21B43F004D87E7 /* MeetingResults.swift in Sources */,
 				276BF6381A100CF700FC81D3 /* MerchantSettings.swift in Sources */,
 				27318B0E1A0F24CB009B72F2 /* ViewController.swift in Sources */,
 				27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */,
-				270691A51A109A340033D4E3 /* AffiliateResults.swift in Sources */,
+				270691A51A109A340033D4E3 /* Results.swift in Sources */,
+				27FEC0D61A21B413004D87E7 /* Chat.swift in Sources */,
+				27FEC0D21A21B3D8004D87E7 /* MerchantMoreInfo.swift in Sources */,
+				27FEC0D01A21B3C1004D87E7 /* AffiliateMoreInfo.swift in Sources */,
 				27318B091A0F24CB009B72F2 /* AppDelegate.swift in Sources */,
+				27FEC0D41A21B3F1004D87E7 /* ResultsDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
