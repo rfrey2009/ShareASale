@@ -72,15 +72,16 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var delegate: AffiliateSettingsViewControllerDelegate? = nil
     var imageData = NSMutableData()
     // MARK: - IBOutlets
-    @IBOutlet var portrait: UIImageView!
-    @IBOutlet var org: UITextField!
-    @IBOutlet var affiliateID: UITextField!
+    @IBOutlet weak var portrait: UIImageView!
+    @IBOutlet weak var org: UITextField!
+    @IBOutlet weak var affiliateID: UITextField!
+    @IBOutlet weak var pickerViewTitle: UILabel!
     @IBOutlet weak var pickerView: UIPickerView!
-    @IBOutlet var bloggerSwitch: UISwitch!
-    @IBOutlet var couponSwitch: UISwitch!
-    @IBOutlet var ppcSwitch: UISwitch!
-    @IBOutlet var incentiveSwitch: UISwitch!
-    @IBOutlet var usaSwitch: UISwitch!
+    @IBOutlet weak var bloggerSwitch: UISwitch!
+    @IBOutlet weak var couponSwitch: UISwitch!
+    @IBOutlet weak var ppcSwitch: UISwitch!
+    @IBOutlet weak var incentiveSwitch: UISwitch!
+    @IBOutlet weak var usaSwitch: UISwitch!
     // MARK: - IBActions
     @IBAction func seeMerchants(sender: AnyObject) {
         
@@ -178,10 +179,12 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
         if usaSwitch.on == false{
             pickerView.userInteractionEnabled = true
             pickerView.alpha = 1.0
+            pickerViewTitle.alpha = 1.0
         }else if usaSwitch.on == true{
             //disable and fade out the state picker if this isn't a US affiliate...
             pickerView.userInteractionEnabled = false
             pickerView.alpha = 0.6
+            pickerViewTitle.alpha = 0.6
         }
     }
     // MARK: - inits
