@@ -124,6 +124,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         if let results = fetchedResults {
             if results.isEmpty == false{
                 managedObjectContext!.deleteObject(results[0])
+                println("User's photo deleted from CoreData")
             }
         } else {
             println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
@@ -133,11 +134,18 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         query.whereKey(userKey, equalTo: self.currentUser)
         query.getFirstObjectInBackgroundWithBlock { (UserPhoto, errorPointer) -> Void in
             
-            UserPhoto.deleteInBackgroundWithBlock({ (success, error) -> Void in
-                if success {
-                    PFUser.logOut()
+                if UserPhoto != nil{
+                    UserPhoto.deleteInBackgroundWithBlock({ (success, error) -> Void in
+                        if success {
+                            PFUser.logOut()
+                            println("userPhoto deleted on parse")
+                        }
+                    })
+                }else{
+                    
+                    println(errorPointer.localizedDescription)
+                    
                 }
-            })
             
         }
         //finally transition back to home screen and disable aff/merchant buttons until fb re-login
@@ -185,6 +193,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
             if results.isEmpty == false{
                 //initial portrait/avatar image is what's saved last from coredata locally
                 self.portrait.image = UIImage(data: results[0].valueForKey(self.imageFileKey) as NSData)
+                println("user's existing image from coredata was shown as portrait")
             }
         } else {
             println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
@@ -276,9 +285,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         UIGraphicsEndImageContext();
         //upload
         var imageData = UIImageJPEGRepresentation(smallImage, 1.0);
-        self.saveImageToParse(imageData)
-        //save to coredata and refresh portrait uiimageview
-
+        self.saveImageToParse(imageData) //also saves to coredata in the same func
         
     }
     func connection(connection: NSURLConnection, didReceiveData data: NSData) {
@@ -395,6 +402,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         query.whereKey(userKey, equalTo: self.currentUser)
         query.countObjectsInBackgroundWithBlock { (number, error) -> Void in
             if number == 0{
+                //User has no image saved in parse yet, so download the user's facebook profile image and save to parse & coredata
                 var request = NSURLRequest(URL: pictureURL, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 4.0)
                 var urlConnection = NSURLConnection(request: request, delegate: self)
                 if urlConnection == nil{
@@ -417,11 +425,19 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
                 
                 if !managedObjectContext!.save(&errorPointer) {
                     println("Could not save \(errorPointer), \(errorPointer?.userInfo)")
+                }else{
+                    println("Saved new user image locally to CoreData")
+
                 }
             //if they do have a local mirrored pic, update it instead of adding new one
             }else{
                 results[0].setValue(self.currentUser.objectId, forKey: self.userKey)
                 results[0].setValue(imageData, forKey: self.imageFileKey)
+                if !managedObjectContext!.save(&errorPointer) {
+                    println("Could not save \(errorPointer), \(errorPointer?.userInfo)")
+                }else{
+                    println("Saved existing user image locally to CoreData")
+                }
             }
             self.portrait.image = UIImage(data: imageData)
         } else {

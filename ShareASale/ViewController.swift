@@ -11,7 +11,6 @@ import UIKit
 class ViewController: UIViewController, MerchantSettingsViewControllerDelegate {
     
     //MARK: - Protocol conformation
-    
     func myVCDidFinish(controller: MerchantSettings) {
         
         controller.navigationController?.popViewControllerAnimated(true)
