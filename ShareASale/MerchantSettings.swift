@@ -20,7 +20,7 @@ import MobileCoreServices
 
 protocol MerchantSettingsViewControllerDelegate{
     
-    func myVCDidFinish(controller:MerchantSettings)
+    func settingsDidFinish(controller:UIViewController)
     
 }
 
@@ -59,7 +59,6 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     let localeKey = "locale"
     let timezoneKey = "timezone"
     let lastUpdatedKey = "lastUpdated"
-    let verifiedKey = "emailVerified"
     let merchantIDKey = "merchantID"
     let orgKey = "org"
     let emailKey = "email"
@@ -90,7 +89,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
                 self.performSegueWithIdentifier("MerchantSettingsToResults", sender: self)
             
         }else{
-            var alert = UIAlertController(title: "Info Missing", message: "Please enter a merchant ID, name, and email address", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert = UIAlertController(title: "Info Missing", message: "Please enter a merchant ID and organization", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
@@ -150,9 +149,8 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
         //finally transition back to home screen and disable aff/merchant buttons until fb re-login
         if (delegate != nil) {
-            delegate!.myVCDidFinish(self)
+            delegate!.settingsDidFinish(self)
         }
-        
         
     }
     //add parse saves next to each nsuserdefault save on field change
@@ -348,9 +346,6 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
                 }
                 if (userDictionary["updated_time"] != nil){
                     userProfile[self.lastUpdatedKey] = userDictionary["updated_time"] as String!
-                }
-                if (userDictionary["emailVerified"] != nil){
-                    self.currentUser.setObject(userDictionary["emailVerified"], forKey: self.verifiedKey)
                 }
                 self.currentUser.setObject(userSettings, forKey: self.userSettingsKey)
                 self.currentUser.setObject(userProfile, forKey: self.userProfileKey)

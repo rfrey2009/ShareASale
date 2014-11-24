@@ -8,10 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController, MerchantSettingsViewControllerDelegate {
+class ViewController: UIViewController, MerchantSettingsViewControllerDelegate, AffiliateSettingsViewControllerDelegate {
     
     //MARK: - Protocol conformation
-    func myVCDidFinish(controller: MerchantSettings) {
+    func settingsDidFinish(controller: UIViewController) {
         
         controller.navigationController?.popViewControllerAnimated(true)
         
@@ -43,11 +43,14 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate {
                 
         })
     }
-    
     //MARK: - Segues
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "LoginToMerchantSettings"{
             let vc = segue.destinationViewController as MerchantSettings
+            vc.delegate = self
+        }
+        if segue.identifier == "LoginToAffiliateSettings"{
+            let vc = segue.destinationViewController as AffiliateSettings
             vc.delegate = self
         }
     }
@@ -132,7 +135,12 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate {
         //skip login if user already logged in
         if (PFUser.currentUser() != nil && PFFacebookUtils.isLinkedWithUser(PFUser.currentUser())){
             
-            self.performSegueWithIdentifier("LoginToMerchantSettings", sender: self)
+            let type = PFUser.currentUser().valueForKey("type") as String?
+            if type == "merchant"{
+                self.performSegueWithIdentifier("LoginToMerchantSettings", sender: self)
+            }else if type == "affiliate"{
+                self.performSegueWithIdentifier("LoginToAffiliateSettings", sender: self)
+            }
             
         }
     }
