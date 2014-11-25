@@ -490,7 +490,14 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
     }
     //MARK: - Segues
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let vc = segue.destinationViewController as Results
+
+        if segue.identifier == "MerchantSettingsToResults"{
+            vc.type = "affiliate"
+        }
+    }
     
 }
 

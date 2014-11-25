@@ -468,7 +468,15 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
         }
     }
     //MARK: - Segues
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let vc = segue.destinationViewController as Results
+        
+        if segue.identifier == "AffiliateSettingsToResults"{
+            vc.type = "merchant"
+        }
+
+    }
     
 }
 

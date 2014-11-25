@@ -9,15 +9,51 @@
 import UIKit
 
 class Results: UITableViewController {
-
+    
+    //MARK: - Constants
+    let userKey = "user"
+    let userSettingsKey = "userSettings"
+    let typeKey = "type"
+    let stateKey = "USstate"
+    let disallowedKey = "disallowed"
+    let merchantKey = "merchant"
+    let affiliateKey = "affiliate"
+    let pointKey = "geoPoint"
+    let geoPoint = PFUser.currentUser().valueForKey("geoPoint") as PFGeoPoint
+    //type depends on the segue identifier, and means what results we're looking for
+    var type = ""
+    var query = PFQuery(className: "_User")
+    var resultsCount = Int()
+    
+    //MARK: - Inits
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        //get either affiliates or merchants depending on who is looking at results
+        query.whereKey(typeKey, equalTo: type)
+        //merchant and affiliate both must have agreeing settings
+        var userSettings: AnyObject = PFUser.currentUser().objectForKey(userSettingsKey)
+        //query.whereKey(userSettingsKey, equalTo: userSettings)
+        
+        if type == affiliateKey{
+            //if a merchant is seeking affiliates, get those who aren't in a disallowed US state
+            var disallowedRows = NSUserDefaults.standardUserDefaults().arrayForKey(disallowedKey) as Array<Int>!
+            query.whereKey(stateKey, notContainedIn: disallowedRows)
+            
+        }else if type == merchantKey{
+            //if an affiliate is seeking merchants, get those who aren't disallowing their US state
+            var chosenState = NSUserDefaults.standardUserDefaults().integerForKey(stateKey) as Int!
+            println(chosenState)
+            query.whereKey(disallowedKey, notEqualTo: chosenState)
+        }
+        //then get just nearby affs or merchants
+        query.whereKey(pointKey, nearGeoPoint: geoPoint)
+        query.getFirstObjectInBackgroundWithBlock { (user, error) -> Void in
+            println(user)
+        }
+        
+    }
+    override func viewWillAppear(animated: Bool) {
+        //reload table data here
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,7 +62,6 @@ class Results: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
