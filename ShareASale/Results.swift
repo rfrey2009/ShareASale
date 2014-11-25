@@ -22,7 +22,7 @@ class Results: UITableViewController {
     let geoPoint = PFUser.currentUser().valueForKey("geoPoint") as PFGeoPoint
     //type depends on the segue identifier, and means what results we're looking for
     var type = ""
-    var query = PFQuery(className: "_User")
+    var query = PFUser.query()
     var resultsCount = Int()
     
     //MARK: - Inits
