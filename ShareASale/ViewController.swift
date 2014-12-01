@@ -129,26 +129,19 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate, 
         self.loginActivityIndicator.stopAnimating()
         self.merchBtn.enabled = false
         self.affBtn.enabled = false
-    }
-    override func viewDidAppear(animated: Bool) {
-        
         //skip login if user already logged in
         if (PFUser.currentUser() != nil && PFFacebookUtils.isLinkedWithUser(PFUser.currentUser())){
-            
             let type = PFUser.currentUser().valueForKey("type") as String?
             if type == "merchant"{
                 self.performSegueWithIdentifier("LoginToMerchantSettings", sender: self)
             }else if type == "affiliate"{
                 self.performSegueWithIdentifier("LoginToAffiliateSettings", sender: self)
             }
-            
         }
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 }
 

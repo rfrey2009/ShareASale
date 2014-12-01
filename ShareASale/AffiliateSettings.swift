@@ -67,7 +67,7 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
     let ppcKey = "ppc"
     let incentiveKey = "incentive"
     let usaKey = "usa"
-    let stateKey = "USstate"
+    let stateKey = "usState"
     let reuseableCell = "Cell"
     var delegate: AffiliateSettingsViewControllerDelegate? = nil
     var imageData = NSMutableData()
@@ -190,7 +190,6 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
     // MARK: - inits
     override func viewDidLoad() {
         
-        //add new user creation if necessary and save to parse
         super.viewDidLoad()
         //only way back is via logout button...
         self.navigationItem.hidesBackButton = true
@@ -206,10 +205,9 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
         } else {
             println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
         }
-        
+        //setup initial states of switches
         self.org.text = NSUserDefaults.standardUserDefaults().stringForKey(orgKey)
         self.affiliateID.text = NSUserDefaults.standardUserDefaults().stringForKey(affiliateIDKey)
-        
         self.bloggerSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(bloggerKey)
         self.couponSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(couponKey)
         self.ppcSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(ppcKey)
@@ -288,9 +286,9 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
                 userProfile[self.facebookIDKey] = facebookID
                 let pictureURL : NSURL = NSURL(string: "https://graph.facebook.com/\(facebookID)/picture?type=large&return_ssl_source=1")!
                 /*
-                setup URL connection from pictureURL using requestImage() helper
-                NSURLRequest delegate method gets data
-                NSURLRequest finished downloading delegate method hits saveImageToParse() helper
+                **Setup URL connection from pictureURL using requestImage() helper
+                **NSURLRequest delegate method gets data
+                **NSURLRequest finished downloading delegate method hits saveImageToParse() helper
                 */
                 self.requestImage(pictureURL)
                 userProfile[self.orgKey] = self.org.text
@@ -323,7 +321,9 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
                 if (userDictionary["updated_time"] != nil){
                     userProfile[self.lastUpdatedKey] = userDictionary["updated_time"] as String!
                 }
-                self.currentUser.setObject(userSettings, forKey: self.userSettingsKey)
+                for (setting, value) in userSettings{
+                    self.currentUser.setObject(value, forKey: setting)
+                }
                 self.currentUser.setObject(userProfile, forKey: self.userProfileKey)
                 self.currentUser.setObject(self.affiliateKey, forKey: self.typeKey)
                 //get user's current location
@@ -438,9 +438,7 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
             NSUserDefaults.standardUserDefaults().setBool(value as Bool, forKey: forKey)
             NSUserDefaults.standardUserDefaults().synchronize()
             
-            var userSettings = self.currentUser.valueForKey(userSettingsKey)! as Dictionary<String, Bool>
-            userSettings[forKey] = value as? Bool
-            self.currentUser.setObject(userSettings, forKey: self.userSettingsKey)
+            self.currentUser.setObject(value as Bool, forKey: forKey)
             self.currentUser.saveInBackgroundWithBlock { (success, error) -> Void in
                 println("user's \(forKey) changed on parse as type BOOL")
             }
@@ -464,7 +462,6 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
             self.currentUser.saveInBackgroundWithBlock { (success, error) -> Void in
                 println("user's \(forKey) changed on parse as type INT")
             }
-            
         }
     }
     //MARK: - Segues

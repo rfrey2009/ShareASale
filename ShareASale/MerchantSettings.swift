@@ -24,7 +24,7 @@ protocol MerchantSettingsViewControllerDelegate{
     
 }
 
-class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, NSURLConnectionDataDelegate {
+class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     // MARK: - constants and variables
     let states = ["ALABAMA","ALASKA","ARIZONA","ARKANSAS","CALIFORNIA","COLORADO","CONNECTICUT","DELAWARE","DISTRICT OF COLUMBIA","FLORIDA","GEORGIA","HAWAII","IDAHO","ILLINOIS","INDIANA","IOWA","KANSAS","KENTUCKY","LOUISIANA","MAINE","MARYLAND","MASSACHUSETTS","MICHIGAN","MINNESOTA","MISSISSIPPI","MISSOURI","MONTANA","NEBRASKA","NEVADA","NEW HAMPSHIRE","NEW JERSEY","NEW MEXICO","NEW YORK","NORTH CAROLINA","NORTH DAKOTA","OHIO","OKLAHOMA","OREGON","PENNSYLVANIA","RHODE ISLAND","SOUTH CAROLINA","SOUTH DAKOTA","TENNESSEE","TEXAS","UTAH","VERMONT","VIRGINIA","WASHINGTON","WEST VIRGINIA","WISCONSIN","WYOMING"]
     //current parse user
@@ -59,7 +59,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     let localeKey = "locale"
     let timezoneKey = "timezone"
     let lastUpdatedKey = "lastUpdated"
-    let merchantIDKey = "merchantID"
+    let idKey = "shareasaleId"
     let orgKey = "org"
     let emailKey = "email"
     let bloggerKey = "blogger"
@@ -70,17 +70,16 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     let disallowedKey = "disallowed"
     let reuseableCell = "Cell"
     var delegate: MerchantSettingsViewControllerDelegate? = nil
-    var imageData = NSMutableData()
     // MARK: - IBOutlets
-    @IBOutlet var portrait: UIImageView!
-    @IBOutlet var org: UITextField!
-    @IBOutlet var merchantID: UITextField!
+    @IBOutlet weak var portrait: UIImageView!
+    @IBOutlet weak var org: UITextField!
+    @IBOutlet weak var merchantID: UITextField!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet var bloggerSwitch: UISwitch!
-    @IBOutlet var couponSwitch: UISwitch!
-    @IBOutlet var ppcSwitch: UISwitch!
-    @IBOutlet var incentiveSwitch: UISwitch!
-    @IBOutlet var usaSwitch: UISwitch!
+    @IBOutlet weak var bloggerSwitch: UISwitch!
+    @IBOutlet weak var couponSwitch: UISwitch!
+    @IBOutlet weak var ppcSwitch: UISwitch!
+    @IBOutlet weak var incentiveSwitch: UISwitch!
+    @IBOutlet weak var usaSwitch: UISwitch!
     // MARK: - IBActions
     @IBAction func seeAffiliates(sender: AnyObject) {
         
@@ -105,11 +104,8 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
             image.delegate = self
             image.sourceType = .SavedPhotosAlbum;
             image.allowsEditing = false
-            
             self.presentViewController(image, animated: true, completion: nil)
         }
-    
-        
     }
     @IBAction func handleSingleTap(sender: AnyObject) {
         //dismisses keyboard when tapped out of text field
@@ -118,36 +114,9 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     @IBAction func logoutBtnPressed(sender: AnyObject) {
         
-        //delete user's coredata local UserPhoto mirror
-        let fetchedResults = getUserImageFromCoreData()
-        if let results = fetchedResults {
-            if results.isEmpty == false{
-                managedObjectContext!.deleteObject(results[0])
-                println("User's photo deleted from CoreData")
-            }
-        } else {
-            println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
-        }
-        //delete user's UserPhoto from parse upon log out
-        var query = PFQuery(className: userPhotoKey)
-        query.whereKey(userKey, equalTo: self.currentUser)
-        query.getFirstObjectInBackgroundWithBlock { (UserPhoto, errorPointer) -> Void in
-            
-                if UserPhoto != nil{
-                    UserPhoto.deleteInBackgroundWithBlock({ (success, error) -> Void in
-                        if success {
-                            PFUser.logOut()
-                            println("userPhoto deleted on parse")
-                        }
-                    })
-                }else{
-                    
-                    println(errorPointer.localizedDescription)
-                    
-                }
-            
-        }
-        //finally transition back to home screen and disable aff/merchant buttons until fb re-login
+        //do logout cleanup
+        userUpdates.logOutShareASaleUser()
+        //transition back to home screen and disable aff/merchant buttons until fb re-login
         if (delegate != nil) {
             delegate!.settingsDidFinish(self)
         }
@@ -155,58 +124,58 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     //add parse saves next to each nsuserdefault save on field change
     @IBAction func orgChanged(sender: AnyObject) {
-        saveSettingToParseAndNSUserDefaults(orgKey, value: self.org.text)
+        userUpdates.saveSettingToParseAndNSUserDefaults(orgKey, value: self.org.text)
     }
     @IBAction func merchantIDChanged(sender: AnyObject) {
-        saveSettingToParseAndNSUserDefaults(merchantIDKey, value: self.merchantID.text)
+        userUpdates.saveSettingToParseAndNSUserDefaults(idKey, value: self.merchantID.text)
     }
     @IBAction func bloggerSwitchChanged(sender: AnyObject) {
-        saveSettingToParseAndNSUserDefaults(bloggerKey, value: self.bloggerSwitch.on)
+        userUpdates.saveSettingToParseAndNSUserDefaults(bloggerKey, value: self.bloggerSwitch.on)
     }
     @IBAction func couponSwitchChanged(sender: AnyObject) {
-        saveSettingToParseAndNSUserDefaults(couponKey, value: self.couponSwitch.on)
+        userUpdates.saveSettingToParseAndNSUserDefaults(couponKey, value: self.couponSwitch.on)
     }
     @IBAction func ppcSwitchChanged(sender: AnyObject) {
-        saveSettingToParseAndNSUserDefaults(ppcKey, value: self.ppcSwitch.on)
+        userUpdates.saveSettingToParseAndNSUserDefaults(ppcKey, value: self.ppcSwitch.on)
     }
     @IBAction func incentiveSwitchChanged(sender: AnyObject) {
-        saveSettingToParseAndNSUserDefaults(incentiveKey, value: self.incentiveSwitch.on)
+        userUpdates.saveSettingToParseAndNSUserDefaults(incentiveKey, value: self.incentiveSwitch.on)
     }
     @IBAction func usaSwitchChanged(sender: AnyObject) {
-        saveSettingToParseAndNSUserDefaults(usaKey, value: self.usaSwitch.on)
+        userUpdates.saveSettingToParseAndNSUserDefaults(usaKey, value: self.usaSwitch.on)
     }
     // MARK: - inits
     override func viewDidLoad() {
         
-        //add new user creation if necessary and save to parse
         super.viewDidLoad()
         //only way back is via logout button...
         self.navigationItem.hidesBackButton = true
 
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: reuseableCell)
         
-        let fetchedResults = getUserImageFromCoreData()
+        let fetchedResults = userUpdates.getUserImageFromCoreData()
         
         if let results = fetchedResults {
             if results.isEmpty == false{
                 //initial portrait/avatar image is what's saved last from coredata locally
                 self.portrait.image = UIImage(data: results[0].valueForKey(self.imageFileKey) as NSData)
-                println("user's existing image from coredata was shown as portrait")
+                println("user's existing image from CoreData was shown as portrait")
             }
         } else {
             println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
         }
-        
+        //setup initial states of switches
         self.org.text = NSUserDefaults.standardUserDefaults().stringForKey(orgKey)
-        self.merchantID.text = NSUserDefaults.standardUserDefaults().stringForKey(merchantIDKey)
-        
+        self.merchantID.text = NSUserDefaults.standardUserDefaults().stringForKey(idKey)
         self.bloggerSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(bloggerKey)
         self.couponSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(couponKey)
         self.ppcSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(ppcKey)
         self.incentiveSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(incentiveKey)
         self.usaSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(usaKey)
         
-        updateUser()
+        let userSettings = [self.bloggerKey: self.bloggerSwitch.on, self.couponKey: self.couponSwitch.on, self.ppcKey: self.ppcSwitch.on, self.incentiveKey: self.incentiveSwitch.on, self.usaKey: self.usaSwitch.on]
+        
+        userUpdates.updateUser([self.typeKey: self.merchantKey, self.idKey: self.merchantID.text, self.orgKey: self.org.text], userSettings: userSettings, portraitFromVC: self.portrait)
       
     }
     override func didReceiveMemoryWarning() {
@@ -254,7 +223,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
             disallowedRows.append(indexPath.row)
             
         }
-        saveSettingToParseAndNSUserDefaults(disallowedKey, value: disallowedRows)
+        userUpdates.saveSettingToParseAndNSUserDefaults(disallowedKey, value: disallowedRows)
         
     }
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
@@ -269,9 +238,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
                 
             }
         }
-        saveSettingToParseAndNSUserDefaults(disallowedKey, value: disallowedRows)
-
-        
+        userUpdates.saveSettingToParseAndNSUserDefaults(disallowedKey, value: disallowedRows)
     }
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
         
@@ -283,211 +250,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         UIGraphicsEndImageContext();
         //upload
         var imageData = UIImageJPEGRepresentation(smallImage, 1.0);
-        self.saveImageToParse(imageData) //also saves to coredata in the same func
-        
-    }
-    func connection(connection: NSURLConnection, didReceiveData data: NSData) {
-        
-        self.imageData.appendData(data)
-        println("Got some image data")
-        
-    }
-    func connectionDidFinishLoading(connection: NSURLConnection) {
-        saveImageToParse(self.imageData)
-        println("Tried to upload image")
-    }
-    //MARK: - Helpers
-    func updateUser(){
-        
-        var request = FBRequest.requestForMe()
-        request.startWithCompletionHandler { (connection, result, error) -> Void in
-            
-            if error == nil{
-                
-                let userDictionary = result as NSDictionary
-                var userProfile = Dictionary<String,String>()
-                let userSettings = [self.bloggerKey: self.bloggerSwitch.on, self.couponKey: self.couponSwitch.on, self.ppcKey: self.ppcSwitch.on, self.incentiveKey: self.incentiveSwitch.on, self.usaKey: self.usaSwitch.on]
-                
-                let facebookID: String = userDictionary["id"] as String!
-                userProfile[self.facebookIDKey] = facebookID
-                let pictureURL : NSURL = NSURL(string: "https://graph.facebook.com/\(facebookID)/picture?type=large&return_ssl_source=1")!
-                /*
-                setup URL connection from pictureURL using requestImage() helper
-                NSURLRequest delegate method gets data
-                NSURLRequest finished downloading delegate method hits saveImageToParse() helper
-                */
-                self.requestImage(pictureURL)
-                userProfile[self.orgKey] = self.org.text
-                userProfile[self.merchantIDKey] = self.merchantID.text
-
-                if (userDictionary["name"] != nil){
-                    self.currentUser.setObject(userDictionary["name"], forKey: self.nameKey)
-                }
-                if (userDictionary["email"] != nil){
-                    self.currentUser.setObject(userDictionary["email"], forKey: self.emailKey)
-                }
-                if (userDictionary["first_name"] != nil){
-                    userProfile[self.firstNameKey] = userDictionary["first_name"] as String!
-                }
-                if (userDictionary["last_name"] != nil){
-                    userProfile[self.lastNameKey] = userDictionary["last_name"] as String!
-                }
-                if (userDictionary["gender"] != nil){
-                    userProfile[self.genderKey] = userDictionary["gender"] as String!
-                }
-                if (userDictionary["link"] != nil){
-                    userProfile[self.linkKey] = userDictionary["link"] as String!
-                }
-                if (userDictionary["locale"] != nil){
-                    userProfile[self.localeKey] = userDictionary["locale"] as String!
-                }
-                if (userDictionary["timezone"] != nil){
-                    userProfile[self.timezoneKey] = (userDictionary["timezone"] as NSNumber).stringValue
-                }
-                if (userDictionary["updated_time"] != nil){
-                    userProfile[self.lastUpdatedKey] = userDictionary["updated_time"] as String!
-                }
-                self.currentUser.setObject(userSettings, forKey: self.userSettingsKey)
-                self.currentUser.setObject(userProfile, forKey: self.userProfileKey)
-                self.currentUser.setObject(self.merchantKey, forKey: self.typeKey)
-                //get user's current location
-                PFGeoPoint.geoPointForCurrentLocationInBackground() { (point, error) -> Void in
-                    
-                    self.currentUser.setObject(point, forKey: self.geoPointKey)
-                    self.currentUser.saveInBackgroundWithBlock({ (success, error) -> Void in
-                        if error == nil{
-                            println("user updated on parse")
-                        }
-                    })
-                }
-            }
-        }
-    }
-    func saveImageToParse(imageData: NSData){
-        println("image is \(imageData.length) bytes!")
-        //mirror locally too
-        saveImageToCoreData(imageData)
-
-        var imageFile = PFFile(name: "Image.jpg", data: imageData)
-        var query = PFQuery(className: userPhotoKey)
-        query.whereKey(userKey, equalTo: self.currentUser)
-        query.getFirstObjectInBackgroundWithBlock { (userPhoto, error) -> Void in
-            //already has a photo, so just update existing on parse
-            if error == nil{
-                
-                userPhoto.setObject(imageFile, forKey: self.imageFileKey)
-                userPhoto.saveInBackgroundWithBlock({ (success, error) -> Void in
-                    println("Updated existing userPhoto to parse cloud")
-                })
-            //has no photo, so upload a new one to parse
-            }else{
-                var userPhoto = PFObject(className: self.userPhotoKey)
-                userPhoto.setObject(imageFile, forKey: self.imageFileKey)
-                userPhoto.ACL = PFACL(user: self.currentUser)
-                userPhoto.setObject(self.currentUser, forKey: self.userKey)
-                //save
-                userPhoto.saveInBackgroundWithBlock({ (success, error) -> Void in
-                    println("Saved new userPhoto to parse cloud")
-                })
-            }
-        }
-    }
-    func requestImage(pictureURL: NSURL){
-        var query = PFQuery(className: userPhotoKey)
-        query.whereKey(userKey, equalTo: self.currentUser)
-        query.countObjectsInBackgroundWithBlock { (number, error) -> Void in
-            if number == 0{
-                //User has no image saved in parse yet, so download the user's facebook profile image and save to parse & coredata
-                var request = NSURLRequest(URL: pictureURL, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 4.0)
-                var urlConnection = NSURLConnection(request: request, delegate: self)
-                if urlConnection == nil{
-                    println("Failed to download picture...")
-                }
-            }
-        }
-    }
-    func saveImageToCoreData(imageData: NSData){
-
-        let fetchedResults = getUserImageFromCoreData()
-        
-        if let results = fetchedResults {
-            //if user has a no picture mirrored locally yet
-            if results.isEmpty == true{
-                let entity = NSEntityDescription.entityForName(self.userPhotoKey, inManagedObjectContext: managedObjectContext!)
-                let newUserPhoto = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedObjectContext!)
-                newUserPhoto.setValue(self.currentUser.objectId, forKey: self.userKey)
-                newUserPhoto.setValue(imageData, forKey: self.imageFileKey)
-                
-                if !managedObjectContext!.save(&errorPointer) {
-                    println("Could not save \(errorPointer), \(errorPointer?.userInfo)")
-                }else{
-                    println("Saved new user image locally to CoreData")
-
-                }
-            //if they do have a local mirrored pic, update it instead of adding new one
-            }else{
-                results[0].setValue(self.currentUser.objectId, forKey: self.userKey)
-                results[0].setValue(imageData, forKey: self.imageFileKey)
-                if !managedObjectContext!.save(&errorPointer) {
-                    println("Could not save \(errorPointer), \(errorPointer?.userInfo)")
-                }else{
-                    println("Saved existing user image locally to CoreData")
-                }
-            }
-            self.portrait.image = UIImage(data: imageData)
-        } else {
-            println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")
-        }
-
-    }
-    func getUserImageFromCoreData() -> [NSManagedObject]?{
-        
-        let fetchRequest = NSFetchRequest(entityName: self.userPhotoKey)
-        let sortDescriptor = NSSortDescriptor(key: self.userKey, ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        let predicate = NSPredicate(format: "user == %@", self.currentUser.objectId)
-        fetchRequest.predicate = predicate
-        
-        let fetchedResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: &errorPointer) as [NSManagedObject]?
-        //should only be one user image but return all just in case...
-        return fetchedResults
-        
-    }
-    func saveSettingToParseAndNSUserDefaults (forKey: String, value: AnyObject){
-        
-        if value is Bool {
-            
-            NSUserDefaults.standardUserDefaults().setBool(value as Bool, forKey: forKey)
-            NSUserDefaults.standardUserDefaults().synchronize()
-            
-            var userSettings = self.currentUser.valueForKey(userSettingsKey)! as Dictionary<String, Bool>
-            userSettings[forKey] = value as? Bool
-            self.currentUser.setObject(userSettings, forKey: self.userSettingsKey)
-            self.currentUser.saveInBackgroundWithBlock { (success, error) -> Void in
-                println("user's \(forKey) changed on parse")
-            }
-        }else if value is String{
-            
-            NSUserDefaults.standardUserDefaults().setObject(value as String, forKey: forKey)
-            NSUserDefaults.standardUserDefaults().synchronize()
-            
-            var userProfile = self.currentUser.valueForKey(userProfileKey)! as Dictionary<String, String>
-            userProfile[forKey] = value as? String
-            self.currentUser.setObject(userProfile, forKey: self.userProfileKey)
-            self.currentUser.saveInBackgroundWithBlock { (success, error) -> Void in
-                println("user's \(forKey) changed on parse")
-            }
-        }else if value is [Int]{
-            
-            NSUserDefaults.standardUserDefaults().setObject(value as [Int], forKey: forKey)
-            NSUserDefaults.standardUserDefaults().synchronize()
-            
-            self.currentUser.setObject(value, forKey: self.disallowedKey)
-            self.currentUser.saveInBackgroundWithBlock { (success, error) -> Void in
-                println("user's \(forKey) changed on parse")
-            }
-            
-        }
+        userUpdates.saveImageToParse(imageData) //also saves to coredata in the same func
     }
     //MARK: - Segues
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

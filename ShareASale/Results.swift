@@ -14,7 +14,7 @@ class Results: UITableViewController {
     let userKey = "user"
     let userSettingsKey = "userSettings"
     let typeKey = "type"
-    let stateKey = "USstate"
+    let stateKey = "usState"
     let disallowedKey = "disallowed"
     let merchantKey = "merchant"
     let affiliateKey = "affiliate"
