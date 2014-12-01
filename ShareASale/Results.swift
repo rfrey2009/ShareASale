@@ -31,7 +31,7 @@ class Results: UITableViewController {
         //get either affiliates or merchants depending on who is looking at results
         query.whereKey(typeKey, equalTo: type)
         //merchant and affiliate both must have agreeing settings
-        var userSettings: AnyObject = PFUser.currentUser().objectForKey(userSettingsKey)
+        //var userSettings: AnyObject = PFUser.currentUser().objectForKey(userSettingsKey)
         //query.whereKey(userSettingsKey, equalTo: userSettings)
         
         if type == affiliateKey{
