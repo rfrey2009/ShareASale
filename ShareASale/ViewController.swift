@@ -54,6 +54,9 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate, 
             vc.delegate = self
         }
     }
+    //MARK: - constants and variables
+    //general reusable error pointer
+    var errorPointer: NSError?
     //MARK: - IBOutlets
     @IBOutlet weak var fbLoginBtn: UIButton!
     @IBOutlet weak var loginActivityIndicator: UIActivityIndicatorView!
@@ -129,15 +132,18 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate, 
         self.loginActivityIndicator.stopAnimating()
         self.merchBtn.enabled = false
         self.affBtn.enabled = false
-        //skip login if user already logged in
+        //section skips login if user already logged in and sends them to the corresponding merchant/aff settings VC
         if (PFUser.currentUser() != nil && PFFacebookUtils.isLinkedWithUser(PFUser.currentUser())){
-            let type = PFUser.currentUser().valueForKey("type") as String
-            println("viewcontroller says the user type is \(type)")
-            if type == "merchant"{
-                self.performSegueWithIdentifier("LoginToMerchantSettings", sender: self)
-            }else if type == "affiliate"{
-                self.performSegueWithIdentifier("LoginToAffiliateSettings", sender: self)
-            }
+            //make sure current session is up to date
+            PFUser.currentUser().fetchInBackgroundWithBlock({ (currentUser, errorPointer) -> Void in
+                let type = currentUser.valueForKey("type") as String
+                //perform the right segue
+                if type == "merchant"{
+                    self.performSegueWithIdentifier("LoginToMerchantSettings", sender: self)
+                }else if type == "affiliate"{
+                    self.performSegueWithIdentifier("LoginToAffiliateSettings", sender: self)
+                }
+            })
         }
     }
     override func didReceiveMemoryWarning() {
