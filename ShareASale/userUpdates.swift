@@ -16,7 +16,7 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
     struct classVars {
         static var portrait: UIImageView!
         //current parse user
-        static let currentUser = PFUser.currentUser()
+        static var currentUser = PFUser.currentUser()
         //general reusable error pointer
         static var errorPointer: NSError?
         //CoreData context
@@ -125,7 +125,9 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
                 self.requestImage(pictureURL)
                 
                 for (info, value) in userInfo{
+                    println(value)
                     if info == classVars.typeKey{
+                        println("set type to be \(value)")
                         classVars.currentUser.setObject(value, forKey: classVars.typeKey)
                     }
                     if info == classVars.idKey{

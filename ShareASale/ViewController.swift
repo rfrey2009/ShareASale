@@ -131,7 +131,8 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate, 
         self.affBtn.enabled = false
         //skip login if user already logged in
         if (PFUser.currentUser() != nil && PFFacebookUtils.isLinkedWithUser(PFUser.currentUser())){
-            let type = PFUser.currentUser().valueForKey("type") as String?
+            let type = PFUser.currentUser().valueForKey("type") as String
+            println("viewcontroller says the user type is \(type)")
             if type == "merchant"{
                 self.performSegueWithIdentifier("LoginToMerchantSettings", sender: self)
             }else if type == "affiliate"{

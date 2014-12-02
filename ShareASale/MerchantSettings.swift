@@ -27,41 +27,14 @@ protocol MerchantSettingsViewControllerDelegate{
 class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     // MARK: - constants and variables
     let states = ["ALABAMA","ALASKA","ARIZONA","ARKANSAS","CALIFORNIA","COLORADO","CONNECTICUT","DELAWARE","DISTRICT OF COLUMBIA","FLORIDA","GEORGIA","HAWAII","IDAHO","ILLINOIS","INDIANA","IOWA","KANSAS","KENTUCKY","LOUISIANA","MAINE","MARYLAND","MASSACHUSETTS","MICHIGAN","MINNESOTA","MISSISSIPPI","MISSOURI","MONTANA","NEBRASKA","NEVADA","NEW HAMPSHIRE","NEW JERSEY","NEW MEXICO","NEW YORK","NORTH CAROLINA","NORTH DAKOTA","OHIO","OKLAHOMA","OREGON","PENNSYLVANIA","RHODE ISLAND","SOUTH CAROLINA","SOUTH DAKOTA","TENNESSEE","TEXAS","UTAH","VERMONT","VIRGINIA","WASHINGTON","WEST VIRGINIA","WISCONSIN","WYOMING"]
-    //current parse user
-    let currentUser = PFUser.currentUser()
     //general reusable error pointer
     var errorPointer: NSError?
-    //coredata context
-    lazy var managedObjectContext : NSManagedObjectContext? = {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        if let managedObjectContext = appDelegate.managedObjectContext {
-            return managedObjectContext
-        }
-        else {
-            return nil
-        }
-    }()
     //general keys
-    let userSettingsKey = "userSettings"
-    let userProfileKey = "userProfile"
-    let userPhotoKey = "UserPhoto"
     let imageFileKey = "imageFile"
-    let userKey = "user"
-    let geoPointKey = "geoPoint"
     let typeKey = "type"
     let merchantKey = "merchant"
-    let nameKey = "name"
-    let firstNameKey = "firstName"
-    let lastNameKey = "lastName"
-    let genderKey = "gender"
-    let facebookIDKey = "facebookID"
-    let linkKey = "link"
-    let localeKey = "locale"
-    let timezoneKey = "timezone"
-    let lastUpdatedKey = "lastUpdated"
     let idKey = "shareasaleId"
     let orgKey = "org"
-    let emailKey = "email"
     let bloggerKey = "blogger"
     let couponKey = "coupon"
     let ppcKey = "ppc"
