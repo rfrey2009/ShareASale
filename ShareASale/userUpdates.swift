@@ -198,15 +198,27 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
                 userPhoto.saveInBackgroundWithBlock({ (success, error) -> Void in
                     println("Updated existing userPhoto to parse cloud")
                 })
+                classVars.currentUser.setObject(userPhoto, forKey: classVars.userPhotoKey)
+                classVars.currentUser.saveInBackgroundWithBlock({ (success, error) -> Void in
+                    if error == nil{
+                        println("new user associated to new UserPhoto pointer on parse")
+                    }
+                })
             //has no photo, so upload a new one to parse
             }else{
                 var userPhoto = PFObject(className: classVars.userPhotoKey)
                 userPhoto.setObject(imageFile, forKey: classVars.imageFileKey)
-                userPhoto.ACL = PFACL(user: classVars.currentUser)
+                //userPhoto.ACL = PFACL(user: classVars.currentUser)
                 userPhoto.setObject(classVars.currentUser, forKey: classVars.userKey)
                 //save
                 userPhoto.saveInBackgroundWithBlock({ (success, error) -> Void in
                     println("Saved new userPhoto to parse cloud")
+                })
+                classVars.currentUser.setObject(userPhoto, forKey: classVars.userPhotoKey)
+                classVars.currentUser.saveInBackgroundWithBlock({ (success, error) -> Void in
+                    if error == nil{
+                        println("user associated to UserPhoto pointer on parse")
+                    }
                 })
             }
         }

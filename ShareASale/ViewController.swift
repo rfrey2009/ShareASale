@@ -110,12 +110,9 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate, 
                                     
                                     self.merchBtn.enabled = true
                                     self.affBtn.enabled = true
-
                             })
                         })
-                        
                     })
-                
                 if currentUser.isNew == true{
                     println("User with facebook signed up and logged in!")
                 }else{

@@ -15,8 +15,6 @@ TO DO:
 
 import Foundation
 import UIKit
-import CoreData
-import MobileCoreServices
 
 protocol MerchantSettingsViewControllerDelegate{
     
@@ -172,7 +170,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         let cell = self.tableView.dequeueReusableCellWithIdentifier(reuseableCell, forIndexPath: indexPath) as UITableViewCell
         
         // Configure the cell
-        cell.textLabel.text = self.states[indexPath.row]
+        cell.textLabel?.text = self.states[indexPath.row]
         var disallowedRows = NSUserDefaults.standardUserDefaults().arrayForKey(disallowedKey) as Array<Int>!
         
         if disallowedRows != nil{

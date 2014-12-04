@@ -2,131 +2,100 @@
 //  Results.swift
 //  ShareASale
 //
-//  Created by Ryan Frey on 11/10/14.
+//  Created by Ryan Frey on 12/3/14.
 //  Copyright (c) 2014 Air Bronto. All rights reserved.
 //
 
 import UIKit
 
-class Results: UITableViewController {
+class Results: PFQueryTableViewController {
     
     //MARK: - Constants
-    let userKey = "user"
-    let userSettingsKey = "userSettings"
     let typeKey = "type"
     let stateKey = "usState"
+    let userPhotoKey = "UserPhoto"
+    let userProfileKey = "userProfile"
+    let imageFileKey = "imageFile"
+    let nameKey = "name"
+    let orgKey = "org"
     let disallowedKey = "disallowed"
     let merchantKey = "merchant"
     let affiliateKey = "affiliate"
     let pointKey = "geoPoint"
-    let geoPoint = PFUser.currentUser().valueForKey("geoPoint") as PFGeoPoint
+    let bloggerKey = "blogger"
+    let couponKey = "coupon"
+    let ppcKey = "ppc"
+    let incentiveKey = "incentive"
+    let usaKey = "usa"
     //type depends on the segue identifier, and means what results we're looking for
     var type = ""
-    var query = PFUser.query()
-    var resultsCount = Int()
+    //for storyboard
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.parseClassName = "_User"
+    }
     
-    //MARK: - Inits
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override init!(style: UITableViewStyle, className: String!) {
+        super.init(style: style, className: className)
+        self.parseClassName = "_User"
+        self.textKey = "name"
+        self.pullToRefreshEnabled = true;
+        self.paginationEnabled = true;
+        self.objectsPerPage = 20;
+        
+    }
+    
+    override func queryForTable() -> PFQuery! {
+        var query = PFUser.query()
+        let geoPoint = PFUser.currentUser().valueForKey(pointKey) as PFGeoPoint
+        //user settings
+        let isOrSeeksBlogger = PFUser.currentUser().valueForKey(bloggerKey) as Bool
+        let isOrSeeksUsa = PFUser.currentUser().valueForKey(usaKey) as Bool
+        let isOrSeeksPpc = PFUser.currentUser().valueForKey(ppcKey) as Bool
+        let isOrSeeksIncentive = PFUser.currentUser().valueForKey(incentiveKey) as Bool
+        let isOrSeeksCoupon = PFUser.currentUser().valueForKey(couponKey) as Bool
         //get either affiliates or merchants depending on who is looking at results
         query.whereKey(typeKey, equalTo: type)
-        //merchant and affiliate both must have agreeing settings
-        //var userSettings: AnyObject = PFUser.currentUser().objectForKey(userSettingsKey)
-        //query.whereKey(userSettingsKey, equalTo: userSettings)
-        
+        //merchant and affiliate both must have agreeing settings seeking one another
+        query.whereKey(bloggerKey, equalTo: isOrSeeksBlogger)
+        query.whereKey(usaKey, equalTo: isOrSeeksUsa)
+        query.whereKey(ppcKey, equalTo: isOrSeeksPpc)
+        query.whereKey(incentiveKey, equalTo: isOrSeeksIncentive)
+        query.whereKey(couponKey, equalTo: isOrSeeksCoupon)
+        //if a merchant is seeking affiliates, get those who aren't in a disallowed US state
         if type == affiliateKey{
-            //if a merchant is seeking affiliates, get those who aren't in a disallowed US state
             var disallowedRows = NSUserDefaults.standardUserDefaults().arrayForKey(disallowedKey) as Array<Int>!
             query.whereKey(stateKey, notContainedIn: disallowedRows)
-            
+        //if an affiliate is seeking merchants, get those who aren't disallowing their US state
         }else if type == merchantKey{
-            //if an affiliate is seeking merchants, get those who aren't disallowing their US state
             var chosenState = NSUserDefaults.standardUserDefaults().integerForKey(stateKey) as Int!
-            println(chosenState)
             query.whereKey(disallowedKey, notEqualTo: chosenState)
         }
-        //then get just nearby affs or merchants
+        //then get just nearby affs or merchants to the user
         query.whereKey(pointKey, nearGeoPoint: geoPoint)
-        query.getFirstObjectInBackgroundWithBlock { (user, error) -> Void in
-            println(user)
-        }
+        query.includeKey(userPhotoKey)
+        return query
+    }
+    
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
         
     }
-    override func viewWillAppear(animated: Bool) {
-        //reload table data here
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
-    }
-
-    /*
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
-
-        // Configure the cell...
-
+    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!, object: PFObject!) -> PFTableViewCell! {
+        let identifier = "Cell"
+        var cell = PFTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: identifier)
+        let thumbnail = object.valueForKey(userPhotoKey) as PFObject
+        let userProfile: AnyObject? = object.valueForKey(userProfileKey)
+        let org = userProfile?.valueForKey(orgKey) as String
+        cell.textLabel?.text = (object.valueForKey(nameKey) as String)
+        cell.detailTextLabel?.text = org
+        cell.imageView.file = thumbnail.valueForKey(imageFileKey) as PFFile
+        cell.imageView.image = UIImage(named: "default.png")
+        cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+        cell.backgroundColor = UIColor.blueColor()
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
+

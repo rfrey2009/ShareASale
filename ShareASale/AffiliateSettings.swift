@@ -15,8 +15,6 @@ TO DO:
 
 import Foundation
 import UIKit
-import CoreData
-import MobileCoreServices
 
 protocol AffiliateSettingsViewControllerDelegate{
     
@@ -41,7 +39,6 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
     let incentiveKey = "incentive"
     let usaKey = "usa"
     let stateKey = "usState"
-    let reuseableCell = "Cell"
     var delegate: AffiliateSettingsViewControllerDelegate? = nil
     // MARK: - IBOutlets
     @IBOutlet weak var portrait: UIImageView!
