@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController, MerchantSettingsViewControllerDelegate, AffiliateSettingsViewControllerDelegate {
     
     //MARK: - Protocol conformation
-    func settingsDidFinish(controller: UIViewController) {
+    func settingsDidLogout(controller: UIViewController) {
         
         controller.navigationController?.popViewControllerAnimated(true)
         

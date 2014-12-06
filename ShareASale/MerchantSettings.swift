@@ -18,7 +18,7 @@ import UIKit
 
 protocol MerchantSettingsViewControllerDelegate{
     
-    func settingsDidFinish(controller:UIViewController)
+    func settingsDidLogout(controller:UIViewController)
     
 }
 
@@ -89,7 +89,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         userUpdates.logOutShareASaleUser()
         //transition back to home screen and disable aff/merchant buttons until fb re-login
         if (delegate != nil) {
-            delegate!.settingsDidFinish(self)
+            delegate!.settingsDidLogout(self)
         }
         
     }

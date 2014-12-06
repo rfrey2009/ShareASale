@@ -24,6 +24,7 @@
 		276BF6381A100CF700FC81D3 /* MerchantSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276BF6371A100CF700FC81D3 /* MerchantSettings.swift */; };
 		276BF63A1A103AC900FC81D3 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 276BF6391A103AC900FC81D3 /* default.png */; };
 		27A1F2381A2C404800732391 /* userUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A1F2371A2C404800732391 /* userUpdates.swift */; };
+		27EC6EC61A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EC6EC51A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift */; };
 		27FC4A121A0F3C6B00B39EB2 /* star_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 27FC4A111A0F3C6B00B39EB2 /* star_big.png */; };
 		27FEC0D41A21B3F1004D87E7 /* ResultsDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FEC0D31A21B3F1004D87E7 /* ResultsDetails.swift */; };
 		27FEC0D61A21B413004D87E7 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FEC0D51A21B413004D87E7 /* Chat.swift */; };
@@ -62,6 +63,7 @@
 		276BF6371A100CF700FC81D3 /* MerchantSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MerchantSettings.swift; sourceTree = "<group>"; };
 		276BF6391A103AC900FC81D3 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		27A1F2371A2C404800732391 /* userUpdates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userUpdates.swift; sourceTree = "<group>"; };
+		27EC6EC51A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliateSettingsMoreInfo.swift; sourceTree = "<group>"; };
 		27FC4A111A0F3C6B00B39EB2 /* star_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_big.png; sourceTree = "<group>"; };
 		27FEC0D31A21B3F1004D87E7 /* ResultsDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsDetails.swift; sourceTree = "<group>"; };
 		27FEC0D51A21B413004D87E7 /* Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 		276BF6341A100A6500FC81D3 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				27EC6EC51A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift */,
 				27A1F2371A2C404800732391 /* userUpdates.swift */,
 				276BF6351A100CE700FC81D3 /* AffiliateSettings.swift */,
 				276BF6371A100CF700FC81D3 /* MerchantSettings.swift */,
@@ -367,6 +370,7 @@
 				27318B0E1A0F24CB009B72F2 /* ViewController.swift in Sources */,
 				27A1F2381A2C404800732391 /* userUpdates.swift in Sources */,
 				27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */,
+				27EC6EC61A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift in Sources */,
 				274BA1E21A301A9600DE4223 /* Results.swift in Sources */,
 				27FEC0D61A21B413004D87E7 /* Chat.swift in Sources */,
 				27318B091A0F24CB009B72F2 /* AppDelegate.swift in Sources */,
