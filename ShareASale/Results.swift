@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Results: PFQueryTableViewController {
+class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarDelegate {
     
     //MARK: - Constants
     let typeKey = "type"
@@ -29,12 +29,14 @@ class Results: PFQueryTableViewController {
     let usaKey = "usa"
     //type depends on the segue identifier, and means what results we're looking for
     var type = ""
-    //for storyboard
+    var filteredUsers = [AnyObject]()
+    //MARK: - IBOutlets
+    @IBOutlet weak var searchBar: UISearchBar!
+    //MARK: - Inits
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.parseClassName = "_User"
     }
-    
     override init!(style: UITableViewStyle, className: String!) {
         super.init(style: style, className: className)
         self.parseClassName = "_User"
@@ -42,9 +44,7 @@ class Results: PFQueryTableViewController {
         self.pullToRefreshEnabled = true;
         self.paginationEnabled = true;
         self.objectsPerPage = 20;
-        
     }
-    
     override func queryForTable() -> PFQuery! {
         var query = PFUser.query()
         let geoPoint = PFUser.currentUser().valueForKey(pointKey) as PFGeoPoint
@@ -76,18 +76,30 @@ class Results: PFQueryTableViewController {
         query.includeKey(userPhotoKey)
         return query
     }
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        searchBar.placeholder = "filter \(type)s".capitalizedString
         
     }
+    //MARK: - Protocol conformation
     override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!, object: PFObject!) -> PFTableViewCell! {
+        
         let identifier = "Cell"
         var cell = PFTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: identifier)
+
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            if !filteredUsers.isEmpty{
+                let object: (AnyObject) = filteredUsers[indexPath.row]
+            }else{
+                return cell
+            }
+        }
+        
         let thumbnail = object.valueForKey(userPhotoKey) as PFObject
         let userProfile: AnyObject? = object.valueForKey(userProfileKey)
         let org = userProfile?.valueForKey(orgKey) as String
+        
         cell.textLabel?.text = (object.valueForKey(nameKey) as String)
         cell.detailTextLabel?.text = org
         cell.imageView.file = thumbnail.valueForKey(imageFileKey) as PFFile
@@ -95,6 +107,29 @@ class Results: PFQueryTableViewController {
         cell.accessoryType = UITableViewCellAccessoryType.Checkmark
         cell.backgroundColor = UIColor.blueColor()
         return cell
+    }
+    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchString searchString: String!) -> Bool {
+        self.filterContentForSearchText(searchString)
+        return true
+    }
+    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
+        self.filterContentForSearchText(self.searchDisplayController!.searchBar.text)
+        return true
+    }
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        println("clicked!")
+    }
+    //MARK: - helpers
+    func filterContentForSearchText(searchText: String) {
+        //Filter the array using the filter method
+        self.filteredUsers = objects.filter { (user: AnyObject) -> Bool in
+            
+            let name = user.valueForKey("name") as String
+            let userProfile: AnyObject? = user.valueForKey("userProfile")
+            
+            var stringMatch = name.rangeOfString(searchText)
+            return (stringMatch != nil)
+        }
     }
     
 }

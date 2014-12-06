@@ -229,7 +229,7 @@ class MerchantSettings: UIViewController, UITableViewDelegate, UITableViewDataSo
         let vc = segue.destinationViewController as Results
 
         if segue.identifier == "MerchantSettingsToResults"{
-            vc.type = "affiliate"
+            vc.type = "merchant"
         }
     }
     
