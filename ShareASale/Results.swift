@@ -105,7 +105,7 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         cell.imageView.file = thumbnail.valueForKey(imageFileKey) as PFFile
         cell.imageView.image = UIImage(named: "default.png")
         cell.accessoryType = UITableViewCellAccessoryType.Checkmark
-        cell.backgroundColor = UIColor.blueColor()
+        //cell.backgroundColor = UIColor.blueColor()
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -147,10 +147,9 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
                 //user didn't use search bar's tableview, so index into the pfquerytableview's main results array, self.objects
                 filteredUsers = objects
             }
-                userDetailViewController.userOrg = filteredUsers[indexPath.row].valueForKey(userProfileKey)?.valueForKey(orgKey) as String
-                userDetailViewController.userPortrait = filteredUsers[indexPath.row].valueForKey(userPhotoKey)?.valueForKey(imageFileKey) as PFFile
-                userDetailViewController.userId = filteredUsers[indexPath.row].valueForKey(userProfileKey)?.valueForKey("shareasaleId") as String
-                userDetailViewController.userName = filteredUsers[indexPath.row].valueForKey(nameKey) as String
+            
+            userDetailViewController.user = filteredUsers[indexPath.row] as PFUser
+
             }
     }
 }
