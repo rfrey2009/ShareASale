@@ -128,12 +128,8 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
                     if info == classVars.typeKey{
                         println("Set type to be \(value)")
                         classVars.currentUser.setObject(value, forKey: classVars.typeKey)
-                    }
-                    if info == classVars.idKey{
-                        userProfile[classVars.idKey] = value
-                    }
-                    if info == classVars.orgKey{
-                        userProfile[classVars.orgKey] = value
+                    }else{
+                        userProfile[info] = value
                     }
                 }
                 

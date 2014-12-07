@@ -39,6 +39,8 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
     let incentiveKey = "incentive"
     let usaKey = "usa"
     let stateKey = "usState"
+    let moreInfoKey = "moreInfo"
+    let shareASaleBecauseKey = "shareASaleBecause"
     var delegate: AffiliateSettingsViewControllerDelegate? = nil
     // MARK: - IBOutlets
     @IBOutlet weak var portrait: UIImageView!
@@ -162,8 +164,10 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
         self.usaSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(usaKey)
         
         let userSettings = [self.bloggerKey: self.bloggerSwitch.on, self.couponKey: self.couponSwitch.on, self.ppcKey: self.ppcSwitch.on, self.incentiveKey: self.incentiveSwitch.on, self.usaKey: self.usaSwitch.on]
+        var moreInfo = NSUserDefaults.standardUserDefaults().stringForKey(moreInfoKey) as String!
+        var shareASaleBecause = NSUserDefaults.standardUserDefaults().stringForKey(shareASaleBecauseKey) as String!
         
-        userUpdates.updateUser([self.typeKey: self.affiliateKey, self.idKey: self.affiliateID.text, self.orgKey: self.org.text], userSettings: userSettings, portraitFromVC: self.portrait)
+        userUpdates.updateUser([self.typeKey: self.affiliateKey, self.idKey: self.affiliateID.text, self.orgKey: self.org.text, self.moreInfoKey: moreInfo, self.shareASaleBecauseKey: shareASaleBecause], userSettings: userSettings, portraitFromVC: self.portrait)
         
     }
     override func viewWillAppear(animated: Bool) {

@@ -91,7 +91,7 @@
                                 </constraints>
                             </activityIndicatorView>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dn6-Kk-m6M">
-                                <rect key="frame" x="132" y="141" width="61" height="137"/>
+                                <rect key="frame" x="132" y="141" width="61" height="100"/>
                                 <subviews>
                                     <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pdc-ie-qqs">
                                         <rect key="frame" x="20" y="20" width="20" height="20"/>
@@ -130,7 +130,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="ukc-sK-w52" firstAttribute="top" secondItem="RjT-P9-Bgi" secondAttribute="bottom" constant="19" id="Mu0-07-ULN"/>
-                                    <constraint firstItem="RjT-P9-Bgi" firstAttribute="centerY" secondItem="dn6-Kk-m6M" secondAttribute="centerY" id="Rpb-F2-59q"/>
+                                    <constraint firstItem="RjT-P9-Bgi" firstAttribute="centerY" secondItem="dn6-Kk-m6M" secondAttribute="centerY" constant="18" id="Rpb-F2-59q"/>
                                     <constraint firstItem="RjT-P9-Bgi" firstAttribute="leading" secondItem="Pdc-ie-qqs" secondAttribute="leading" id="Wu7-M2-dDp"/>
                                     <constraint firstItem="Pdc-ie-qqs" firstAttribute="centerX" secondItem="dn6-Kk-m6M" secondAttribute="centerX" id="YGi-B3-UPa"/>
                                     <constraint firstItem="Pdc-ie-qqs" firstAttribute="leading" secondItem="dn6-Kk-m6M" secondAttribute="leading" constant="20" id="iye-Tm-Qne"/>
@@ -164,7 +164,7 @@
                             <constraint firstItem="Op3-9l-4Am" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="54" id="pup-Gr-F3D"/>
                             <constraint firstItem="Op3-9l-4Am" firstAttribute="top" secondItem="cA5-fS-gkh" secondAttribute="bottom" constant="8" symbolic="YES" id="s1h-P2-tsO"/>
                             <constraint firstItem="mtn-rj-1vO" firstAttribute="top" secondItem="cA5-fS-gkh" secondAttribute="bottom" constant="22" id="twG-BG-FxB"/>
-                            <constraint firstItem="dn6-Kk-m6M" firstAttribute="bottom" secondItem="daa-jh-n8M" secondAttribute="bottom" constant="-234" id="uA9-ww-zek"/>
+                            <constraint firstItem="dn6-Kk-m6M" firstAttribute="bottom" secondItem="daa-jh-n8M" secondAttribute="bottom" constant="-271" id="uA9-ww-zek"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qPW-bX-eE2"/>
@@ -896,10 +896,10 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Details" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iT0-lV-S3G">
-                                <rect key="frame" x="17" y="238" width="53" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iT0-lV-S3G">
+                                <rect key="frame" x="17" y="238" width="26" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="53" id="vhO-qM-8Az"/>
+                                    <constraint firstAttribute="width" constant="26" id="vhO-qM-8Az"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -907,7 +907,7 @@
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LRp-Hx-fDI">
                                 <rect key="frame" x="16" y="264" width="288" height="284"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                         <integer key="value" value="1"/>
@@ -1009,6 +1009,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="HY4-VS-GD9"/>
+        <segue reference="V1T-Nw-RGU"/>
     </inferredMetricsTieBreakers>
 </document>

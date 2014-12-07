@@ -23,6 +23,7 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view.
         let type = user.valueForKey("type") as String
         let userId = user.valueForKey("userProfile")?.valueForKey("shareasaleId") as String
@@ -42,8 +43,18 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
             coBrandedPageView.loadRequest(request)
             
         }else if type == "affiliate"{
+            var moreInfoView = UILabel(frame: CGRectMake(8.0,0.0,272.0,123.0))
+            moreInfoView.text = user.valueForKey("userProfile")?.valueForKey("moreInfo") as? String
+            moreInfoView.numberOfLines = 0
+            moreInfoView.sizeToFit()
             
-            
+            var shareASaleBecauseView = UILabel(frame: CGRectMake(8.0,131.0,272.0,145.0))
+            shareASaleBecauseView.text = user.valueForKey("userProfile")?.valueForKey("shareASaleBecause") as? String
+            shareASaleBecauseView.numberOfLines = 0
+            shareASaleBecauseView.sizeToFit()
+
+            detailView.addSubview(moreInfoView)
+            detailView.addSubview(shareASaleBecauseView)
             
         }
     }
