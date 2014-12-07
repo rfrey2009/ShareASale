@@ -108,6 +108,9 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         cell.backgroundColor = UIColor.blueColor()
         return cell
     }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("seeDetails", sender: tableView)
+    }
     func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchString searchString: String!) -> Bool {
         self.filterContentForSearchText(searchString)
         return true
@@ -116,21 +119,39 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         self.filterContentForSearchText(self.searchDisplayController!.searchBar.text)
         return true
     }
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        println("clicked!")
-    }
     //MARK: - helpers
     func filterContentForSearchText(searchText: String) {
         //Filter the array using the filter method
         self.filteredUsers = objects.filter { (user: AnyObject) -> Bool in
             
             let name = user.valueForKey("name") as String
+            //userProfile its own object in case I wanted to add other filters from it later... just org for now
             let userProfile: AnyObject? = user.valueForKey("userProfile")
+            let org = userProfile?.valueForKey("org") as String
             
+            var orgMatch = org.rangeOfString(searchText)
             var stringMatch = name.rangeOfString(searchText)
-            return (stringMatch != nil)
+            return (stringMatch != nil || orgMatch != nil)
         }
     }
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if segue.identifier == "seeDetails" {
+            let userDetailViewController = segue.destinationViewController as ResultDetails
+            //check whether the segue is from the searchbar's tableview or the main tableview
+            if sender as UITableView == self.searchDisplayController!.searchResultsTableView {
+                let indexPath = self.searchDisplayController!.searchResultsTableView.indexPathForSelectedRow()!
+                userDetailViewController.name.text = filteredUsers[indexPath.row].valueForKey(nameKey) as? String
+                //userDetailViewController.org = filteredUsers[indexPath.row].valueForKey(orgKey) as String
+                //userDetailViewController.portrait = filteredUsers[indexPath.row].valueForKey(UserPhoto).imageFile
+                //userDetailViewController.ID = filteredUsers[indexPath.row].valueForKey(userProfile).shareasaleId as String
+                println(filteredUsers[indexPath.row])
+            } else {
+                let indexPath = self.tableView.indexPathForSelectedRow()!
+                //let destinationTitle = objects[indexPath.row].name
+                //userDetailViewController.title = destinationTitle
+                println(objects[indexPath.row])
+            }
+        }
+    }
 }
 

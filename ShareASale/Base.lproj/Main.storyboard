@@ -838,10 +838,10 @@
             </objects>
             <point key="canvasLocation" x="1735" y="327"/>
         </scene>
-        <!--Results Details-->
+        <!--Result Details-->
         <scene sceneID="3d5-di-mPB">
             <objects>
-                <viewController id="i8b-N0-7c6" customClass="ResultsDetails" sceneMemberID="viewController">
+                <viewController id="i8b-N0-7c6" customClass="ResultDetails" customModule="ShareASale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qWa-Cg-gx4"/>
                         <viewControllerLayoutGuide type="bottom" id="hGu-Ky-r2O"/>
@@ -952,6 +952,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="sHJ-nb-YRi"/>
+                    <connections>
+                        <outlet property="ID" destination="JWs-ON-I9G" id="Ehn-Ho-Rlg"/>
+                        <outlet property="name" destination="ZEZ-Oo-irY" id="bmC-6M-hcd"/>
+                        <outlet property="org" destination="u4B-co-Taz" id="CcV-BT-acK"/>
+                        <outlet property="portrait" destination="0dt-d5-0EY" id="hU4-xk-U6G"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="An4-YT-2oR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
