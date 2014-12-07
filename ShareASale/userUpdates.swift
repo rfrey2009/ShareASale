@@ -126,7 +126,7 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
                 
                 for (info, value) in userInfo{
                     if info == classVars.typeKey{
-                        println("set type to be \(value)")
+                        println("Set type to be \(value)")
                         classVars.currentUser.setObject(value, forKey: classVars.typeKey)
                     }
                     if info == classVars.idKey{
@@ -174,7 +174,7 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
                     classVars.currentUser.setObject(point, forKey: classVars.geoPointKey)
                     classVars.currentUser.saveInBackgroundWithBlock({ (success, error) -> Void in
                         if error == nil{
-                            println("user updated on parse")
+                            println("User updated on parse")
                         }
                     })
                 }
@@ -196,7 +196,7 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
             if error == nil{
                 userPhoto.setObject(imageFile, forKey: classVars.imageFileKey)
                 userPhoto.saveInBackgroundWithBlock({ (success, error) -> Void in
-                    println("Updated existing userPhoto to parse cloud")
+                    println("Updated existing UserPhoto to parse cloud")
                 })
                 classVars.currentUser.setObject(userPhoto, forKey: classVars.userPhotoKey)
                 classVars.currentUser.saveInBackgroundWithBlock({ (success, error) -> Void in
@@ -212,12 +212,12 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
                 userPhoto.setObject(classVars.currentUser, forKey: classVars.userKey)
                 //save
                 userPhoto.saveInBackgroundWithBlock({ (success, error) -> Void in
-                    println("Saved new userPhoto to parse cloud")
+                    println("Saved new UserPhoto to parse")
                 })
                 classVars.currentUser.setObject(userPhoto, forKey: classVars.userPhotoKey)
                 classVars.currentUser.saveInBackgroundWithBlock({ (success, error) -> Void in
                     if error == nil{
-                        println("user associated to UserPhoto pointer on parse")
+                        println("User associated to UserPhoto pointer on parse")
                     }
                 })
             }

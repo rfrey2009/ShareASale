@@ -147,7 +147,7 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
             if results.isEmpty == false{
                 //initial portrait/avatar image is what's saved last from coredata locally
                 self.portrait.image = UIImage(data: results[0].valueForKey(self.imageFileKey) as NSData)
-                println("user's existing image from coredata was shown as portrait")
+                println("User's existing image from coredata was shown as portrait")
             }
         } else {
             println("Could not fetch \(errorPointer), \(errorPointer!.userInfo)")

@@ -137,21 +137,21 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "seeDetails" {
             let userDetailViewController = segue.destinationViewController as ResultDetails
+            var indexPath = NSIndexPath()
             //check whether the segue is from the searchbar's tableview or the main tableview
             if sender as UITableView == self.searchDisplayController!.searchResultsTableView {
-                let indexPath = self.searchDisplayController!.searchResultsTableView.indexPathForSelectedRow()!
-                userDetailViewController.name.text = filteredUsers[indexPath.row].valueForKey(nameKey) as? String
-                //userDetailViewController.org = filteredUsers[indexPath.row].valueForKey(orgKey) as String
-                //userDetailViewController.portrait = filteredUsers[indexPath.row].valueForKey(UserPhoto).imageFile
-                //userDetailViewController.ID = filteredUsers[indexPath.row].valueForKey(userProfile).shareasaleId as String
-                println(filteredUsers[indexPath.row])
+                //user searched and found result using search bar's tableview, use that index instead of main table view's
+                indexPath = self.searchDisplayController!.searchResultsTableView.indexPathForSelectedRow()!
             } else {
-                let indexPath = self.tableView.indexPathForSelectedRow()!
-                //let destinationTitle = objects[indexPath.row].name
-                //userDetailViewController.title = destinationTitle
-                println(objects[indexPath.row])
+                indexPath = self.tableView.indexPathForSelectedRow()!
+                //user didn't use search bar's tableview, so index into the pfquerytableview's main results array, self.objects
+                filteredUsers = objects
             }
-        }
+                userDetailViewController.userOrg = filteredUsers[indexPath.row].valueForKey(userProfileKey)?.valueForKey(orgKey) as String
+                userDetailViewController.userPortrait = filteredUsers[indexPath.row].valueForKey(userPhotoKey)?.valueForKey(imageFileKey) as PFFile
+                userDetailViewController.userId = filteredUsers[indexPath.row].valueForKey(userProfileKey)?.valueForKey("shareasaleId") as String
+                userDetailViewController.userName = filteredUsers[indexPath.row].valueForKey(nameKey) as String
+            }
     }
 }
 

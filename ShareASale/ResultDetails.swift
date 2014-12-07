@@ -9,16 +9,25 @@
 import UIKit
 
 class ResultDetails: UIViewController {
+    
+    //MARK: - general keys and constants
+    var userPortrait = PFFile()
+    var userName = ""
+    var userOrg = ""
+    var userId = ""
     //MARK: - IBOutlets
-    @IBOutlet weak var portrait: UIImageView!
+    @IBOutlet weak var portrait: PFImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var org: UILabel!
-    @IBOutlet weak var ID: UILabel!
+    @IBOutlet weak var Id: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        portrait.file = userPortrait
+        name.text = userName
+        org.text = userOrg
+        Id.text = userId
     }
 
     override func didReceiveMemoryWarning() {
