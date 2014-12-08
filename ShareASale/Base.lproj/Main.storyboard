@@ -885,6 +885,9 @@
                                 <state key="normal" title="Invite!">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="inviteBtnPressed:" destination="i8b-N0-7c6" eventType="touchUpInside" id="A6P-bk-SdU"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dps-BA-zgs">
                                 <rect key="frame" x="264" y="200" width="40" height="30"/>
@@ -895,6 +898,9 @@
                                 <state key="normal" title="Chat">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="chatBtnPressed:" destination="i8b-N0-7c6" eventType="touchUpInside" id="kTy-JC-nqt"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iT0-lV-S3G">
                                 <rect key="frame" x="17" y="238" width="26" height="21"/>
@@ -969,7 +975,9 @@
                     <navigationItem key="navigationItem" id="sHJ-nb-YRi"/>
                     <connections>
                         <outlet property="Id" destination="JWs-ON-I9G" id="58w-Cg-hYc"/>
+                        <outlet property="chatBtn" destination="dps-BA-zgs" id="6Ue-9k-a1m"/>
                         <outlet property="detailView" destination="LRp-Hx-fDI" id="SfN-WR-3CN"/>
+                        <outlet property="inviteBtn" destination="t7o-Yw-6RI" id="bMl-sk-bcY"/>
                         <outlet property="name" destination="ZEZ-Oo-irY" id="bmC-6M-hcd"/>
                         <outlet property="org" destination="u4B-co-Taz" id="CcV-BT-acK"/>
                         <outlet property="portrait" destination="0dt-d5-0EY" id="OZR-UP-sFa"/>
