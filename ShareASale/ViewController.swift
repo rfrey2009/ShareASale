@@ -133,8 +133,8 @@ class ViewController: UIViewController, MerchantSettingsViewControllerDelegate, 
         if (PFUser.currentUser() != nil && PFFacebookUtils.isLinkedWithUser(PFUser.currentUser())){
             //make sure current session is up to date
             PFUser.currentUser().fetchInBackgroundWithBlock({ (currentUser, errorPointer) -> Void in
-                //let type = currentUser.valueForKey("type") as String
-                let type = "affiliate"
+                let type = currentUser.valueForKey("type") as String
+                //let type = "affiliate"
                 //perform the right segue
                 if type == "merchant"{
                     self.performSegueWithIdentifier("LoginToMerchantSettings", sender: self)
