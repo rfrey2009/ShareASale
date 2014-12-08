@@ -128,9 +128,9 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
             //userProfile its own object in case I wanted to add other filters from it later... just org for now
             let userProfile: AnyObject? = user.valueForKey("userProfile")
             let org = userProfile?.valueForKey("org") as String
-            
-            var orgMatch = org.rangeOfString(searchText)
-            var stringMatch = name.rangeOfString(searchText)
+            //the .lowercaseString prevents case sensitive search
+            var orgMatch = org.lowercaseString.rangeOfString(searchText.lowercaseString)
+            var stringMatch = name.lowercaseString.rangeOfString(searchText.lowercaseString)
             return (stringMatch != nil || orgMatch != nil)
         }
     }
