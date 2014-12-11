@@ -23,11 +23,11 @@ class Chat: JSQMessagesViewController {
     let textKey = "text"
     let userPhotoKey = "UserPhoto"
     let imageFileKey = "imageFile"
-    
+
+    //lazy instantiation of bubble factory object
     var bubbleFactory : JSQMessagesBubbleImageFactory = {
         return JSQMessagesBubbleImageFactory()
-        }()
-    
+        }()    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +35,7 @@ class Chat: JSQMessagesViewController {
         self.title = "Chat"
         self.senderId = currentUser.objectId as String
         self.senderDisplayName = currentUser.valueForKey(nameKey) as String
+
         var withUserAvatarPFFile = withUser.objectForKey(userPhotoKey).valueForKey(imageFileKey) as PFFile?
         var currentUserAvatarPFFile = currentUser.objectForKey(userPhotoKey).valueForKey(imageFileKey) as PFFile?
         
@@ -42,14 +43,16 @@ class Chat: JSQMessagesViewController {
             withUserAvatarPFFile!.getDataInBackgroundWithBlock({ (data, error) -> Void in
                 var theImage = UIImage(data: data)
                 var avatarImage = JSQMessagesAvatarImageFactory.avatarImageWithImage(theImage, diameter: 30)
-                    self.avatars[self.withUser.objectId] = avatarImage
                 
+                self.avatars[self.withUser.objectId] = avatarImage                
             })
         }
+
         if currentUserAvatarPFFile != nil{
             currentUserAvatarPFFile!.getDataInBackgroundWithBlock({ (data, error) -> Void in
                 var theImage = UIImage(data: data)
                 var avatarImage = JSQMessagesAvatarImageFactory.avatarImageWithImage(theImage, diameter: 30)
+                
                 self.avatars[self.senderId] = avatarImage
             })
         }
@@ -63,7 +66,6 @@ class Chat: JSQMessagesViewController {
         }
     
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -89,8 +91,7 @@ class Chat: JSQMessagesViewController {
     }
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
         var message = messages[indexPath.item]
-
-        return avatars[message.senderId]
+        return avatars[message.valueForKey[fromUserKey].objectId]
     }
     //MARK: - JSQMessages method overrides
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
