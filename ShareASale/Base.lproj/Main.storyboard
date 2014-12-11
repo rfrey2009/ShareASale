@@ -540,7 +540,7 @@
         <!--Chat-->
         <scene sceneID="SqZ-g1-a3x">
             <objects>
-                <viewController id="DCJ-9c-19S" customClass="Chat" sceneMemberID="viewController">
+                <viewController id="DCJ-9c-19S" customClass="Chat" customModule="ShareASale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9Uu-eS-vLA"/>
                         <viewControllerLayoutGuide type="bottom" id="4fL-Ss-5TG"/>
@@ -550,10 +550,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="4X4-WQ-bZN"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zmj-Cj-qeL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1975" y="-393"/>
+            <point key="canvasLocation" x="2755" y="327"/>
         </scene>
         <!--Meeting Results-->
         <scene sceneID="rzb-X7-ai9">
@@ -571,7 +572,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JF0-OL-qUE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1991" y="1069"/>
+            <point key="canvasLocation" x="2214" y="1089"/>
         </scene>
         <!--Settings-->
         <scene sceneID="hUk-4J-Y1t">
@@ -900,6 +901,7 @@
                                 </state>
                                 <connections>
                                     <action selector="chatBtnPressed:" destination="i8b-N0-7c6" eventType="touchUpInside" id="kTy-JC-nqt"/>
+                                    <segue destination="DCJ-9c-19S" kind="push" id="gPV-0C-hGi"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iT0-lV-S3G">

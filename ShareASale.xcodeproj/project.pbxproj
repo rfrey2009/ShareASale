@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B2EE16EEC767E903751A6A8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB1318832B44E81A62D9C1E /* libPods.a */; };
+		272C8E8B1A395FD6009EB331 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272C8E8A1A395FD6009EB331 /* Chat.swift */; };
 		27318B091A0F24CB009B72F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B081A0F24CB009B72F2 /* AppDelegate.swift */; };
 		27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27318B0A1A0F24CB009B72F2 /* ShareASale.xcdatamodeld */; };
 		27318B0E1A0F24CB009B72F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B0D1A0F24CB009B72F2 /* ViewController.swift */; };
@@ -27,7 +28,6 @@
 		27EC6EC61A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EC6EC51A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift */; };
 		27F1EDB01A33CAD2009F9899 /* ResultDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F1EDAF1A33CAD2009F9899 /* ResultDetails.swift */; };
 		27FC4A121A0F3C6B00B39EB2 /* star_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 27FC4A111A0F3C6B00B39EB2 /* star_big.png */; };
-		27FEC0D61A21B413004D87E7 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FEC0D51A21B413004D87E7 /* Chat.swift */; };
 		27FEC0D91A21B43F004D87E7 /* MeetingResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FEC0D81A21B43F004D87E7 /* MeetingResults.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		272C8E8A1A395FD6009EB331 /* Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		27318B031A0F24CB009B72F2 /* ShareASale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareASale.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27318B071A0F24CB009B72F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27318B081A0F24CB009B72F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,7 +67,6 @@
 		27EC6EC51A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliateSettingsMoreInfo.swift; sourceTree = "<group>"; };
 		27F1EDAF1A33CAD2009F9899 /* ResultDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultDetails.swift; sourceTree = "<group>"; };
 		27FC4A111A0F3C6B00B39EB2 /* star_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_big.png; sourceTree = "<group>"; };
-		27FEC0D51A21B413004D87E7 /* Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		27FEC0D81A21B43F004D87E7 /* MeetingResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingResults.swift; sourceTree = "<group>"; };
 		6AB1318832B44E81A62D9C1E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		911F05252911B32AFA22BFEB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -201,7 +201,7 @@
 		27FEC0D71A21B41F004D87E7 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				27FEC0D51A21B413004D87E7 /* Chat.swift */,
+				272C8E8A1A395FD6009EB331 /* Chat.swift */,
 			);
 			name = Chat;
 			sourceTree = "<group>";
@@ -364,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				276BF6361A100CE700FC81D3 /* AffiliateSettings.swift in Sources */,
+				272C8E8B1A395FD6009EB331 /* Chat.swift in Sources */,
 				2735CD0F1A188F8700511AA8 /* UserPhoto.swift in Sources */,
 				27FEC0D91A21B43F004D87E7 /* MeetingResults.swift in Sources */,
 				276BF6381A100CF700FC81D3 /* MerchantSettings.swift in Sources */,
@@ -372,7 +373,6 @@
 				27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */,
 				27EC6EC61A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift in Sources */,
 				274BA1E21A301A9600DE4223 /* Results.swift in Sources */,
-				27FEC0D61A21B413004D87E7 /* Chat.swift in Sources */,
 				27318B091A0F24CB009B72F2 /* AppDelegate.swift in Sources */,
 				27F1EDB01A33CAD2009F9899 /* ResultDetails.swift in Sources */,
 			);
