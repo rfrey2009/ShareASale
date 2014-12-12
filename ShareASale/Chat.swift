@@ -119,7 +119,8 @@ class Chat: JSQMessagesViewController {
         parseMessage.setObject(message.text, forKey: textKey)
         parseMessage.setObject(withUser, forKey: toUserKey)
         parseMessage.setObject(currentUser, forKey: fromUserKey)
-        
+        parseMessage.ACL = PFACL(user: currentUser)
+
         parseMessage.saveInBackgroundWithBlock { (success, error) -> Void in
             if error == nil{
                 println("Message saved in parse.")
