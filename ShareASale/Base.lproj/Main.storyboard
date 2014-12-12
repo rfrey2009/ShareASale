@@ -901,7 +901,7 @@
                                 </state>
                                 <connections>
                                     <action selector="chatBtnPressed:" destination="i8b-N0-7c6" eventType="touchUpInside" id="kTy-JC-nqt"/>
-                                    <segue destination="DCJ-9c-19S" kind="push" id="gPV-0C-hGi"/>
+                                    <segue destination="DCJ-9c-19S" kind="push" identifier="ResultDetailsToChat" id="gPV-0C-hGi"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iT0-lV-S3G">

@@ -23,6 +23,8 @@ class Chat: JSQMessagesViewController {
     let textKey = "text"
     let userPhotoKey = "UserPhoto"
     let imageFileKey = "imageFile"
+    var messagePoller = NSTimer()
+    var initialLoadingDone = Bool()
 
     //lazy instantiation of bubble factory object
     var bubbleFactory : JSQMessagesBubbleImageFactory = {
@@ -31,40 +33,38 @@ class Chat: JSQMessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.title = "Chat"
         self.senderId = currentUser.objectId as String
         self.senderDisplayName = currentUser.valueForKey(nameKey) as String
-
-        var withUserAvatarPFFile = withUser.objectForKey(userPhotoKey).valueForKey(imageFileKey) as PFFile?
-        var currentUserAvatarPFFile = currentUser.objectForKey(userPhotoKey).valueForKey(imageFileKey) as PFFile?
         
-        if withUserAvatarPFFile != nil{
-            withUserAvatarPFFile!.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                var theImage = UIImage(data: data)
-                var avatarImage = JSQMessagesAvatarImageFactory.avatarImageWithImage(theImage, diameter: 30)
-                
-                self.avatars[self.withUser.objectId] = avatarImage                
-            })
-        }
-
-        if currentUserAvatarPFFile != nil{
-            currentUserAvatarPFFile!.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                var theImage = UIImage(data: data)
-                var avatarImage = JSQMessagesAvatarImageFactory.avatarImageWithImage(theImage, diameter: 30)
-                
-                self.avatars[self.senderId] = avatarImage
-            })
-        }
+        /*
+        var withUserAvatarPFFile = withUser.objectForKey(userPhotoKey).valueForKey(imageFileKey) as PFFile
+        var currentUserAvatarPFFile = currentUser.objectForKey(userPhotoKey).valueForKey(imageFileKey) as PFFile
         
-        var queryForNewMessages = PFQuery(className: messageKey)
-        queryForNewMessages.whereKey(fromUserKey, equalTo: currentUser)
-        queryForNewMessages.whereKey(toUserKey, equalTo: withUser)
-        queryForNewMessages.orderByAscending("createdAt")
-        queryForNewMessages.findObjectsInBackgroundWithBlock { (messages, error) -> Void in
-            self.messages = messages as [JSQMessage]
-        }
+        withUserAvatarPFFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
+            var theImage = UIImage(data: data)
+            var avatarImage = JSQMessagesAvatarImageFactory.avatarImageWithImage(theImage, diameter: 30)
+            
+            self.avatars[self.withUser.objectId] = avatarImage                
+        })
+
+        currentUserAvatarPFFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
+            var theImage = UIImage(data: data)
+            var avatarImage = JSQMessagesAvatarImageFactory.avatarImageWithImage(theImage, diameter: 30)
+            
+            self.avatars[self.senderId] = avatarImage
+        })
+        */
+        
+        checkForMessages()
+        self.messagePoller = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "checkForMessages", userInfo: nil, repeats: true)
+        
     
+    }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.collectionView.collectionViewLayout.springinessEnabled = true
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -75,7 +75,14 @@ class Chat: JSQMessagesViewController {
         super.viewWillAppear(animated)
         
     }
+    override func viewDidDisappear(animated: Bool) {
+        messagePoller.invalidate()
+    }
     //MARK: - Protocol conformation
+    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return messages.count
+    }
+    
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
         return messages[indexPath.item]
     }
@@ -91,8 +98,9 @@ class Chat: JSQMessagesViewController {
     }
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
         var message = messages[indexPath.item]
-        return avatars[message.valueForKey[fromUserKey].objectId]
-    }
+        return avatars[message.senderId]
+   }
+    
     //MARK: - JSQMessages method overrides
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
@@ -104,6 +112,7 @@ class Chat: JSQMessagesViewController {
         self.finishSendingMessage()
         
     }
+    
     //MARK: - helpers
     func saveMessageToParse(message: JSQMessage){
         var parseMessage = PFObject(className: messageKey)
@@ -116,6 +125,43 @@ class Chat: JSQMessagesViewController {
                 println("Message saved in parse.")
             }else{
                 println(error.localizedDescription)
+            }
+        }
+    }
+    func checkForMessages(){
+        println("checked for new messages")
+        var queryForNewMessagesFromUser = PFQuery(className: messageKey)
+        queryForNewMessagesFromUser.whereKey(fromUserKey, equalTo: currentUser)
+        queryForNewMessagesFromUser.whereKey(toUserKey, equalTo: withUser)
+        
+        var queryForNewMessagesToUser = PFQuery(className: messageKey)
+        queryForNewMessagesToUser.whereKey(toUserKey, equalTo: currentUser)
+        queryForNewMessagesToUser.whereKey(fromUserKey, equalTo: withUser)
+        
+        var queryForNewMessages = PFQuery.orQueryWithSubqueries([queryForNewMessagesFromUser, queryForNewMessagesToUser])
+        queryForNewMessages.includeKey(fromUserKey)
+        queryForNewMessages.orderByAscending("createdAt")
+        
+        queryForNewMessages.findObjectsInBackgroundWithBlock { (pastMessages, error) -> Void in
+            
+            if pastMessages.count > self.messages.count{
+                //if there's new messages and we're past the first load, play sound and empty messages array
+                if self.initialLoadingDone == true {
+                    JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
+                    self.messages = []
+                }
+                //(re)build messages array
+                for pastMessage in pastMessages{
+                    var id = pastMessage.valueForKey(self.fromUserKey)?.objectId
+                    var who = pastMessage.valueForKey(self.fromUserKey) as PFUser
+                    var name = who.valueForKey(self.nameKey) as String
+                    var t = pastMessage.valueForKey(self.textKey) as String
+                    
+                    var message = JSQMessage(senderId: id!, displayName: name, text: t)
+                    self.messages.append(message)
+                }
+                self.initialLoadingDone = true
+                self.finishReceivingMessage()
             }
         }
     }

@@ -113,16 +113,18 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    /*
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+    
+        if segue.identifier == "ResultDetailsToChat"{
+        
+            let chatVC = segue.destinationViewController as Chat
+            chatVC.withUser = user
+        }
+        
     }
-    */
     //MARK: - helpers
     func checkForInvites(){
         //check whether the current User logged in is already invited by the User whose details we're viewing
