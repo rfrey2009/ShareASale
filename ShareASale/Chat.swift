@@ -34,7 +34,7 @@ class Chat: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "Chat"
+        self.title = "Chat with \(withUser.valueForKey(nameKey)!)"
         self.senderId = currentUser.objectId as String
         self.senderDisplayName = currentUser.valueForKey(nameKey) as String
         
