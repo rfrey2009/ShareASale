@@ -587,18 +587,17 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meeting Notes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mmW-k7-DCH">
                                 <rect key="frame" x="16" y="28" width="113" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="NhZ-oS-4dW"/>
-                                    <constraint firstAttribute="width" constant="113" id="uWx-O5-3jc"/>
+                                    <constraint firstAttribute="width" constant="113" id="A6y-f9-4cd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" text="What are your notes on this meeting?" translatesAutoresizingMaskIntoConstraints="NO" id="9k5-pQ-Gnk">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="What are your notes on this meeting?" translatesAutoresizingMaskIntoConstraints="NO" id="9k5-pQ-Gnk">
                                 <rect key="frame" x="16" y="57" width="288" height="266"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="266" id="qZ5-5s-4bY"/>
+                                    <constraint firstAttribute="height" constant="266" id="x1I-xZ-Mw3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -612,8 +611,12 @@
                                 </userDefinedRuntimeAttributes>
                             </textView>
                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="msZ-iF-HNG" customClass="FloatRatingView" customModule="ShareASale" customModuleProvider="target">
-                                <rect key="frame" x="16" y="360" width="193" height="32"/>
+                                <rect key="frame" x="16" y="360" width="175" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="cTY-sW-PoT"/>
+                                    <constraint firstAttribute="width" constant="175" id="i9n-Yr-bC9"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="image" keyPath="emptyImage" value="StarEmpty.png"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="maxRating">
@@ -633,11 +636,14 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nln-N8-2PN">
                                 <rect key="frame" x="16" y="331" width="50" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="wxV-px-2oE"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Of-Lf-kAb">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Of-Lf-kAb">
                                 <rect key="frame" x="165" y="24" width="139" height="30"/>
                                 <state key="normal" title="Scan Business Card">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -646,19 +652,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="msZ-iF-HNG" secondAttribute="trailing" constant="95" id="3oh-EB-bz1"/>
-                            <constraint firstItem="msZ-iF-HNG" firstAttribute="top" secondItem="nln-N8-2PN" secondAttribute="bottom" constant="8" symbolic="YES" id="4T8-vN-Xal"/>
-                            <constraint firstItem="1Of-Lf-kAb" firstAttribute="trailing" secondItem="9k5-pQ-Gnk" secondAttribute="trailing" id="9At-Kw-3Ei"/>
-                            <constraint firstItem="msZ-iF-HNG" firstAttribute="leading" secondItem="mmW-k7-DCH" secondAttribute="leading" id="9aW-l4-shO"/>
-                            <constraint firstItem="msZ-iF-HNG" firstAttribute="leading" secondItem="9k5-pQ-Gnk" secondAttribute="leading" id="Cz3-Yx-jSs"/>
-                            <constraint firstItem="mmW-k7-DCH" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="8" id="OOt-mv-Oca"/>
-                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="mmW-k7-DCH" secondAttribute="bottom" constant="8" symbolic="YES" id="QNT-IL-m0n"/>
-                            <constraint firstItem="msZ-iF-HNG" firstAttribute="top" secondItem="VER-Ae-Ov4" secondAttribute="top" constant="360" id="Shf-7t-PIE"/>
-                            <constraint firstItem="VDc-mm-uOf" firstAttribute="top" secondItem="msZ-iF-HNG" secondAttribute="bottom" constant="176" id="XL1-Zg-wTt"/>
-                            <constraint firstItem="1Of-Lf-kAb" firstAttribute="baseline" secondItem="mmW-k7-DCH" secondAttribute="baseline" id="XMZ-qL-ugO"/>
-                            <constraint firstItem="msZ-iF-HNG" firstAttribute="leading" secondItem="nln-N8-2PN" secondAttribute="leading" id="e4I-3V-bzO"/>
-                            <constraint firstItem="msZ-iF-HNG" firstAttribute="leading" secondItem="VER-Ae-Ov4" secondAttribute="leadingMargin" id="fk5-dC-P5p"/>
-                            <constraint firstItem="nln-N8-2PN" firstAttribute="top" secondItem="9k5-pQ-Gnk" secondAttribute="bottom" constant="8" symbolic="YES" id="zRL-MM-Bhb"/>
+                            <constraint firstItem="mmW-k7-DCH" firstAttribute="leading" secondItem="9k5-pQ-Gnk" secondAttribute="leading" id="5Cc-19-w98"/>
+                            <constraint firstItem="msZ-iF-HNG" firstAttribute="top" secondItem="nln-N8-2PN" secondAttribute="bottom" constant="8" symbolic="YES" id="Dkl-V2-Uti"/>
+                            <constraint firstItem="mmW-k7-DCH" firstAttribute="baseline" secondItem="1Of-Lf-kAb" secondAttribute="baseline" id="I1q-Ja-E4h"/>
+                            <constraint firstItem="nln-N8-2PN" firstAttribute="leading" secondItem="9k5-pQ-Gnk" secondAttribute="leading" id="KhX-AS-t3Q"/>
+                            <constraint firstItem="nln-N8-2PN" firstAttribute="leading" secondItem="msZ-iF-HNG" secondAttribute="leading" id="PUO-2h-ll1"/>
+                            <constraint firstItem="VDc-mm-uOf" firstAttribute="top" secondItem="msZ-iF-HNG" secondAttribute="bottom" constant="178" id="Qb5-dZ-H9l"/>
+                            <constraint firstItem="1Of-Lf-kAb" firstAttribute="trailing" secondItem="VER-Ae-Ov4" secondAttribute="trailingMargin" id="dpt-UG-5vI"/>
+                            <constraint firstItem="mmW-k7-DCH" firstAttribute="baseline" secondItem="1Of-Lf-kAb" secondAttribute="firstBaseline" id="fSA-1W-v82"/>
+                            <constraint firstItem="nln-N8-2PN" firstAttribute="top" secondItem="9k5-pQ-Gnk" secondAttribute="bottom" constant="8" symbolic="YES" id="hFL-dW-oyB"/>
+                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="trailing" secondItem="1Of-Lf-kAb" secondAttribute="trailing" id="hIt-I5-ePe"/>
+                            <constraint firstItem="mmW-k7-DCH" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="8" symbolic="YES" id="l7c-FN-5Od"/>
+                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="mmW-k7-DCH" secondAttribute="bottom" constant="8" symbolic="YES" id="seN-FY-Eut"/>
+                            <constraint firstItem="msZ-iF-HNG" firstAttribute="leading" secondItem="VER-Ae-Ov4" secondAttribute="leadingMargin" id="tKt-3H-4er"/>
+                            <constraint firstItem="1Of-Lf-kAb" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="4" id="vGn-B7-wCZ"/>
+                            <constraint firstAttribute="trailing" secondItem="msZ-iF-HNG" secondAttribute="trailing" constant="129" id="yfv-f7-5y3"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1106,8 +1114,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="StarEmpty.png" width="32" height="31"/>
-        <image name="StarFull.png" width="32" height="31"/>
+        <image name="StarEmpty.png" width="64" height="62"/>
+        <image name="StarFull.png" width="64" height="62"/>
         <image name="default.png" width="120" height="120"/>
         <image name="star_big.png" width="2703" height="2632"/>
     </resources>

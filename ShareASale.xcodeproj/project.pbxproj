@@ -27,8 +27,8 @@
 		276BF6381A100CF700FC81D3 /* MerchantSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276BF6371A100CF700FC81D3 /* MerchantSettings.swift */; };
 		276BF63A1A103AC900FC81D3 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 276BF6391A103AC900FC81D3 /* default.png */; };
 		27A1F2381A2C404800732391 /* userUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A1F2371A2C404800732391 /* userUpdates.swift */; };
-		27B5FF221A3CBFD3007F567D /* StarEmpty.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B5FF201A3CBFD3007F567D /* StarEmpty.png */; };
-		27B5FF231A3CBFD3007F567D /* StarFull.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B5FF211A3CBFD3007F567D /* StarFull.png */; };
+		27B5FF2C1A3CC3AA007F567D /* StarEmpty.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B5FF2A1A3CC3AA007F567D /* StarEmpty.png */; };
+		27B5FF2D1A3CC3AA007F567D /* StarFull.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B5FF2B1A3CC3AA007F567D /* StarFull.png */; };
 		27DAE9921A3CA8B8007203AE /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DAE9911A3CA8B8007203AE /* FloatRatingView.swift */; };
 		27EC6EC61A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EC6EC51A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift */; };
 		27F1EDB01A33CAD2009F9899 /* ResultDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F1EDAF1A33CAD2009F9899 /* ResultDetails.swift */; };
@@ -70,8 +70,8 @@
 		276BF6371A100CF700FC81D3 /* MerchantSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MerchantSettings.swift; sourceTree = "<group>"; };
 		276BF6391A103AC900FC81D3 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		27A1F2371A2C404800732391 /* userUpdates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userUpdates.swift; sourceTree = "<group>"; };
-		27B5FF201A3CBFD3007F567D /* StarEmpty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StarEmpty.png; sourceTree = "<group>"; };
-		27B5FF211A3CBFD3007F567D /* StarFull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StarFull.png; sourceTree = "<group>"; };
+		27B5FF2A1A3CC3AA007F567D /* StarEmpty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StarEmpty.png; sourceTree = "<group>"; };
+		27B5FF2B1A3CC3AA007F567D /* StarFull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StarFull.png; sourceTree = "<group>"; };
 		27DAE9911A3CA8B8007203AE /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
 		27EC6EC51A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffiliateSettingsMoreInfo.swift; sourceTree = "<group>"; };
 		27F1EDAF1A33CAD2009F9899 /* ResultDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultDetails.swift; sourceTree = "<group>"; };
@@ -180,8 +180,8 @@
 		27318B311A0F2887009B72F2 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				27B5FF201A3CBFD3007F567D /* StarEmpty.png */,
-				27B5FF211A3CBFD3007F567D /* StarFull.png */,
+				27B5FF2A1A3CC3AA007F567D /* StarEmpty.png */,
+				27B5FF2B1A3CC3AA007F567D /* StarFull.png */,
 				271605AD1A3C11B000675330 /* appicon.png */,
 				274C89BD1A182AD20069F8BD /* check23.png */,
 				276BF6391A103AC900FC81D3 /* default.png */,
@@ -330,12 +330,12 @@
 				27318B111A0F24CB009B72F2 /* Main.storyboard in Resources */,
 				27318B161A0F24CB009B72F2 /* LaunchScreen.xib in Resources */,
 				276BF63A1A103AC900FC81D3 /* default.png in Resources */,
-				27B5FF221A3CBFD3007F567D /* StarEmpty.png in Resources */,
+				27B5FF2C1A3CC3AA007F567D /* StarEmpty.png in Resources */,
 				27FC4A121A0F3C6B00B39EB2 /* star_big.png in Resources */,
 				27318B2E1A0F27AC009B72F2 /* BreeRegular.otf in Resources */,
 				27318B371A0F373F009B72F2 /* star_big2.png in Resources */,
 				27318B131A0F24CB009B72F2 /* Images.xcassets in Resources */,
-				27B5FF231A3CBFD3007F567D /* StarFull.png in Resources */,
+				27B5FF2D1A3CC3AA007F567D /* StarFull.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
