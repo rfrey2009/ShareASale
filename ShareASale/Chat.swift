@@ -38,25 +38,28 @@ class Chat: JSQMessagesViewController {
         self.senderId = currentUser.objectId as String
         self.senderDisplayName = currentUser.valueForKey(nameKey) as String
         
-        /*
-        var withUserAvatarPFFile = withUser.objectForKey(userPhotoKey).valueForKey(imageFileKey) as PFFile
-        var currentUserAvatarPFFile = currentUser.objectForKey(userPhotoKey).valueForKey(imageFileKey) as PFFile
+        var withUserAvatar = withUser.objectForKey(userPhotoKey) as PFObject
+        var currentUserAvatar = currentUser.objectForKey(userPhotoKey) as PFObject
+        currentUserAvatar.fetchIfNeeded()
+        withUserAvatar.fetchIfNeeded()
+            
+        var withUserAvatarImage = withUserAvatar.valueForKey(imageFileKey) as PFFile
+        var currentUserAvatarImage = currentUserAvatar.valueForKey(imageFileKey) as PFFile
         
-        withUserAvatarPFFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
+        withUserAvatarImage.getDataInBackgroundWithBlock({ (data, error) -> Void in
             var theImage = UIImage(data: data)
             var avatarImage = JSQMessagesAvatarImageFactory.avatarImageWithImage(theImage, diameter: 30)
             
             self.avatars[self.withUser.objectId] = avatarImage                
         })
 
-        currentUserAvatarPFFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
+        currentUserAvatarImage.getDataInBackgroundWithBlock({ (data, error) -> Void in
             var theImage = UIImage(data: data)
             var avatarImage = JSQMessagesAvatarImageFactory.avatarImageWithImage(theImage, diameter: 30)
             
             self.avatars[self.senderId] = avatarImage
         })
-        */
-        
+
         checkForMessages()
         self.messagePoller = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "checkForMessages", userInfo: nil, repeats: true)
         
@@ -119,8 +122,11 @@ class Chat: JSQMessagesViewController {
         parseMessage.setObject(message.text, forKey: textKey)
         parseMessage.setObject(withUser, forKey: toUserKey)
         parseMessage.setObject(currentUser, forKey: fromUserKey)
-        parseMessage.ACL = PFACL(user: currentUser)
-
+        //setup permissions so just these two people can read messages
+        var ACL = PFACL()
+        ACL.setReadAccess(true, forUser: currentUser)
+        ACL.setReadAccess(true, forUser: withUser)
+        parseMessage.ACL = ACL
         parseMessage.saveInBackgroundWithBlock { (success, error) -> Void in
             if error == nil{
                 println("Message saved in parse.")

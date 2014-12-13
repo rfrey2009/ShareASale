@@ -165,8 +165,13 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
         
         let userSettings = [self.bloggerKey: self.bloggerSwitch.on, self.couponKey: self.couponSwitch.on, self.ppcKey: self.ppcSwitch.on, self.incentiveKey: self.incentiveSwitch.on, self.usaKey: self.usaSwitch.on]
         var moreInfo = NSUserDefaults.standardUserDefaults().stringForKey(moreInfoKey) as String!
+        if moreInfo == nil{
+            moreInfo = ""
+        }
         var shareASaleBecause = NSUserDefaults.standardUserDefaults().stringForKey(shareASaleBecauseKey) as String!
-        
+        if shareASaleBecause == nil{
+            shareASaleBecause = ""
+        }
         userUpdates.updateUser([self.typeKey: self.affiliateKey, self.idKey: self.affiliateID.text, self.orgKey: self.org.text, self.moreInfoKey: moreInfo, self.shareASaleBecauseKey: shareASaleBecause], userSettings: userSettings, portraitFromVC: self.portrait)
         
     }

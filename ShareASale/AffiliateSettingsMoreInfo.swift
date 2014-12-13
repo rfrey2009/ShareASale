@@ -52,15 +52,15 @@ class AffiliateSettingsMoreInfo: UIViewController, UIPickerViewDataSource, UIPic
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var infoTextViewText: String = NSUserDefaults.standardUserDefaults().stringForKey(moreInfoKey)!
-        var shareASaleTextViewText: String = NSUserDefaults.standardUserDefaults().stringForKey(shareASaleBecauseKey)!
+        var infoTextViewText = NSUserDefaults.standardUserDefaults().stringForKey(moreInfoKey) as String!
+        var shareASaleTextViewText = NSUserDefaults.standardUserDefaults().stringForKey(shareASaleBecauseKey) as String!
         
-        if infoTextViewText == ""{
+        if infoTextViewText == nil || infoTextViewText == ""{
             infoTextView.text = "Enter more information about your company, strategy, and promotional methods."
         }else{
             infoTextView.text = infoTextViewText
         }
-        if shareASaleTextViewText == ""{
+        if shareASaleTextViewText == nil  || shareASaleTextViewText == ""{
             shareASaleTextView.text = "In a few sentences, what do you love about ShareASale?"
         }else{
             shareASaleTextView.text = shareASaleTextViewText

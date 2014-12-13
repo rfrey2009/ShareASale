@@ -190,8 +190,8 @@
 		276BF6341A100A6500FC81D3 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				27EC6EC51A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift */,
 				27A1F2371A2C404800732391 /* userUpdates.swift */,
+				27EC6EC51A32B09500DBDBF6 /* AffiliateSettingsMoreInfo.swift */,
 				276BF6351A100CE700FC81D3 /* AffiliateSettings.swift */,
 				276BF6371A100CF700FC81D3 /* MerchantSettings.swift */,
 			);

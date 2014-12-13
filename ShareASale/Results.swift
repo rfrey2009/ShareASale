@@ -47,6 +47,7 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
     }
     override func queryForTable() -> PFQuery! {
         var query = PFUser.query()
+        //location
         let geoPoint = PFUser.currentUser().valueForKey(pointKey) as PFGeoPoint
         //user settings
         let isOrSeeksBlogger = PFUser.currentUser().valueForKey(bloggerKey) as Bool
@@ -54,6 +55,7 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         let isOrSeeksPpc = PFUser.currentUser().valueForKey(ppcKey) as Bool
         let isOrSeeksIncentive = PFUser.currentUser().valueForKey(incentiveKey) as Bool
         let isOrSeeksCoupon = PFUser.currentUser().valueForKey(couponKey) as Bool
+
         //get either affiliates or merchants depending on who is looking at results
         query.whereKey(typeKey, equalTo: type)
         //merchant and affiliate both must have agreeing settings seeking one another
