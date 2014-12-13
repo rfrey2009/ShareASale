@@ -586,9 +586,6 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meeting Notes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mmW-k7-DCH">
                                 <rect key="frame" x="16" y="28" width="113" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="113" id="A6y-f9-4cd"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -596,9 +593,6 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="What are your notes on this meeting?" translatesAutoresizingMaskIntoConstraints="NO" id="9k5-pQ-Gnk">
                                 <rect key="frame" x="16" y="57" width="288" height="266"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="266" id="x1I-xZ-Mw3"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <userDefinedRuntimeAttributes>
@@ -652,21 +646,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mmW-k7-DCH" firstAttribute="leading" secondItem="9k5-pQ-Gnk" secondAttribute="leading" id="5Cc-19-w98"/>
+                            <constraint firstItem="mmW-k7-DCH" firstAttribute="leading" secondItem="VER-Ae-Ov4" secondAttribute="leadingMargin" id="Aqb-Tf-EiB"/>
                             <constraint firstItem="msZ-iF-HNG" firstAttribute="top" secondItem="nln-N8-2PN" secondAttribute="bottom" constant="8" symbolic="YES" id="Dkl-V2-Uti"/>
-                            <constraint firstItem="mmW-k7-DCH" firstAttribute="baseline" secondItem="1Of-Lf-kAb" secondAttribute="baseline" id="I1q-Ja-E4h"/>
-                            <constraint firstItem="nln-N8-2PN" firstAttribute="leading" secondItem="9k5-pQ-Gnk" secondAttribute="leading" id="KhX-AS-t3Q"/>
+                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="trailing" secondItem="1Of-Lf-kAb" secondAttribute="trailing" id="GmR-9j-jo3"/>
+                            <constraint firstItem="mmW-k7-DCH" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="8" id="GoI-nX-wbi"/>
+                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="mmW-k7-DCH" secondAttribute="bottom" constant="8" symbolic="YES" id="MiY-Nb-1fh"/>
                             <constraint firstItem="nln-N8-2PN" firstAttribute="leading" secondItem="msZ-iF-HNG" secondAttribute="leading" id="PUO-2h-ll1"/>
                             <constraint firstItem="VDc-mm-uOf" firstAttribute="top" secondItem="msZ-iF-HNG" secondAttribute="bottom" constant="178" id="Qb5-dZ-H9l"/>
-                            <constraint firstItem="1Of-Lf-kAb" firstAttribute="trailing" secondItem="VER-Ae-Ov4" secondAttribute="trailingMargin" id="dpt-UG-5vI"/>
-                            <constraint firstItem="mmW-k7-DCH" firstAttribute="baseline" secondItem="1Of-Lf-kAb" secondAttribute="firstBaseline" id="fSA-1W-v82"/>
-                            <constraint firstItem="nln-N8-2PN" firstAttribute="top" secondItem="9k5-pQ-Gnk" secondAttribute="bottom" constant="8" symbolic="YES" id="hFL-dW-oyB"/>
-                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="trailing" secondItem="1Of-Lf-kAb" secondAttribute="trailing" id="hIt-I5-ePe"/>
-                            <constraint firstItem="mmW-k7-DCH" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="8" symbolic="YES" id="l7c-FN-5Od"/>
-                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="mmW-k7-DCH" secondAttribute="bottom" constant="8" symbolic="YES" id="seN-FY-Eut"/>
+                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="leading" secondItem="mmW-k7-DCH" secondAttribute="leading" id="TMs-Cg-zKk"/>
+                            <constraint firstItem="1Of-Lf-kAb" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="4" id="kbj-Gk-a5i"/>
+                            <constraint firstItem="nln-N8-2PN" firstAttribute="top" secondItem="9k5-pQ-Gnk" secondAttribute="bottom" constant="8" symbolic="YES" id="oZH-b2-z6W"/>
+                            <constraint firstItem="1Of-Lf-kAb" firstAttribute="trailing" secondItem="VER-Ae-Ov4" secondAttribute="trailingMargin" id="qFP-eN-KLp"/>
                             <constraint firstItem="msZ-iF-HNG" firstAttribute="leading" secondItem="VER-Ae-Ov4" secondAttribute="leadingMargin" id="tKt-3H-4er"/>
-                            <constraint firstItem="1Of-Lf-kAb" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="4" id="vGn-B7-wCZ"/>
                             <constraint firstAttribute="trailing" secondItem="msZ-iF-HNG" secondAttribute="trailing" constant="129" id="yfv-f7-5y3"/>
+                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="1Of-Lf-kAb" secondAttribute="bottom" constant="3" id="zsf-27-TwT"/>
                         </constraints>
                     </view>
                     <connections>
