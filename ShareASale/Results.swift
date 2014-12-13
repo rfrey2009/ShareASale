@@ -109,6 +109,7 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
                 cell.detailTextLabel?.text = org
                 cell.imageView.file = thumbnail.valueForKey(imageFileKey) as PFFile
                 cell.imageView.image = UIImage(named: "default.png")
+                cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
                 return cell
 
             }else{
@@ -124,6 +125,7 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
             cell.detailTextLabel?.text = org
             cell.imageView.file = thumbnail.valueForKey(imageFileKey) as PFFile
             cell.imageView.image = UIImage(named: "default.png")
+            cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             //cell.backgroundColor = UIColor.blueColor()
             return cell
         }

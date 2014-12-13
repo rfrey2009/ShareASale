@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B2EE16EEC767E903751A6A8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB1318832B44E81A62D9C1E /* libPods.a */; };
+		271605AE1A3C11B000675330 /* appicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 271605AD1A3C11B000675330 /* appicon.png */; };
 		272C8E8B1A395FD6009EB331 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272C8E8A1A395FD6009EB331 /* Chat.swift */; };
 		27318B091A0F24CB009B72F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27318B081A0F24CB009B72F2 /* AppDelegate.swift */; };
 		27318B0C1A0F24CB009B72F2 /* ShareASale.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27318B0A1A0F24CB009B72F2 /* ShareASale.xcdatamodeld */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		271605AD1A3C11B000675330 /* appicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appicon.png; sourceTree = "<group>"; };
 		272C8E8A1A395FD6009EB331 /* Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		27318B031A0F24CB009B72F2 /* ShareASale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareASale.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27318B071A0F24CB009B72F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 		27318B311A0F2887009B72F2 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				271605AD1A3C11B000675330 /* appicon.png */,
 				274C89BD1A182AD20069F8BD /* check23.png */,
 				276BF6391A103AC900FC81D3 /* default.png */,
 				27FC4A111A0F3C6B00B39EB2 /* star_big.png */,
@@ -306,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				274C89BE1A182AD20069F8BD /* check23.png in Resources */,
+				271605AE1A3C11B000675330 /* appicon.png in Resources */,
 				27318B111A0F24CB009B72F2 /* Main.storyboard in Resources */,
 				27318B161A0F24CB009B72F2 /* LaunchScreen.xib in Resources */,
 				276BF63A1A103AC900FC81D3 /* default.png in Resources */,
