@@ -51,6 +51,9 @@ class AffiliateSettingsMoreInfo: UIViewController, UIPickerViewDataSource, UIPic
     //MARK: - inits
     override func viewDidLoad() {
         super.viewDidLoad()
+        //set border colors (can't be done in runtime attributes)
+        self.infoTextView.layer.borderColor = UIColor.grayColor().CGColor
+        self.shareASaleTextView.layer.borderColor = UIColor.grayColor().CGColor
         
         var infoTextViewText = NSUserDefaults.standardUserDefaults().stringForKey(moreInfoKey) as String!
         var shareASaleTextViewText = NSUserDefaults.standardUserDefaults().stringForKey(shareASaleBecauseKey) as String!
