@@ -657,8 +657,7 @@
                             <constraint firstItem="1Of-Lf-kAb" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="4" id="kbj-Gk-a5i"/>
                             <constraint firstItem="nln-N8-2PN" firstAttribute="top" secondItem="9k5-pQ-Gnk" secondAttribute="bottom" constant="8" symbolic="YES" id="oZH-b2-z6W"/>
                             <constraint firstItem="1Of-Lf-kAb" firstAttribute="trailing" secondItem="VER-Ae-Ov4" secondAttribute="trailingMargin" id="qFP-eN-KLp"/>
-                            <constraint firstItem="msZ-iF-HNG" firstAttribute="leading" secondItem="VER-Ae-Ov4" secondAttribute="leadingMargin" id="tKt-3H-4er"/>
-                            <constraint firstAttribute="trailing" secondItem="msZ-iF-HNG" secondAttribute="trailing" constant="129" id="yfv-f7-5y3"/>
+                            <constraint firstItem="msZ-iF-HNG" firstAttribute="leading" secondItem="VER-Ae-Ov4" secondAttribute="leadingMargin" id="xyD-Ed-xne"/>
                             <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="1Of-Lf-kAb" secondAttribute="bottom" constant="3" id="zsf-27-TwT"/>
                         </constraints>
                     </view>
