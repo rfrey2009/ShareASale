@@ -85,30 +85,48 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         
     }
     //MARK: - Protocol conformation
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            return self.filteredUsers.count
+        } else {
+            return self.objects.count
+        }
+    }
     override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!, object: PFObject!) -> PFTableViewCell! {
         
         let identifier = "Cell"
         var cell = PFTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: identifier)
-
         if tableView == self.searchDisplayController!.searchResultsTableView {
+            //we're on the searchbar tableview
             if !filteredUsers.isEmpty{
-                let object: (AnyObject) = filteredUsers[indexPath.row]
+                //so grab the User object from the filteredUsers array instead of method argument's User object
+                let object = filteredUsers[indexPath.row] as PFObject
+                let thumbnail = object.valueForKey(userPhotoKey) as PFObject
+                let userProfile: AnyObject? = object.valueForKey(userProfileKey)
+                let org = userProfile?.valueForKey(orgKey) as String
+                
+                cell.textLabel?.text = (object.valueForKey(nameKey) as String)
+                cell.detailTextLabel?.text = org
+                cell.imageView.file = thumbnail.valueForKey(imageFileKey) as PFFile
+                cell.imageView.image = UIImage(named: "default.png")
+                return cell
+
             }else{
                 return cell
             }
+        //we're on the main unfiltered tableview
+        }else{
+            let thumbnail = object.valueForKey(userPhotoKey) as PFObject
+            let userProfile: AnyObject? = object.valueForKey(userProfileKey)
+            let org = userProfile?.valueForKey(orgKey) as String
+            
+            cell.textLabel?.text = (object.valueForKey(nameKey) as String)
+            cell.detailTextLabel?.text = org
+            cell.imageView.file = thumbnail.valueForKey(imageFileKey) as PFFile
+            cell.imageView.image = UIImage(named: "default.png")
+            //cell.backgroundColor = UIColor.blueColor()
+            return cell
         }
-        
-        let thumbnail = object.valueForKey(userPhotoKey) as PFObject
-        let userProfile: AnyObject? = object.valueForKey(userProfileKey)
-        let org = userProfile?.valueForKey(orgKey) as String
-        
-        cell.textLabel?.text = (object.valueForKey(nameKey) as String)
-        cell.detailTextLabel?.text = org
-        cell.imageView.file = thumbnail.valueForKey(imageFileKey) as PFFile
-        cell.imageView.image = UIImage(named: "default.png")
-        cell.accessoryType = UITableViewCellAccessoryType.Checkmark
-        //cell.backgroundColor = UIColor.blueColor()
-        return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("seeDetails", sender: tableView)
