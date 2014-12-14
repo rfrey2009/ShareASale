@@ -22,6 +22,7 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
     //MARK: - IBOutlets
     @IBOutlet var starRating: FloatRatingView!
     @IBOutlet var notes: UITextView!
+    @IBOutlet var bizCardImage: UIImageView!
     //MARK: - IBActions
     @IBAction func saveBizCard(sender: AnyObject) {
         
@@ -80,8 +81,8 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
         println("I've got a biz card image!");
         let bizCard: UIImage = image
-        
         picker.dismissViewControllerAnimated(true, completion: nil)
+                
         
     }
     func textViewDidEndEditing(textView: UITextView) {
@@ -120,6 +121,11 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
                 println("Got an existing Note")
             }
         }
+        
+    }
+    func displayBizCardImage(bizCard: UIImage){
+      
+        self.bizCardImage.image = bizCard
         
     }
     /*

@@ -610,9 +610,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F6S-X7-YRx">
-                                <rect key="frame" x="16" y="340" width="288" height="208"/>
-                            </imageView>
                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="msZ-iF-HNG" customClass="FloatRatingView" customModule="ShareASale" customModuleProvider="target">
                                 <rect key="frame" x="16" y="302" width="175" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -637,14 +634,25 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="floatRatings" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <imageView alpha="0.14999999999999969" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bizcard.png" translatesAutoresizingMaskIntoConstraints="NO" id="F6S-X7-YRx">
+                                <rect key="frame" x="28" y="357" width="264" height="191"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="uBx-gs-m9j" appends="YES" id="g5S-gQ-eS1"/>
+                                </connections>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="9k5-pQ-Gnk" firstAttribute="trailing" secondItem="VER-Ae-Ov4" secondAttribute="trailingMargin" id="1Ri-lp-Tye"/>
+                            <constraint firstItem="F6S-X7-YRx" firstAttribute="top" secondItem="msZ-iF-HNG" secondAttribute="bottom" constant="25" id="6fI-qx-O7I"/>
                             <constraint firstItem="msZ-iF-HNG" firstAttribute="top" secondItem="nln-N8-2PN" secondAttribute="bottom" constant="8" symbolic="YES" id="Dkl-V2-Uti"/>
+                            <constraint firstItem="F6S-X7-YRx" firstAttribute="leading" secondItem="VER-Ae-Ov4" secondAttribute="leadingMargin" constant="12" id="F6w-gC-QH9"/>
                             <constraint firstItem="nln-N8-2PN" firstAttribute="top" secondItem="9k5-pQ-Gnk" secondAttribute="bottom" constant="8" id="I6X-qE-tKS"/>
+                            <constraint firstItem="F6S-X7-YRx" firstAttribute="centerX" secondItem="9k5-pQ-Gnk" secondAttribute="centerX" id="Nv6-zA-fod"/>
                             <constraint firstItem="nln-N8-2PN" firstAttribute="leading" secondItem="msZ-iF-HNG" secondAttribute="leading" id="PUO-2h-ll1"/>
                             <constraint firstItem="VDc-mm-uOf" firstAttribute="top" secondItem="msZ-iF-HNG" secondAttribute="bottom" constant="236" id="Qb5-dZ-H9l"/>
+                            <constraint firstAttribute="bottom" secondItem="F6S-X7-YRx" secondAttribute="bottom" constant="20" symbolic="YES" id="u3d-nn-JqJ"/>
                             <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="8" symbolic="YES" id="wBC-7Q-eDf"/>
                             <constraint firstItem="msZ-iF-HNG" firstAttribute="leading" secondItem="VER-Ae-Ov4" secondAttribute="leadingMargin" id="xyD-Ed-xne"/>
                             <constraint firstItem="9k5-pQ-Gnk" firstAttribute="leading" secondItem="nln-N8-2PN" secondAttribute="leading" id="zn7-9B-rKN"/>
@@ -653,14 +661,9 @@
                             <outletCollection property="gestureRecognizers" destination="n1D-8C-8Dp" appends="YES" id="nyO-Aq-gpa"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="Meeting Notes" id="e0R-nA-IhV">
-                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="256-7R-QCZ">
-                            <connections>
-                                <action selector="saveBizCard:" destination="tiO-rS-Pvo" id="69f-1J-v9f"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Meeting Notes" id="e0R-nA-IhV"/>
                     <connections>
+                        <outlet property="bizCardImage" destination="F6S-X7-YRx" id="t4K-7o-qhs"/>
                         <outlet property="notes" destination="9k5-pQ-Gnk" id="chd-wk-80E"/>
                         <outlet property="starRating" destination="msZ-iF-HNG" id="tjd-Rs-KOt"/>
                     </connections>
@@ -669,6 +672,11 @@
                 <tapGestureRecognizer cancelsTouchesInView="NO" id="n1D-8C-8Dp">
                     <connections>
                         <action selector="handleSingleTap:" destination="tiO-rS-Pvo" id="i79-b0-M43"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="uBx-gs-m9j">
+                    <connections>
+                        <action selector="saveBizCard:" destination="tiO-rS-Pvo" id="gyQ-KS-2Lt"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -1118,6 +1126,7 @@
     <resources>
         <image name="StarEmpty.png" width="64" height="62"/>
         <image name="StarFull.png" width="64" height="62"/>
+        <image name="bizcard.png" width="434" height="330"/>
         <image name="default.png" width="120" height="120"/>
         <image name="star_big.png" width="2703" height="2632"/>
     </resources>
