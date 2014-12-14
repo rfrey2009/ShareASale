@@ -29,6 +29,7 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
     @IBOutlet weak var detailView: UIView!
     @IBOutlet weak var inviteBtn: UIButton!
     @IBOutlet weak var chatBtn: UIButton!
+    @IBOutlet weak var navItem: UINavigationItem!
     //MARK: - IBActions
     @IBAction func inviteBtnPressed(sender: AnyObject) {
         
@@ -54,12 +55,6 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
             }
         }
     }
-    @IBAction func chatBtnPressed(sender: AnyObject) {
-        
-        //do segue to chat VC here...
-        
-        
-    }
     //MARK: - inits
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +70,7 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
         name.text = user.valueForKey("name") as? String
         org.text = user.valueForKey("userProfile")?.valueForKey("org") as? String
         Id.text = userId
+        self.navItem.title = user.valueForKey("name") as? String
         
         if type == "merchant"{
             //setup cobranded page webview since this is a merchant
