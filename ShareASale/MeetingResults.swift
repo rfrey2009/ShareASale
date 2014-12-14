@@ -35,8 +35,12 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
             image.sourceType = UIImagePickerControllerSourceType.Camera;
             image.mediaTypes = [kUTTypeImage]
             image.allowsEditing = false
-            var overlay = OverlayView(frame: CGRectMake(28, 357, 264, 191))
-            image.cameraOverlayView = overlay
+            var overlay = UIView(frame: CGRectMake(28, 357, 264, 191))
+            overlay.backgroundColor = UIColor.clearColor()
+            overlay.layer.borderWidth = 3
+            overlay.layer.borderColor = UIColor.blueColor().CGColor
+
+            image.cameraOverlayView = overlay;
             
             self.presentViewController(image, animated: true, completion: nil)
         }
@@ -84,18 +88,20 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
         println("I've got a biz card image!")
         
-        var cropRect = CGRectMake (28, 357, 264, 191)
+        var screenSize = UIScreen.mainScreen().bounds.size
+        var screenBounds = UIScreen.mainScreen().bounds
         
-        var imageRef = CGImageCreateWithImageInRect (image.CGImage, cropRect)
+        UIGraphicsBeginImageContext(screenSize)
+        image.drawInRect(screenBounds)
+        var smallImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
         
-        // Create new cropped UIImage
-        var croppedImage = UIImage(CGImage: imageRef)
+        var cropRect = CGRectMake(28, 357, 264, 191)
         
-        bizCardImage.image = croppedImage
+        var imageRef = CGImageCreateWithImageInRect(smallImage.CGImage, cropRect);
+        bizCardImage.image = UIImage(CGImage: imageRef)
         bizCardImage.alpha = 1.0
         picker.dismissViewControllerAnimated(true, completion: nil)
-        
-        
         
     }
     func textViewDidEndEditing(textView: UITextView) {
