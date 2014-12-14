@@ -17,6 +17,7 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
     var noteKey = "Note"
     var ratingKey = "rating"
     var textKey = "text"
+    var bizCardImageKey = "bizCardImage"
     var aboutUserKey = "aboutUser"
     var fromUserKey = "fromUser"
     //MARK: - IBOutlets
@@ -29,19 +30,24 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
             println("Saving biz card")
             
+            var screenSize = UIScreen.mainScreen().bounds.size
+            var screenHeight = screenSize.height
+            var screenWidth = screenSize.width
             
             var image = UIImagePickerController()
             image.delegate = self
             image.sourceType = UIImagePickerControllerSourceType.Camera;
             image.mediaTypes = [kUTTypeImage]
             image.allowsEditing = false
-            var overlay = UIView(frame: CGRectMake(28, 357, 264, 191))
+            var overlay = UIView(frame: CGRectMake(screenWidth / 6, screenHeight / 3, 260, 190))
             overlay.backgroundColor = UIColor.clearColor()
             overlay.layer.borderWidth = 3
             overlay.layer.borderColor = UIColor.blueColor().CGColor
+            //because the preview on uiimagepickercontroller jumps 20px down after taking a picture...
+            var translate = CGAffineTransformMakeTranslation(0.0, 50.0)
+            image.cameraViewTransform = translate
 
             image.cameraOverlayView = overlay;
-            
             self.presentViewController(image, animated: true, completion: nil)
         }
     }
@@ -85,24 +91,32 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
         }
         
     }
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         println("I've got a biz card image!")
-        
+        var image = info[UIImagePickerControllerOriginalImage] as UIImage
         var screenSize = UIScreen.mainScreen().bounds.size
+        var screenHeight = screenSize.height
+        var screenWidth = screenSize.width
         var screenBounds = UIScreen.mainScreen().bounds
-        
         UIGraphicsBeginImageContext(screenSize)
         image.drawInRect(screenBounds)
         var smallImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        var cropRect = CGRectMake(28, 357, 264, 191)
-        
+        var cropRect = CGRectMake(screenWidth / 6, screenHeight / 3, 260, 190)
+        //new cropped image
         var imageRef = CGImageCreateWithImageInRect(smallImage.CGImage, cropRect);
         bizCardImage.image = UIImage(CGImage: imageRef)
         bizCardImage.alpha = 1.0
         picker.dismissViewControllerAnimated(true, completion: nil)
         
+        //save it to parse associated with this note
+        var parseImage = UIImageJPEGRepresentation(UIImage(CGImage: imageRef), 1.0)
+        var imageFile = PFFile(name: "Image.jpg", data: parseImage)
+        self.Note.setObject(imageFile, forKey: bizCardImageKey)
+        self.Note.saveInBackgroundWithBlock { (success, error) -> Void in
+            println("Saved biz card image to parse!")
+        }
     }
     func textViewDidEndEditing(textView: UITextView) {
         println("Text view delegate works")
@@ -137,6 +151,12 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
                 self.Note = Note
                 self.notes.text = self.Note.valueForKey(self.textKey) as String
                 self.starRating.rating = self.Note.valueForKey(self.ratingKey) as Float
+                var image = self.Note.valueForKey(self.bizCardImageKey) as PFFile
+                image.getDataInBackgroundWithBlock({ (data, error) -> Void in
+                    var theImage = UIImage(data: data)
+                    self.bizCardImage.image = theImage
+                    self.bizCardImage.alpha = 1.0
+                })
                 println("Got an existing Note")
             }
         }

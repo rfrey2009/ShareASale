@@ -667,7 +667,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Meeting Notes" id="e0R-nA-IhV"/>
                     <connections>
-                        <outlet property="bizCardImage" destination="F6S-X7-YRx" id="t4K-7o-qhs"/>
+                        <outlet property="bizCardImage" destination="F6S-X7-YRx" id="rxg-Gu-O0d"/>
                         <outlet property="notes" destination="9k5-pQ-Gnk" id="chd-wk-80E"/>
                         <outlet property="starRating" destination="msZ-iF-HNG" id="tjd-Rs-KOt"/>
                     </connections>
