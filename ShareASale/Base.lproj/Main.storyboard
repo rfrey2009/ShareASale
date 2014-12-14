@@ -408,7 +408,7 @@
         <!--More Info...-->
         <scene sceneID="OEv-mV-a6I">
             <objects>
-                <viewController title="More Info..." id="bLb-D6-Unv" customClass="AffiliateSettingsMoreInfo" customModule="ShareASale" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="More Info..." automaticallyAdjustsScrollViewInsets="NO" id="bLb-D6-Unv" customClass="AffiliateSettingsMoreInfo" customModule="ShareASale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jFm-8R-cK1"/>
                         <viewControllerLayoutGuide type="bottom" id="vfK-oH-HK9"/>
@@ -500,8 +500,8 @@
                                     <constraint firstAttribute="width" constant="277" id="mCo-r5-3vW"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Favorite ShareASale Employee?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8O-b9-09n">
-                                <rect key="frame" x="38" y="342" width="246" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorite ShareASale Employee?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8O-b9-09n">
+                                <rect key="frame" x="38" y="370" width="246" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Uui-Ri-0Gc"/>
                                 </constraints>
@@ -516,7 +516,7 @@
                             <constraint firstItem="04M-10-PKe" firstAttribute="leading" secondItem="cKK-hN-MPB" secondAttribute="leadingMargin" id="3OH-Rr-EHf"/>
                             <constraint firstItem="fDG-r6-Tja" firstAttribute="top" secondItem="jFm-8R-cK1" secondAttribute="bottom" constant="289" id="4N3-pN-iYu"/>
                             <constraint firstAttribute="trailing" secondItem="jfC-N3-nIz" secondAttribute="trailing" id="8tT-Ej-gn4"/>
-                            <constraint firstAttribute="centerY" secondItem="o8O-b9-09n" secondAttribute="centerY" constant="-83.5" id="Ftx-Fe-FfZ"/>
+                            <constraint firstAttribute="centerY" secondItem="o8O-b9-09n" secondAttribute="centerY" constant="-96.5" id="Ftx-Fe-FfZ"/>
                             <constraint firstItem="jfC-N3-nIz" firstAttribute="leading" secondItem="cKK-hN-MPB" secondAttribute="leading" id="Fu8-Sc-qn7"/>
                             <constraint firstItem="jfC-N3-nIz" firstAttribute="leading" secondItem="DsE-mF-gsH" secondAttribute="leading" id="K8R-43-fhn"/>
                             <constraint firstItem="04M-10-PKe" firstAttribute="top" secondItem="Xkj-5W-hJf" secondAttribute="bottom" constant="2" id="QdB-q9-v46"/>
@@ -527,7 +527,7 @@
                             <constraint firstItem="jfC-N3-nIz" firstAttribute="top" secondItem="jFm-8R-cK1" secondAttribute="bottom" id="erI-dO-VWG"/>
                             <constraint firstItem="DsE-mF-gsH" firstAttribute="top" secondItem="04M-10-PKe" secondAttribute="bottom" constant="28" id="hBy-Jb-zpV"/>
                             <constraint firstAttribute="centerX" secondItem="fDG-r6-Tja" secondAttribute="centerX" constant="-0.5" id="mch-Dx-gow"/>
-                            <constraint firstAttribute="centerX" secondItem="o8O-b9-09n" secondAttribute="centerX" id="nOV-w5-Rlb"/>
+                            <constraint firstAttribute="centerX" secondItem="o8O-b9-09n" secondAttribute="centerX" constant="-1" id="nOV-w5-Rlb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="04M-10-PKe" secondAttribute="trailing" id="nzx-dz-jJj"/>
                             <constraint firstItem="Xkj-5W-hJf" firstAttribute="top" secondItem="7nV-Z3-2Sc" secondAttribute="bottom" constant="8" id="ovy-hu-fCN"/>
                             <constraint firstItem="L1x-FU-cdz" firstAttribute="top" secondItem="jfC-N3-nIz" secondAttribute="bottom" constant="10" id="uB6-Ke-INF"/>
@@ -575,7 +575,7 @@
         <!--Meeting Results-->
         <scene sceneID="rzb-X7-ai9">
             <objects>
-                <viewController title="Meeting Results" id="tiO-rS-Pvo" customClass="MeetingResults" customModule="ShareASale" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Meeting Results" automaticallyAdjustsScrollViewInsets="NO" id="tiO-rS-Pvo" customClass="MeetingResults" customModule="ShareASale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vih-Ce-iti"/>
                         <viewControllerLayoutGuide type="bottom" id="VDc-mm-uOf"/>
@@ -584,14 +584,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Meeting Notes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mmW-k7-DCH">
-                                <rect key="frame" x="16" y="28" width="113" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="What are your notes on this meeting?" translatesAutoresizingMaskIntoConstraints="NO" id="9k5-pQ-Gnk">
-                                <rect key="frame" x="16" y="57" width="288" height="266"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9k5-pQ-Gnk">
+                                <rect key="frame" x="16" y="72" width="288" height="193"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -603,9 +597,24 @@
                                         <integer key="value" value="3"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="delegate" destination="tiO-rS-Pvo" id="E9B-LN-H7h"/>
+                                </connections>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nln-N8-2PN">
+                                <rect key="frame" x="16" y="273" width="50" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="wxV-px-2oE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F6S-X7-YRx">
+                                <rect key="frame" x="16" y="340" width="288" height="208"/>
+                            </imageView>
                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="msZ-iF-HNG" customClass="FloatRatingView" customModule="ShareASale" customModuleProvider="target">
-                                <rect key="frame" x="16" y="360" width="175" height="30"/>
+                                <rect key="frame" x="16" y="302" width="175" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="cTY-sW-PoT"/>
@@ -628,46 +637,40 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="floatRatings" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nln-N8-2PN">
-                                <rect key="frame" x="16" y="331" width="50" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="wxV-px-2oE"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Of-Lf-kAb">
-                                <rect key="frame" x="165" y="24" width="139" height="30"/>
-                                <state key="normal" title="Scan Business Card">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mmW-k7-DCH" firstAttribute="leading" secondItem="VER-Ae-Ov4" secondAttribute="leadingMargin" id="Aqb-Tf-EiB"/>
+                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="trailing" secondItem="VER-Ae-Ov4" secondAttribute="trailingMargin" id="1Ri-lp-Tye"/>
                             <constraint firstItem="msZ-iF-HNG" firstAttribute="top" secondItem="nln-N8-2PN" secondAttribute="bottom" constant="8" symbolic="YES" id="Dkl-V2-Uti"/>
-                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="trailing" secondItem="1Of-Lf-kAb" secondAttribute="trailing" id="GmR-9j-jo3"/>
-                            <constraint firstItem="mmW-k7-DCH" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="8" id="GoI-nX-wbi"/>
-                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="mmW-k7-DCH" secondAttribute="bottom" constant="8" symbolic="YES" id="MiY-Nb-1fh"/>
+                            <constraint firstItem="nln-N8-2PN" firstAttribute="top" secondItem="9k5-pQ-Gnk" secondAttribute="bottom" constant="8" id="I6X-qE-tKS"/>
                             <constraint firstItem="nln-N8-2PN" firstAttribute="leading" secondItem="msZ-iF-HNG" secondAttribute="leading" id="PUO-2h-ll1"/>
-                            <constraint firstItem="VDc-mm-uOf" firstAttribute="top" secondItem="msZ-iF-HNG" secondAttribute="bottom" constant="178" id="Qb5-dZ-H9l"/>
-                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="leading" secondItem="mmW-k7-DCH" secondAttribute="leading" id="TMs-Cg-zKk"/>
-                            <constraint firstItem="1Of-Lf-kAb" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="4" id="kbj-Gk-a5i"/>
-                            <constraint firstItem="nln-N8-2PN" firstAttribute="top" secondItem="9k5-pQ-Gnk" secondAttribute="bottom" constant="8" symbolic="YES" id="oZH-b2-z6W"/>
-                            <constraint firstItem="1Of-Lf-kAb" firstAttribute="trailing" secondItem="VER-Ae-Ov4" secondAttribute="trailingMargin" id="qFP-eN-KLp"/>
+                            <constraint firstItem="VDc-mm-uOf" firstAttribute="top" secondItem="msZ-iF-HNG" secondAttribute="bottom" constant="236" id="Qb5-dZ-H9l"/>
+                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="vih-Ce-iti" secondAttribute="bottom" constant="8" symbolic="YES" id="wBC-7Q-eDf"/>
                             <constraint firstItem="msZ-iF-HNG" firstAttribute="leading" secondItem="VER-Ae-Ov4" secondAttribute="leadingMargin" id="xyD-Ed-xne"/>
-                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="1Of-Lf-kAb" secondAttribute="bottom" constant="3" id="zsf-27-TwT"/>
+                            <constraint firstItem="9k5-pQ-Gnk" firstAttribute="leading" secondItem="nln-N8-2PN" secondAttribute="leading" id="zn7-9B-rKN"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="n1D-8C-8Dp" appends="YES" id="nyO-Aq-gpa"/>
+                        </connections>
                     </view>
-                    <navigationItem key="navigationItem" id="e0R-nA-IhV"/>
+                    <navigationItem key="navigationItem" title="Meeting Notes" id="e0R-nA-IhV">
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="256-7R-QCZ">
+                            <connections>
+                                <action selector="saveBizCard:" destination="tiO-rS-Pvo" id="69f-1J-v9f"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="notes" destination="9k5-pQ-Gnk" id="chd-wk-80E"/>
                         <outlet property="starRating" destination="msZ-iF-HNG" id="tjd-Rs-KOt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JF0-OL-qUE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer cancelsTouchesInView="NO" id="n1D-8C-8Dp">
+                    <connections>
+                        <action selector="handleSingleTap:" destination="tiO-rS-Pvo" id="i79-b0-M43"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2214" y="1095"/>
         </scene>
@@ -917,7 +920,7 @@
                             <outlet property="delegate" destination="Ga8-5E-R15" id="gRB-hY-7yI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="3b3-c1-OML"/>
+                    <navigationItem key="navigationItem" title="Results" id="3b3-c1-OML"/>
                     <connections>
                         <outlet property="searchBar" destination="061-uD-KYn" id="hby-Yh-njw"/>
                         <outlet property="searchDisplayController" destination="rKe-4n-GXY" id="2np-w2-P86"/>
@@ -937,7 +940,7 @@
             </objects>
             <point key="canvasLocation" x="1735" y="327"/>
         </scene>
-        <!--Result Details-->
+        <!--Details-->
         <scene sceneID="3d5-di-mPB">
             <objects>
                 <viewController id="i8b-N0-7c6" customClass="ResultDetails" customModule="ShareASale" customModuleProvider="target" sceneMemberID="viewController">
@@ -1071,10 +1074,10 @@
                             <constraint firstAttribute="bottom" secondItem="LRp-Hx-fDI" secondAttribute="bottom" constant="20" symbolic="YES" id="zFa-oR-RAm"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="sHJ-nb-YRi">
+                    <navigationItem key="navigationItem" title="Details" id="sHJ-nb-YRi">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="al1-R8-eB5">
                             <connections>
-                                <segue destination="tiO-rS-Pvo" kind="push" id="AMw-2g-YnU"/>
+                                <segue destination="tiO-rS-Pvo" kind="push" identifier="ResultDetailsToNotes" id="AMw-2g-YnU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

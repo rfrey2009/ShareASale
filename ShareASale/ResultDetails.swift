@@ -123,7 +123,10 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
             let chatVC = segue.destinationViewController as Chat
             chatVC.withUser = user
         }
-        
+        if segue.identifier == "ResultDetailsToNotes"{
+            let notesVC = segue.destinationViewController as MeetingResults
+            notesVC.user = user
+        }
     }
     //MARK: - helpers
     func checkForInvites(){
