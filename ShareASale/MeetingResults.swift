@@ -5,7 +5,7 @@
 //  Created by Ryan Frey on 12/13/14.
 //  Copyright (c) 2014 Air Bronto. All rights reserved.
 //
-
+import Foundation
 import UIKit
 import MobileCoreServices
 
@@ -29,11 +29,14 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
             println("Saving biz card")
             
+            
             var image = UIImagePickerController()
             image.delegate = self
             image.sourceType = UIImagePickerControllerSourceType.Camera;
             image.mediaTypes = [kUTTypeImage]
             image.allowsEditing = false
+            var overlay = OverlayView(frame: CGRectMake(28, 357, 264, 191))
+            image.cameraOverlayView = overlay
             
             self.presentViewController(image, animated: true, completion: nil)
         }
@@ -80,9 +83,30 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
     }
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
         println("I've got a biz card image!");
-        let bizCard: UIImage = image
+        
+        var imageWidth: CGFloat = image.size.height
+        var imageHeight: CGFloat = image.size.width
+        //28, 357, 264, 191
+        var cropRect = CGRect?()
+        
+        if ( imageWidth < imageHeight) {
+            // Potrait mode
+            cropRect = CGRectMake (0.0, (imageHeight - imageWidth) / 2.0, imageWidth, imageWidth);
+        } else {
+            // Landscape mode
+            cropRect = CGRectMake ((imageWidth - imageHeight) / 2.0, 0.0, imageHeight, imageHeight);
+        }
+        // Draw new image in current graphics context
+        var imageRef = CGImageCreateWithImageInRect (image.CGImage, cropRect!);
+        
+        // Create new cropped UIImage
+        var croppedImage = UIImage(CGImage: imageRef)
+        
+        bizCardImage.image = croppedImage
+        bizCardImage.alpha = 1.0
         picker.dismissViewControllerAnimated(true, completion: nil)
-                
+        
+        
         
     }
     func textViewDidEndEditing(textView: UITextView) {
@@ -121,11 +145,6 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
                 println("Got an existing Note")
             }
         }
-        
-    }
-    func displayBizCardImage(bizCard: UIImage){
-      
-        self.bizCardImage.image = bizCard
         
     }
     /*
