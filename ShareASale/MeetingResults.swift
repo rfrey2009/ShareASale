@@ -82,22 +82,11 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
         
     }
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
-        println("I've got a biz card image!");
+        println("I've got a biz card image!")
         
-        var imageWidth: CGFloat = image.size.height
-        var imageHeight: CGFloat = image.size.width
-        //28, 357, 264, 191
-        var cropRect = CGRect?()
+        var cropRect = CGRectMake (28, 357, 264, 191)
         
-        if ( imageWidth < imageHeight) {
-            // Potrait mode
-            cropRect = CGRectMake (0.0, (imageHeight - imageWidth) / 2.0, imageWidth, imageWidth);
-        } else {
-            // Landscape mode
-            cropRect = CGRectMake ((imageWidth - imageHeight) / 2.0, 0.0, imageHeight, imageHeight);
-        }
-        // Draw new image in current graphics context
-        var imageRef = CGImageCreateWithImageInRect (image.CGImage, cropRect!);
+        var imageRef = CGImageCreateWithImageInRect (image.CGImage, cropRect)
         
         // Create new cropped UIImage
         var croppedImage = UIImage(CGImage: imageRef)
