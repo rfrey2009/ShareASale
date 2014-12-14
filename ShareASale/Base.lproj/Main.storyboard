@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C78c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="tiO-rS-Pvo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C78c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4vf-bg-wEc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -584,13 +584,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meeting Notes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mmW-k7-DCH">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Meeting Notes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mmW-k7-DCH">
                                 <rect key="frame" x="16" y="28" width="113" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="What are your notes on this meeting?" translatesAutoresizingMaskIntoConstraints="NO" id="9k5-pQ-Gnk">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="What are your notes on this meeting?" translatesAutoresizingMaskIntoConstraints="NO" id="9k5-pQ-Gnk">
                                 <rect key="frame" x="16" y="57" width="288" height="266"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -637,7 +637,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Of-Lf-kAb">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Of-Lf-kAb">
                                 <rect key="frame" x="165" y="24" width="139" height="30"/>
                                 <state key="normal" title="Scan Business Card">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -661,6 +661,7 @@
                             <constraint firstItem="9k5-pQ-Gnk" firstAttribute="top" secondItem="1Of-Lf-kAb" secondAttribute="bottom" constant="3" id="zsf-27-TwT"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="e0R-nA-IhV"/>
                     <connections>
                         <outlet property="notes" destination="9k5-pQ-Gnk" id="chd-wk-80E"/>
                         <outlet property="starRating" destination="msZ-iF-HNG" id="tjd-Rs-KOt"/>
@@ -1070,7 +1071,13 @@
                             <constraint firstAttribute="bottom" secondItem="LRp-Hx-fDI" secondAttribute="bottom" constant="20" symbolic="YES" id="zFa-oR-RAm"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="sHJ-nb-YRi"/>
+                    <navigationItem key="navigationItem" id="sHJ-nb-YRi">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="al1-R8-eB5">
+                            <connections>
+                                <segue destination="tiO-rS-Pvo" kind="push" id="AMw-2g-YnU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="Id" destination="JWs-ON-I9G" id="58w-Cg-hYc"/>
                         <outlet property="chatBtn" destination="dps-BA-zgs" id="6Ue-9k-a1m"/>
