@@ -16,8 +16,7 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
     let userPhotoKey = "UserPhoto"
     let inviteKey = "Invite"
     let fromUserKey = "fromUser"
-    let toUserKey = "toUser"
-
+    let toUserKey = "toUser"    
     let userProfileKey = "userProfile"
     let imageFileKey = "imageFile"
     let nameKey = "name"
@@ -34,6 +33,10 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
     //type depends on the segue identifier, and means what results we're looking for
     var type = ""
     var filteredUsers = [AnyObject]()
+    //whether the current logged in User invited this User
+    var isInvitedByCurrentUser = false
+    //whether this User invited the current logged in User
+    var isInvitedByUser = false
     //MARK: - IBOutlets
     @IBOutlet weak var searchBar: UISearchBar!
     //MARK: - Inits
@@ -164,41 +167,40 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         }
     }
     func colorCellsBasedOnInviteStatus(user: PFUser, cell: PFTableViewCell){
-        
+
         var queryForInvited = PFQuery(className: inviteKey)
         queryForInvited.whereKey(fromUserKey, equalTo: PFUser.currentUser())
+        queryForInvited.whereKey(toUserKey, equalTo: user)
         var queryForInviters = PFQuery(className: inviteKey)
         queryForInviters.whereKey(toUserKey, equalTo: PFUser.currentUser())
-        queryForInvited.whereKey(toUserKey, equalTo: user)
         queryForInviters.whereKey(fromUserKey, equalTo: user)
         //find out whether the listed User is invited by the current logged in User
         var queryForAllInvites = PFQuery.orQueryWithSubqueries([queryForInvited, queryForInviters])
         //find out whether the listed User invited the current logged in User
         //gotta do this on another thread so it doesn't bog down the search...
         queryForAllInvites.findObjectsInBackgroundWithBlock({ (arrayOfInvites, error) -> Void in
-            var wasInvited = false
-            var wasInviter = false
+            
             for Invite in arrayOfInvites{
                 var inviter = Invite.valueForKey(self.fromUserKey) as PFUser
                 var invited = Invite.valueForKey(self.toUserKey) as PFUser
                 //don't think a direct equality comparison between PFUsers is possible so use objectId
                 if inviter.objectId == PFUser.currentUser().objectId{
-                    wasInviter = true
+                    self.isInvitedByCurrentUser = true
                 }
                 if invited.objectId == PFUser.currentUser().objectId{
-                    wasInvited = true
+                    self.isInvitedByUser = true
                 }
             }
             //both Users invited each other! green cell
-            if wasInvited == true && wasInviter == true{
+            if self.isInvitedByUser == true && self.isInvitedByCurrentUser == true{
                 cell.backgroundColor = UIColor(red: 0.85, green:0.92, blue:0.83, alpha:1.0)
                 cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Accepted!"
                 //logged in User invited the currently listed User who hasn't accepted, purple cell
-            }else if wasInviter == true{
+            }else if self.isInvitedByCurrentUser == true{
                 cell.backgroundColor = UIColor(red:0.79, green:0.85, blue:0.97, alpha:1.0)
                 cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Invite sent."
                 //logged in User was invited by the currently listed User, but haven't accepted, red cell
-            }else if wasInvited == true{
+            }else if self.isInvitedByUser == true{
                 cell.backgroundColor = UIColor(red:0.92, green:0.60, blue:0.60, alpha:1.0)
                 cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Invited you."
             }
@@ -217,10 +219,10 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
                 indexPath = self.tableView.indexPathForSelectedRow()!
                 //user didn't use search bar's tableview, so index into the pfquerytableview's main results array, self.objects
                 filteredUsers = objects
-            }
-            
+            }            
             userDetailViewController.user = filteredUsers[indexPath.row] as PFUser
-
+            userDetailViewController.isInvitedByCurrentUser = self.isInvitedByCurrentUser
+            userDetailViewController.isInvitedByUser = self.isInvitedByUser
             }
     }
 }

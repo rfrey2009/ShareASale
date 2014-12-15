@@ -61,7 +61,12 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
         //disable buttons for invite and chat until invitation status can be determined...
         chatBtn.enabled = false
         inviteBtn.enabled = false
-        checkForInvites()
+        if self.isInvitedByUser == true && self.isInvitedByCurrentUser == true{
+            chatBtn.enabled = true
+        }
+        if self.isInvitedByCurrentUser = true{
+            self.inviteBtn = false
+        }
         // Do any additional setup after loading the view.
         let type = user.valueForKey("type") as String
         let userId = user.valueForKey("userProfile")?.valueForKey("shareasaleId") as String
@@ -97,14 +102,6 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
             
         }
     }
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(true)
-        
-        //hopefully the invite status check is complete...
-        if isInvitedByCurrentUser == true && isInvitedByUser == true{
-            chatBtn.enabled = true
-        }
-    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -123,43 +120,5 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
             let notesVC = segue.destinationViewController as MeetingResults
             notesVC.user = user
         }
-    }
-    //MARK: - helpers
-    func checkForInvites(){
-        //check whether the current User logged in is already invited by the User whose details we're viewing
-        var queryForInviteFromUser = PFQuery(className: inviteKey)
-        queryForInviteFromUser.whereKey(fromUserKey, equalTo: user)
-        queryForInviteFromUser.whereKey(toUserKey, equalTo: PFUser.currentUser())
-        
-        queryForInviteFromUser.findObjectsInBackgroundWithBlock { (arrayResults, error) -> Void in
-            
-            if error == nil{
-                if arrayResults.isEmpty == true{
-                    println("No invites from this User to current User")
-                    self.isInvitedByUser = false
-                }else{
-                    println("Got an invite from this user, so chat is allowed!")
-                    self.isInvitedByUser = true
-                }
-            }
-        }
-        //check whether the current User logged in has already invited this User whose details we're viewing
-        var queryForInviteToUser = PFQuery(className: inviteKey)
-        queryForInviteToUser.whereKey(fromUserKey, equalTo: PFUser.currentUser())
-        queryForInviteToUser.whereKey(toUserKey, equalTo: user)
-        queryForInviteToUser.findObjectsInBackgroundWithBlock { (arrayResults, error) -> Void in
-            
-            if error == nil{
-                if arrayResults.isEmpty == true{
-                    println("No invites from this current User to this User")
-                    self.inviteBtn.enabled = true
-                    self.isInvitedByCurrentUser = false
-                }else{
-                    println("Already sent an invite to this User from current User so invite is disabled!")
-                    self.isInvitedByCurrentUser = true
-                }
-            }
-        }
-        
-    }
+    }    
 }
