@@ -62,13 +62,14 @@ class ResultDetails: UIViewController, UIWebViewDelegate {
         chatBtn.enabled = false
         inviteBtn.enabled = false
         if self.isInvitedByUser == true && self.isInvitedByCurrentUser == true{
-            chatBtn.enabled = true
+            self.chatBtn.enabled = true
         }
-        if self.isInvitedByCurrentUser = true{
-            self.inviteBtn = false
+        if self.isInvitedByCurrentUser == true{
+            self.inviteBtn.enabled = false
         }
         // Do any additional setup after loading the view.
         let type = user.valueForKey("type") as String
+        println(type)
         let userId = user.valueForKey("userProfile")?.valueForKey("shareasaleId") as String
         typeLabel.text = "\(type) #".capitalizedString
         portrait.file = user.valueForKey("UserPhoto")?.valueForKey("imageFile") as PFFile
