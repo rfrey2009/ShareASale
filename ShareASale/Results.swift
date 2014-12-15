@@ -189,10 +189,14 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
                 //was the inviter the logged in User?
                 if inviter.objectId == PFUser.currentUser().objectId{
                     self.isInvitedByCurrentUser = true
+                }else{
+                    self.isInvitedByCurrentUser = false
                 }
                 //was the invited the logged in User?
                 if invited.objectId == PFUser.currentUser().objectId{
                     self.isInvitedByUser = true
+                }else {
+                    self.isInvitedByUser = false
                 }            
                 //both Users invited each other! green cell
                 if self.isInvitedByUser == true && self.isInvitedByCurrentUser == true{
