@@ -34,9 +34,9 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
     var type = ""
     var filteredUsers = [AnyObject]()
     //whether the current logged in User invited this User
-    var isInvitedByCurrentUser = false
+    var isInvitedByCurrentUser = Bool()
     //whether this User invited the current logged in User
-    var isInvitedByUser = false
+    var isInvitedByUser = Bool()
     //MARK: - IBOutlets
     @IBOutlet weak var searchBar: UISearchBar!
     //MARK: - Inits
@@ -182,6 +182,8 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         queryForAllInvites.findObjectsInBackgroundWithBlock({ (arrayOfInvites, error) -> Void in
             
             for Invite in arrayOfInvites{
+                self.isInvitedByCurrentUser = false
+                self.isInvitedByUser = false
                 //for each Invite object, who was the inviter and who was invited...
                 var inviter = Invite.valueForKey(self.fromUserKey) as PFUser
                 var invited = Invite.valueForKey(self.toUserKey) as PFUser
@@ -189,14 +191,10 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
                 //was the inviter the logged in User?
                 if inviter.objectId == PFUser.currentUser().objectId{
                     self.isInvitedByCurrentUser = true
-                }else{
-                    self.isInvitedByCurrentUser = false
                 }
                 //was the invited the logged in User?
                 if invited.objectId == PFUser.currentUser().objectId{
                     self.isInvitedByUser = true
-                }else {
-                    self.isInvitedByUser = false
                 }            
                 //both Users invited each other! green cell
                 if self.isInvitedByUser == true && self.isInvitedByCurrentUser == true{
