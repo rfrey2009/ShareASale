@@ -167,42 +167,46 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         }
     }
     func colorCellsBasedOnInviteStatus(user: PFUser, cell: PFTableViewCell){
-
+        //If the logged in User has already invited the listed User
         var queryForInvited = PFQuery(className: inviteKey)
         queryForInvited.whereKey(fromUserKey, equalTo: PFUser.currentUser())
         queryForInvited.whereKey(toUserKey, equalTo: user)
+        //If the logged in User has already been invited by the listed User
         var queryForInviters = PFQuery(className: inviteKey)
         queryForInviters.whereKey(toUserKey, equalTo: PFUser.currentUser())
         queryForInviters.whereKey(fromUserKey, equalTo: user)
-        //find out whether the listed User is invited by the current logged in User
+        //get the cross-invite status of logged in User to listed User
         var queryForAllInvites = PFQuery.orQueryWithSubqueries([queryForInvited, queryForInviters])
         //find out whether the listed User invited the current logged in User
-        //gotta do this on another thread so it doesn't bog down the search...
+        //gotta do this cell coloring on another thread so it doesn't bog down the cell rendering...
         queryForAllInvites.findObjectsInBackgroundWithBlock({ (arrayOfInvites, error) -> Void in
             
             for Invite in arrayOfInvites{
+                //for each Invite object, who was the inviter and who was invited...
                 var inviter = Invite.valueForKey(self.fromUserKey) as PFUser
                 var invited = Invite.valueForKey(self.toUserKey) as PFUser
                 //don't think a direct equality comparison between PFUsers is possible so use objectId
+                //was the inviter the logged in User?
                 if inviter.objectId == PFUser.currentUser().objectId{
                     self.isInvitedByCurrentUser = true
                 }
+                //was the invited the logged in User?
                 if invited.objectId == PFUser.currentUser().objectId{
                     self.isInvitedByUser = true
+                }            
+                //both Users invited each other! green cell
+                if self.isInvitedByUser == true && self.isInvitedByCurrentUser == true{
+                    cell.backgroundColor = UIColor(red: 0.85, green:0.92, blue:0.83, alpha:1.0)
+                    cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Accepted!"
+                    //logged in User invited the currently listed User who hasn't accepted, purple cell
+                }else if self.isInvitedByCurrentUser == true{
+                    cell.backgroundColor = UIColor(red:0.79, green:0.85, blue:0.97, alpha:1.0)
+                    cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Invite sent."
+                    //logged in User was invited by the currently listed User, but haven't accepted, red cell
+                }else if self.isInvitedByUser == true{
+                    cell.backgroundColor = UIColor(red:0.92, green:0.60, blue:0.60, alpha:1.0)
+                    cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Invited you."
                 }
-            }
-            //both Users invited each other! green cell
-            if self.isInvitedByUser == true && self.isInvitedByCurrentUser == true{
-                cell.backgroundColor = UIColor(red: 0.85, green:0.92, blue:0.83, alpha:1.0)
-                cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Accepted!"
-                //logged in User invited the currently listed User who hasn't accepted, purple cell
-            }else if self.isInvitedByCurrentUser == true{
-                cell.backgroundColor = UIColor(red:0.79, green:0.85, blue:0.97, alpha:1.0)
-                cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Invite sent."
-                //logged in User was invited by the currently listed User, but haven't accepted, red cell
-            }else if self.isInvitedByUser == true{
-                cell.backgroundColor = UIColor(red:0.92, green:0.60, blue:0.60, alpha:1.0)
-                cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Invited you."
             }
         })
     }
