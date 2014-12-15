@@ -101,10 +101,6 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
     }
     override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!, object: PFObject!) -> PFTableViewCell! {
         
-        var queryForInvited = PFQuery(className: inviteKey)
-        queryForInvited.whereKey(fromUserKey, equalTo: PFUser.currentUser())
-        var queryForInviters = PFQuery(className: inviteKey)
-        queryForInviters.whereKey(toUserKey, equalTo: PFUser.currentUser())
         
         let identifier = "Cell"
         var cell = PFTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: identifier)
@@ -114,74 +110,32 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
             if !filteredUsers.isEmpty{
                 //so grab the User object from the filteredUsers array instead of method argument's User object
                 let user = filteredUsers[indexPath.row] as PFUser
-                queryForInvited.whereKey(toUserKey, equalTo: user)
-                queryForInviters.whereKey(fromUserKey, equalTo: user)
-                //find out whether the listed User is invited by the current logged in User
-                var wasInvited = queryForInvited.countObjects()
-                //find out whether the listed User invited the current logged in User
-                var wasInviter = queryForInviters.countObjects()
-
+                //color the cell based on invite status (async, so will be a delay)
+                colorCellsBasedOnInviteStatus(user, cell: cell)
                 let thumbnail = user.valueForKey(userPhotoKey) as PFObject
                 let userProfile: AnyObject? = user.valueForKey(userProfileKey)
                 let org = userProfile?.valueForKey(orgKey) as String
                 
-                cell.textLabel?.text = "\(user.valueForKey(nameKey))"
+                cell.textLabel?.text = "\(user.valueForKey(nameKey)!)"
                 cell.detailTextLabel?.text = org
                 cell.imageView.file = thumbnail.valueForKey(imageFileKey) as PFFile
                 cell.imageView.image = UIImage(named: "default.png")
                 cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                //both Users invited each other! green cell
-                if wasInvited > 0 && wasInviter > 0{
-                    cell.backgroundColor = UIColor(red: 0.85, green:0.92, blue:0.83, alpha:1.0)
-                    cell.textLabel?.text = "\(user.valueForKey(nameKey)!) - Accepted!"
-                //logged in User invited the currently listed User who hasn't accepted, purple cell
-                }else if wasInvited > 0{
-                    cell.backgroundColor = UIColor(red:0.79, green:0.85, blue:0.97, alpha:1.0)
-                    cell.textLabel?.text = "\(user.valueForKey(nameKey)!) - Invite sent."
-                //logged in User was invited by the currently listed User, but haven't accepted, red cell
-                }else if wasInviter > 0{
-                    cell.backgroundColor = UIColor(red:0.92, green:0.60, blue:0.60, alpha:1.0)
-                    cell.textLabel?.text = "\(user.valueForKey(nameKey)!) - Invited you."
-                }
-                return cell
-
-            }else{
-                return cell
             }
         //we're getting cells on the main unfiltered tableview
         }else{
-            queryForInvited.whereKey(toUserKey, equalTo: object)
-            queryForInviters.whereKey(fromUserKey, equalTo: object)
-            //find out whether the listed User is invited by the current logged in User
-            var wasInvited = queryForInvited.countObjects()
-            //find out whether the listed User invited the current logged in User
-            var wasInviter = queryForInviters.countObjects()
-
+            colorCellsBasedOnInviteStatus(object as PFUser, cell: cell)
             let thumbnail = object.valueForKey(userPhotoKey) as PFObject
             let userProfile: AnyObject? = object.valueForKey(userProfileKey)
             let org = userProfile?.valueForKey(orgKey) as String
             
-            cell.textLabel?.text = (object.valueForKey(nameKey) as String)
+            cell.textLabel?.text = (object.valueForKey(nameKey)! as String)
             cell.detailTextLabel?.text = org
             cell.imageView.file = thumbnail.valueForKey(imageFileKey) as PFFile
             cell.imageView.image = UIImage(named: "default.png")
             cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-            //both Users invited each other! green cell
-            if wasInvited > 0 && wasInviter > 0{
-                cell.backgroundColor = UIColor(red: 0.85, green:0.92, blue:0.83, alpha:1.0)
-                cell.textLabel?.text = "\(object.valueForKey(nameKey)!) - Accepted!"
-                //logged in User invited the currently listed User who hasn't accepted, purple cell
-            }else if wasInvited > 0{
-                cell.backgroundColor = UIColor(red:0.79, green:0.85, blue:0.97, alpha:1.0)
-                cell.textLabel?.text = "\(object.valueForKey(nameKey)!) - Invite sent."
-                //logged in User was invited by the currently listed User, but haven't accepted, red cell
-            }else if wasInviter > 0{
-                cell.backgroundColor = UIColor(red:0.92, green:0.60, blue:0.60, alpha:1.0)
-                cell.textLabel?.text = "\(object.valueForKey(nameKey)!) - Invited you."
-            }
-            return cell
-
         }
+        return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("seeDetails", sender: tableView)
@@ -209,6 +163,48 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
             return (stringMatch != nil || orgMatch != nil)
         }
     }
+    func colorCellsBasedOnInviteStatus(user: PFUser, cell: PFTableViewCell){
+        
+        var queryForInvited = PFQuery(className: inviteKey)
+        queryForInvited.whereKey(fromUserKey, equalTo: PFUser.currentUser())
+        var queryForInviters = PFQuery(className: inviteKey)
+        queryForInviters.whereKey(toUserKey, equalTo: PFUser.currentUser())
+        queryForInvited.whereKey(toUserKey, equalTo: user)
+        queryForInviters.whereKey(fromUserKey, equalTo: user)
+        //find out whether the listed User is invited by the current logged in User
+        var queryForAllInvites = PFQuery.orQueryWithSubqueries([queryForInvited, queryForInviters])
+        //find out whether the listed User invited the current logged in User
+        //gotta do this on another thread so it doesn't bog down the search...
+        queryForAllInvites.findObjectsInBackgroundWithBlock({ (arrayOfInvites, error) -> Void in
+            var wasInvited = false
+            var wasInviter = false
+            for Invite in arrayOfInvites{
+                var inviter = Invite.valueForKey(self.fromUserKey) as PFUser
+                var invited = Invite.valueForKey(self.toUserKey) as PFUser
+                //don't think a direct equality comparison between PFUsers is possible so use objectId
+                if inviter.objectId == PFUser.currentUser().objectId{
+                    wasInviter = true
+                }
+                if invited.objectId == PFUser.currentUser().objectId{
+                    wasInvited = true
+                }
+            }
+            //both Users invited each other! green cell
+            if wasInvited == true && wasInviter == true{
+                cell.backgroundColor = UIColor(red: 0.85, green:0.92, blue:0.83, alpha:1.0)
+                cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Accepted!"
+                //logged in User invited the currently listed User who hasn't accepted, purple cell
+            }else if wasInviter == true{
+                cell.backgroundColor = UIColor(red:0.79, green:0.85, blue:0.97, alpha:1.0)
+                cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Invite sent."
+                //logged in User was invited by the currently listed User, but haven't accepted, red cell
+            }else if wasInvited == true{
+                cell.backgroundColor = UIColor(red:0.92, green:0.60, blue:0.60, alpha:1.0)
+                cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Invited you."
+            }
+        })
+    }
+    //MARK: - Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "seeDetails" {
             let userDetailViewController = segue.destinationViewController as ResultDetails
