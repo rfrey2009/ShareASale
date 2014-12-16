@@ -90,22 +90,29 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
             couponQuery.whereKey(couponKey, equalTo: isOrSeeksCoupon)
             combinedOrQuery.append(couponQuery)
         }
-        var query = PFQuery.orQueryWithSubqueries(combinedOrQuery)
+        //purposely ruin the query if the current logged in User has nothing selected as what they're seeking/what they are
+        var mainQuery = PFQuery(className: "xyz")
+        if !combinedOrQuery.isEmpty{
+            mainQuery = PFQuery.orQueryWithSubqueries(combinedOrQuery)
+        }else{
+            println("Nothing chosen. Aborting!")
+            return mainQuery
+        }
         //get either affiliates or merchants depending on who is looking at results
-        query.whereKey(typeKey, equalTo: type)
+        mainQuery.whereKey(typeKey, equalTo: type)
         //if a merchant is seeking affiliates, get those who aren't in a disallowed US state
         if type == affiliateKey{
             var disallowedRows = NSUserDefaults.standardUserDefaults().arrayForKey(disallowedKey) as Array<Int>!
-            query.whereKey(stateKey, notContainedIn: disallowedRows)
+            mainQuery.whereKey(stateKey, notContainedIn: disallowedRows)
             //if an affiliate is seeking merchants, get those who aren't disallowing their US state
         }else if type == merchantKey{
             var chosenState = NSUserDefaults.standardUserDefaults().integerForKey(stateKey) as Int!
-            query.whereKey(disallowedKey, notEqualTo: chosenState)
+            mainQuery.whereKey(disallowedKey, notEqualTo: chosenState)
         }
         //then get just nearby affs or merchants to the user
-        query.whereKey(pointKey, nearGeoPoint: geoPoint)
-        query.includeKey(userPhotoKey)
-        return query
+        mainQuery.whereKey(pointKey, nearGeoPoint: geoPoint)
+        mainQuery.includeKey(userPhotoKey)
+        return mainQuery
     }
     override func viewDidLoad() {
         

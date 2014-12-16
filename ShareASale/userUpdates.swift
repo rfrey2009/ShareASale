@@ -74,7 +74,6 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
         
     }
     class func logOutShareASaleUser(){
-        
         //delete user's CoreData local UserPhoto mirror
         let fetchedResults = getUserImageFromCoreData()
         if let results = fetchedResults {

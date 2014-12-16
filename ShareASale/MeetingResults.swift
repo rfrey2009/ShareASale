@@ -82,7 +82,6 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
         
     }
     func floatRatingView(ratingView: FloatRatingView, didUpdate rating: Float) {
-        println("Floatratingview delegate works")
         self.Note.setObject(rating, forKey: ratingKey)
         self.Note.saveInBackgroundWithBlock { (success, error) -> Void in
             if success{
@@ -119,7 +118,6 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
         }
     }
     func textViewDidEndEditing(textView: UITextView) {
-        println("Text view delegate works")
         self.Note.setObject(textView.text, forKey: textKey)
         self.Note.saveInBackgroundWithBlock { (success, error) -> Void in
             if success{
