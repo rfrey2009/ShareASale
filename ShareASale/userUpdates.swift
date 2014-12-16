@@ -280,7 +280,7 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
             classVars.currentUser.saveInBackgroundWithBlock { (success, error) -> Void in
                 println("user's \(forKey) changed on parse as type BOOL")
             }
-            //org or account ID changed by user
+        //org or account ID changed by user
         }else if value is String{
             
             NSUserDefaults.standardUserDefaults().setObject(value as String, forKey: forKey)

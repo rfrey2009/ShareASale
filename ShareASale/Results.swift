@@ -17,7 +17,6 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
     let inviteKey = "Invite"
     let fromUserKey = "fromUser"
     let toUserKey = "toUser"
-
     let userProfileKey = "userProfile"
     let imageFileKey = "imageFile"
     let nameKey = "name"
@@ -31,8 +30,11 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
     let ppcKey = "ppc"
     let incentiveKey = "incentive"
     let usaKey = "usa"
+    //map of all User's cross-invite statuses
+    var inviteStatus = [String: AnyObject]()
     //type depends on the segue identifier, and means what results we're looking for
     var type = ""
+    //holds Users who match the search bar query based on name or org string match
     var filteredUsers = [AnyObject]()
     //MARK: - IBOutlets
     @IBOutlet weak var searchBar: UISearchBar!
@@ -50,7 +52,7 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         self.objectsPerPage = 20;
     }
     override func queryForTable() -> PFQuery! {
-        var query = PFUser.query()
+        
         //location
         let geoPoint = PFUser.currentUser().valueForKey(pointKey) as PFGeoPoint
         //user settings
@@ -59,20 +61,26 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         let isOrSeeksPpc = PFUser.currentUser().valueForKey(ppcKey) as Bool
         let isOrSeeksIncentive = PFUser.currentUser().valueForKey(incentiveKey) as Bool
         let isOrSeeksCoupon = PFUser.currentUser().valueForKey(couponKey) as Bool
-
+        var bloggerQuery = PFUser.query()
+        var usaQuery = PFUser.query()
+        var ppcQuery = PFUser.query()
+        var incentiveQuery = PFUser.query()
+        var couponQuery = PFUser.query()
+        //merchant and affiliate both must have agreeing settings seeking one another
+        bloggerQuery.whereKey(bloggerKey, equalTo: isOrSeeksBlogger)
+        usaQuery.whereKey(usaKey, equalTo: isOrSeeksUsa)
+        ppcQuery.whereKey(ppcKey, equalTo: isOrSeeksPpc)
+        incentiveQuery.whereKey(incentiveKey, equalTo: isOrSeeksIncentive)
+        couponQuery.whereKey(couponKey, equalTo: isOrSeeksCoupon)
+        
+        var query = PFQuery.orQueryWithSubqueries([bloggerQuery, usaQuery, ppcQuery, incentiveQuery, couponQuery])
         //get either affiliates or merchants depending on who is looking at results
         query.whereKey(typeKey, equalTo: type)
-        //merchant and affiliate both must have agreeing settings seeking one another
-        query.whereKey(bloggerKey, equalTo: isOrSeeksBlogger)
-        query.whereKey(usaKey, equalTo: isOrSeeksUsa)
-        query.whereKey(ppcKey, equalTo: isOrSeeksPpc)
-        query.whereKey(incentiveKey, equalTo: isOrSeeksIncentive)
-        query.whereKey(couponKey, equalTo: isOrSeeksCoupon)
         //if a merchant is seeking affiliates, get those who aren't in a disallowed US state
         if type == affiliateKey{
             var disallowedRows = NSUserDefaults.standardUserDefaults().arrayForKey(disallowedKey) as Array<Int>!
             query.whereKey(stateKey, notContainedIn: disallowedRows)
-        //if an affiliate is seeking merchants, get those who aren't disallowing their US state
+            //if an affiliate is seeking merchants, get those who aren't disallowing their US state
         }else if type == merchantKey{
             var chosenState = NSUserDefaults.standardUserDefaults().integerForKey(stateKey) as Int!
             query.whereKey(disallowedKey, notEqualTo: chosenState)
@@ -87,9 +95,6 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         super.viewDidLoad()
         searchBar.placeholder = "filter \(type)s".capitalizedString
         
-    }
-    override func viewDidAppear(animated: Bool) {
-        tableView.reloadData()
     }
     //MARK: - Protocol conformation
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -122,7 +127,7 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
                 cell.imageView.image = UIImage(named: "default.png")
                 cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
-        //we're getting cells on the main unfiltered tableview
+            //we're getting cells on the main unfiltered tableview
         }else{
             colorCellsBasedOnInviteStatus(object as PFUser, cell: cell)
             let thumbnail = object.valueForKey(userPhotoKey) as PFObject
@@ -167,41 +172,46 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         
         var queryForInvited = PFQuery(className: inviteKey)
         queryForInvited.whereKey(fromUserKey, equalTo: PFUser.currentUser())
+        queryForInvited.whereKey(toUserKey, equalTo: user)
+        
         var queryForInviters = PFQuery(className: inviteKey)
         queryForInviters.whereKey(toUserKey, equalTo: PFUser.currentUser())
-        queryForInvited.whereKey(toUserKey, equalTo: user)
         queryForInviters.whereKey(fromUserKey, equalTo: user)
+        
         //find out whether the listed User is invited by the current logged in User
         var queryForAllInvites = PFQuery.orQueryWithSubqueries([queryForInvited, queryForInviters])
-        //find out whether the listed User invited the current logged in User
+        //get cross-invite results for this logged in User and listing's User
         //gotta do this on another thread so it doesn't bog down the search...
         queryForAllInvites.findObjectsInBackgroundWithBlock({ (arrayOfInvites, error) -> Void in
-            var wasInvited = false
-            var wasInviter = false
+            var isInvitedByUser = false
+            var isInvitedByCurrentUser = false
             for Invite in arrayOfInvites{
                 var inviter = Invite.valueForKey(self.fromUserKey) as PFUser
                 var invited = Invite.valueForKey(self.toUserKey) as PFUser
                 //don't think a direct equality comparison between PFUsers is possible so use objectId
                 if inviter.objectId == PFUser.currentUser().objectId{
-                    wasInviter = true
+                    isInvitedByCurrentUser = true
                 }
                 if invited.objectId == PFUser.currentUser().objectId{
-                    wasInvited = true
+                    isInvitedByUser = true
                 }
             }
             //both Users invited each other! green cell
-            if wasInvited == true && wasInviter == true{
+            if isInvitedByCurrentUser == true && isInvitedByUser == true{
                 cell.backgroundColor = UIColor(red: 0.85, green:0.92, blue:0.83, alpha:1.0)
                 cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Accepted!"
                 //logged in User invited the currently listed User who hasn't accepted, purple cell
-            }else if wasInviter == true{
+            }else if isInvitedByCurrentUser == true{
                 cell.backgroundColor = UIColor(red:0.79, green:0.85, blue:0.97, alpha:1.0)
                 cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Invite sent."
                 //logged in User was invited by the currently listed User, but haven't accepted, red cell
-            }else if wasInvited == true{
+            }else if isInvitedByUser == true{
                 cell.backgroundColor = UIColor(red:0.92, green:0.60, blue:0.60, alpha:1.0)
                 cell.textLabel?.text = "\(user.valueForKey(self.nameKey)!) - Invited you."
             }
+            //make a map of Users cross-invite statuses so it can be passed in the next segue depending on which user was selected
+            var status: Dictionary<String, Bool> = ["isInvitedByUser" : isInvitedByUser, "isInvitedByCurrentUser" : isInvitedByCurrentUser]
+            self.inviteStatus[user.objectId] = status
         })
     }
     //MARK: - Navigation
@@ -218,10 +228,13 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
                 //user didn't use search bar's tableview, so index into the pfquerytableview's main results array, self.objects
                 filteredUsers = objects
             }
-            
-            userDetailViewController.user = filteredUsers[indexPath.row] as PFUser
-
-            }
+            //pass the User in the segue to the next view
+            var user = filteredUsers[indexPath.row] as PFUser
+            userDetailViewController.user = user
+            //pass the cross-invite status between this User and logged in User to de/activate chat and invite buttons
+            userDetailViewController.isInvitedByCurrentUser = self.inviteStatus[user.objectId]?["isInvitedByCurrentUser"] as Bool
+            userDetailViewController.isInvitedByUser = self.inviteStatus[user.objectId]?["isInvitedByUser"] as Bool
+        }
     }
 }
 
