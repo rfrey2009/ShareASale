@@ -151,14 +151,12 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
                 self.Note = Note
                 self.notes.text = self.Note.valueForKey(self.textKey) as String
                 self.starRating.rating = self.Note.valueForKey(self.ratingKey) as Float
-                if let image = self.Note.valueForKey(self.bizCardImageKey) as? PFFile{
+                var image = self.Note.valueForKey(self.bizCardImageKey) as PFFile
                 image.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                    var theImage = UIImage(data: data)?
+                    var theImage = UIImage(data: data)
                     self.bizCardImage.image = theImage
                     self.bizCardImage.alpha = 1.0
-                    
                 })
-                }
                 println("Got an existing Note")
             }
         }
