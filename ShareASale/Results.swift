@@ -66,14 +66,31 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         var ppcQuery = PFUser.query()
         var incentiveQuery = PFUser.query()
         var couponQuery = PFUser.query()
+        var combinedOrQuery = [PFQuery]()
         //merchant and affiliate both must have agreeing settings seeking one another
-        bloggerQuery.whereKey(bloggerKey, equalTo: isOrSeeksBlogger)
-        usaQuery.whereKey(usaKey, equalTo: isOrSeeksUsa)
-        ppcQuery.whereKey(ppcKey, equalTo: isOrSeeksPpc)
-        incentiveQuery.whereKey(incentiveKey, equalTo: isOrSeeksIncentive)
-        couponQuery.whereKey(couponKey, equalTo: isOrSeeksCoupon)
-        
-        var query = PFQuery.orQueryWithSubqueries([bloggerQuery, usaQuery, ppcQuery, incentiveQuery, couponQuery])
+        //I only want to know if any of my settings that are TRUE match any of the 
+        //resulting users settings that are true
+        if isOrSeeksBlogger{
+            bloggerQuery.whereKey(bloggerKey, equalTo: isOrSeeksBlogger)
+            combinedOrQuery.append(bloggerQuery)
+        }
+        if isOrSeeksUsa{
+            usaQuery.whereKey(usaKey, equalTo: isOrSeeksUsa)
+            combinedOrQuery.append(usaQuery)
+        }
+        if isOrSeeksPpc{
+            ppcQuery.whereKey(ppcKey, equalTo: isOrSeeksPpc)
+            combinedOrQuery.append(ppcQuery)
+        }
+        if isOrSeeksIncentive{
+            incentiveQuery.whereKey(incentiveKey, equalTo: isOrSeeksIncentive)
+            combinedOrQuery.append(incentiveQuery)
+        }
+        if isOrSeeksCoupon{
+            couponQuery.whereKey(couponKey, equalTo: isOrSeeksCoupon)
+            combinedOrQuery.append(couponQuery)
+        }
+        var query = PFQuery.orQueryWithSubqueries(combinedOrQuery)
         //get either affiliates or merchants depending on who is looking at results
         query.whereKey(typeKey, equalTo: type)
         //if a merchant is seeking affiliates, get those who aren't in a disallowed US state
