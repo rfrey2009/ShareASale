@@ -39,16 +39,31 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
             image.sourceType = UIImagePickerControllerSourceType.Camera;
             image.mediaTypes = [kUTTypeImage]
             image.allowsEditing = false
-            var overlay = UIView(frame: CGRectMake(screenWidth / 6, screenHeight / 3, 260, 190))
-            overlay.backgroundColor = UIColor.clearColor()
-            overlay.layer.borderWidth = 3
-            overlay.layer.borderColor = UIColor.blueColor().CGColor
-            //because the preview on uiimagepickercontroller jumps 20px down after taking a picture...
+            
+            var overlayViewText = UILabel(frame: CGRectMake(80, -16, 100, 16))
+            overlayViewText.font = UIFont(name: "Courier", size: 16.0)
+            overlayViewText.textColor = UIColor.blueColor()
+            overlayViewText.text = "ShareASale"
+            overlayViewText.textAlignment = NSTextAlignment.Center
+            
+            var overlayViewStarImage = UIImageView(image: UIImage(named: "StarFull.png"))
+            overlayViewStarImage.frame = CGRectMake(125, -34, 16, 16)
+            
+            var overlayView = UIView(frame: CGRectMake(screenWidth / 6, screenHeight / 3, 260, 190))
+            overlayView.backgroundColor = UIColor.clearColor()
+            overlayView.layer.borderWidth = 3
+            overlayView.layer.borderColor = UIColor.blueColor().CGColor
+            
+            overlayView.addSubview(overlayViewStarImage)
+            overlayView.addSubview(overlayViewText)
+            
+            //because the preview on uiimagepickercontroller jumps 50pt down after taking a picture...
             var translate = CGAffineTransformMakeTranslation(0.0, 50.0)
             image.cameraViewTransform = translate
-
-            image.cameraOverlayView = overlay;
+            image.cameraOverlayView = overlayView;
+            
             self.presentViewController(image, animated: true, completion: nil)
+            
         }
     }
     @IBAction func handleSingleTap(sender: AnyObject) {
