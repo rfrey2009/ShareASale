@@ -52,7 +52,6 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         self.objectsPerPage = 20;
     }
     override func queryForTable() -> PFQuery! {
-        
         //location
         let geoPoint = PFUser.currentUser().valueForKey(pointKey) as PFGeoPoint
         //user settings
@@ -119,6 +118,10 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         super.viewDidLoad()
         searchBar.placeholder = "filter \(type)s".capitalizedString
         
+    }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     //MARK: - Protocol conformation
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
