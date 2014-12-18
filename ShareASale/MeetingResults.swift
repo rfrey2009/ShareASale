@@ -20,6 +20,7 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
     var bizCardImageKey = "bizCardImage"
     var aboutUserKey = "aboutUser"
     var fromUserKey = "fromUser"
+    var overlayView = UIView?()
     //MARK: - IBOutlets
     @IBOutlet var starRating: FloatRatingView!
     @IBOutlet var notes: UITextView!
@@ -33,12 +34,15 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
             var screenSize = UIScreen.mainScreen().bounds.size
             var screenHeight = screenSize.height
             var screenWidth = screenSize.width
-            
+
             var image = UIImagePickerController()
             image.delegate = self
             image.sourceType = UIImagePickerControllerSourceType.Camera;
             image.mediaTypes = [kUTTypeImage]
             image.allowsEditing = false
+            //because the preview on uiimagepickercontroller jumps down after taking a picture...
+            var translate = CGAffineTransformMakeTranslation(0.0, 51.0)
+            image.cameraViewTransform = translate
             
             var overlayViewText = UILabel(frame: CGRectMake(80, -16, 100, 16))
             overlayViewText.font = UIFont(name: "Courier", size: 16.0)
@@ -49,20 +53,26 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
             var overlayViewStarImage = UIImageView(image: UIImage(named: "StarFull.png"))
             overlayViewStarImage.frame = CGRectMake(125, -34, 16, 16)
             
-            var overlayView = UIView(frame: CGRectMake(screenWidth / 6, screenHeight / 3, 260, 190))
+            var overlayView = UIView(frame: CGRectMake(0, 0, 260, 190))
             overlayView.backgroundColor = UIColor.clearColor()
             overlayView.layer.borderWidth = 3
             overlayView.layer.borderColor = UIColor.blueColor().CGColor
             
             overlayView.addSubview(overlayViewStarImage)
             overlayView.addSubview(overlayViewText)
+            overlayView.center = CGPointMake(UIScreen.mainScreen().bounds.size.width / 2, UIScreen.mainScreen().bounds.size.height / 2);
+            self.overlayView = overlayView
             
-            //because the preview on uiimagepickercontroller jumps 50pt down after taking a picture...
-            var translate = CGAffineTransformMakeTranslation(0.0, 50.0)
-            image.cameraViewTransform = translate
             image.cameraOverlayView = overlayView;
             
+            //for detecting orientation and rotating camera overlay according
+            UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "didOrientation:", name: "UIDeviceOrientationDidChangeNotification", object: nil)
             self.presentViewController(image, animated: true, completion: nil)
+            
+            //for detecting camera preview appearing to hide overlay preview
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleNotification:", name: "_UIImagePickerControllerUserDidRejectItem", object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleNotification:", name: "_UIImagePickerControllerUserDidCaptureItem", object: nil)
             
         }
     }
@@ -109,15 +119,16 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
         println("I've got a biz card image!")
         var image = info[UIImagePickerControllerOriginalImage] as UIImage
         var screenSize = UIScreen.mainScreen().bounds.size
-        var screenHeight = screenSize.height
-        var screenWidth = screenSize.width
         var screenBounds = UIScreen.mainScreen().bounds
+        var overlayViewCenter = self.overlayView?.center
         UIGraphicsBeginImageContext(screenSize)
         image.drawInRect(screenBounds)
         var smallImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        var cropRect = CGRectMake(screenWidth / 6, screenHeight / 3, 260, 190)
+        var x = overlayViewCenter?.x
+        var y = overlayViewCenter?.y
+        var cropRect = CGRectMake(x! - 95, y! - 130, 260, 190)
         //new cropped image
         var imageRef = CGImageCreateWithImageInRect(smallImage.CGImage, cropRect);
         bizCardImage.image = UIImage(CGImage: imageRef)
@@ -174,11 +185,40 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
                 println("Got an existing Note")
             }
         }
+    }
+    func didOrientation(notification: NSNotification){
         
+        var interfaceOrientation = UIDevice.currentDevice().orientation
+        var overlayView = self.overlayView
+        
+        if interfaceOrientation == UIDeviceOrientation.Portrait{
+            overlayView?.transform = CGAffineTransformMakeRotation(0)
+            println("p")
+        }else if interfaceOrientation == UIDeviceOrientation.PortraitUpsideDown{
+            overlayView?.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+            
+            println("pu-down")
+        }else if interfaceOrientation == UIDeviceOrientation.LandscapeLeft{
+            overlayView?.transform = CGAffineTransformMakeRotation(CGFloat(M_PI / 2))
+            println("lleft")
+        }else if interfaceOrientation == UIDeviceOrientation.LandscapeRight {
+            overlayView?.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI / 2))
+            println("lright")
+        }
+        
+    }
+    //removes camera overlay if photo preview is shown
+    func handleNotification(notification: NSNotification){
+        if notification.name == "_UIImagePickerControllerUserDidCaptureItem"{
+            println("did capture item!")
+            self.overlayView?.hidden = true
+        }else if notification.name == "_UIImagePickerControllerUserDidRejectItem"{
+            println("did reject item!")
+            self.overlayView?.hidden = true
+        }
     }
     /*
     // MARK: - Navigation
-    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     // Get the new view controller using segue.destinationViewController.
