@@ -17,7 +17,9 @@ Desired Improvements:
 
 3. Brainstorm new features, e.g. would be AWESOME for users to be able to pinpoint each other on a map with an availability indicator, make it as modular as possible since the app is intended to be licensed to different conferences and even industries.
 
-4. Profit!
+4. Eventually Android (maybe even Windows Phone) support? 
+
+5. Profit!
 
 
 
