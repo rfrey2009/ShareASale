@@ -15,7 +15,7 @@ Desired Improvements:
 
 2. Overhaul UI using Sketch? (me) Seems pretty basic now. 
 
-3. Add teaser information *before* login so users are greeted with something else before being prompted to join/login using LinkedIn. Possibly teaser information might include a running list of latest users, attendees, users meeting up, etc. 
+3. Add teaser and/or user "onboarding" information *before* login so users are greeted with something else before being prompted to join/login using LinkedIn. Possibly teaser information might include a running list of latest users, attendees, users meeting up, etc. 
 
 4. Brainstorm new features, e.g. would be AWESOME for users to be able to pinpoint each other on a map with an availability indicator, make it as modular as possible since the app is intended to be licensed to different conferences and even industries.
 
