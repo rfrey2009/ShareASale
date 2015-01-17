@@ -52,6 +52,7 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
         self.objectsPerPage = 20;
     }
     override func queryForTable() -> PFQuery! {
+        
         //location
         let geoPoint = PFUser.currentUser().valueForKey(pointKey) as PFGeoPoint
         //user settings
@@ -108,8 +109,8 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
             var chosenState = NSUserDefaults.standardUserDefaults().integerForKey(stateKey) as Int!
             mainQuery.whereKey(disallowedKey, notEqualTo: chosenState)
         }
-        //then get just nearby affs or merchants to the user
-        mainQuery.whereKey(pointKey, nearGeoPoint: geoPoint)
+        //then get just nearby (1 mile) affs or merchants to the user
+        mainQuery.whereKey(pointKey, nearGeoPoint: geoPoint, withinMiles: 1.0)
         mainQuery.includeKey(userPhotoKey)
         return mainQuery
     }
@@ -122,6 +123,7 @@ class Results: PFQueryTableViewController, UISearchDisplayDelegate, UISearchBarD
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        //self.loadObjects()
     }
     //MARK: - Protocol conformation
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

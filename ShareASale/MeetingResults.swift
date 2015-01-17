@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import MobileCoreServices
 
-
 class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextViewDelegate {
     //MARK: - general keys and constants
     var user = PFUser()
@@ -69,7 +68,6 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
             UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "didOrientation:", name: "UIDeviceOrientationDidChangeNotification", object: nil)
             self.presentViewController(image, animated: true, completion: nil)
-            
             //for detecting camera preview appearing to hide overlay preview
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleNotification:", name: "_UIImagePickerControllerUserDidRejectItem", object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleNotification:", name: "_UIImagePickerControllerUserDidCaptureItem", object: nil)
@@ -190,13 +188,12 @@ class MeetingResults: UIViewController, FloatRatingViewDelegate, UINavigationCon
         
         var interfaceOrientation = UIDevice.currentDevice().orientation
         var overlayView = self.overlayView
-        
+        println("did orientation")
         if interfaceOrientation == UIDeviceOrientation.Portrait{
             overlayView?.transform = CGAffineTransformMakeRotation(0)
             println("p")
         }else if interfaceOrientation == UIDeviceOrientation.PortraitUpsideDown{
             overlayView?.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
-            
             println("pu-down")
         }else if interfaceOrientation == UIDeviceOrientation.LandscapeLeft{
             overlayView?.transform = CGAffineTransformMakeRotation(CGFloat(M_PI / 2))

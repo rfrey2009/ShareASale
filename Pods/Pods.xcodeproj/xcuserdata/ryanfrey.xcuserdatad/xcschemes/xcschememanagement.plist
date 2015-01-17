@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>PFLinkedInUtils.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Bolts.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -14,12 +24,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-IOSLinkedInAPI.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-JSQMessagesViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Pods-JSQSystemSoundPlayer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PFLinkedInUtils.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -46,47 +66,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>0F77666F2A38E388C63FEEF2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>1D241D554E261DC59550DBED</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>420D40F8F37E0208615F871B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6D51A7A3DAD3DC11B3510FD0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>931DC8ECC5B9F48DB578B992</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A8ED5C3231065D990F7FACA4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D096EE457FFF3101C4FE92B5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EAAE1AF1E8119160C8598AD6</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>
