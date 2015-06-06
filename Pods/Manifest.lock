@@ -1,44 +1,49 @@
 PODS:
-  - AFNetworking (2.5.0):
-    - AFNetworking/NSURLConnection (= 2.5.0)
-    - AFNetworking/NSURLSession (= 2.5.0)
-    - AFNetworking/Reachability (= 2.5.0)
-    - AFNetworking/Security (= 2.5.0)
-    - AFNetworking/Serialization (= 2.5.0)
-    - AFNetworking/UIKit (= 2.5.0)
-  - AFNetworking/NSURLConnection (2.5.0):
+  - AFNetworking (2.5.4):
+    - AFNetworking/NSURLConnection (= 2.5.4)
+    - AFNetworking/NSURLSession (= 2.5.4)
+    - AFNetworking/Reachability (= 2.5.4)
+    - AFNetworking/Security (= 2.5.4)
+    - AFNetworking/Serialization (= 2.5.4)
+    - AFNetworking/UIKit (= 2.5.4)
+  - AFNetworking/NSURLConnection (2.5.4):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.5.0):
+  - AFNetworking/NSURLSession (2.5.4):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.5.0)
-  - AFNetworking/Security (2.5.0)
-  - AFNetworking/Serialization (2.5.0)
-  - AFNetworking/UIKit (2.5.0):
+  - AFNetworking/Reachability (2.5.4)
+  - AFNetworking/Security (2.5.4)
+  - AFNetworking/Serialization (2.5.4)
+  - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Bolts (1.1.3)
-  - Facebook-iOS-SDK (3.22.0):
+  - Bolts (1.2.0):
+    - Bolts/AppLinks (= 1.2.0)
+    - Bolts/Tasks (= 1.2.0)
+  - Bolts/AppLinks (1.2.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.2.0)
+  - Facebook-iOS-SDK (3.23.2):
     - Bolts (~> 1.0)
   - IOSLinkedInAPI (2.0.0):
     - AFNetworking (>= 2.0.0)
-  - JSQMessagesViewController (6.1.3):
+  - JSQMessagesViewController (7.1.0):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
-  - Parse (1.6.1):
-    - Bolts (~> 1.1.3)
-  - ParseFacebookUtils (1.6.1):
-    - Facebook-iOS-SDK (~> 3.20)
-    - Parse (~> 1.6.1)
-  - ParseUI (1.0.3):
-    - Parse (~> 1.6)
-    - ParseFacebookUtils (~> 1.6)
-  - PFLinkedInUtils (0.1.1):
+  - Parse (1.7.4):
+    - Bolts/Tasks (>= 1.1.5)
+  - ParseFacebookUtils (1.7.4):
+    - Bolts/Tasks (>= 1.1.5)
+    - Facebook-iOS-SDK (~> 3.23)
+    - Parse (~> 1.7.4)
+  - ParseUI (1.1.4):
+    - Parse (~> 1.7)
+  - PFLinkedInUtils (0.1.5):
     - IOSLinkedInAPI (~> 2.0)
-    - Parse (~> 1.5)
+    - Parse (~> 1.6)
 
 DEPENDENCIES:
   - Facebook-iOS-SDK
@@ -49,15 +54,15 @@ DEPENDENCIES:
   - PFLinkedInUtils
 
 SPEC CHECKSUMS:
-  AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
-  Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
-  Facebook-iOS-SDK: 0eda8ff7120aada0a9c5f98552f7625da6c3440a
-  IOSLinkedInAPI: 5b400668a260a3594af94e363ade95933ce22db8
-  JSQMessagesViewController: e93a288a9662d4519c95a28a8c0eec10beae1bfc
-  JSQSystemSoundPlayer: 55528c699a283aae2220d3ae7b8b527d2ecef4b4
-  Parse: b0ec7666167e212edb6fc94f60ba170248bd1869
-  ParseFacebookUtils: 7659dcda0fa59f67234ab7ba5a82a9b05073c59a
-  ParseUI: 8201eccd0e68eaa000b58253c4286e92de0ce5c5
-  PFLinkedInUtils: 800d613b81f12e5b0c63851ca0ba0bab974e47b9
+  AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  Bolts: d176cb1e0012175589e389a9db49b85e27787576
+  Facebook-iOS-SDK: cd87f0b2f0c1d9574b44e8fa2baacc275524bac3
+  IOSLinkedInAPI: d0adc664472d471b0df9b2aad92a2d82de926c40
+  JSQMessagesViewController: ca11f86fa68ca70835f05e169df9244147c1dc40
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  Parse: 6ca512c6e860b66739c95151b2f76ac4712b7842
+  ParseFacebookUtils: 7115990b291ae95b920fde413272828d0eb0d963
+  ParseUI: d1228541b02a36a7354c8f47747f5f7a89cf1ff0
+  PFLinkedInUtils: 1b0506f1901072b46c0de4d496f81d82d33ba61d
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.36.4

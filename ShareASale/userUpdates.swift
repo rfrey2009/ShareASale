@@ -228,7 +228,7 @@ class userUpdates: NSObject, NSURLConnectionDataDelegate {
                 //User has no image saved in parse yet, so download the user's facebook profile image and save to parse & coredata
                 var request = NSURLRequest(URL: pictureURL, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 4.0)
                 var urlConnection = NSURLConnection(request: request, delegate: self)
-                if urlConnection == nil{
+                if urlConnection == nil{q
                     println("Failed to download picture...")
                 }
             }

@@ -148,7 +148,7 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
         if let results = fetchedResults {
             if results.isEmpty == false{
                 //initial portrait/avatar image is what's saved last from coredata locally
-                self.portrait.image = UIImage(data: results[0].valueForKey(self.imageFileKey) as NSData)
+                self.portrait.image = UIImage(data: results[0].valueForKey(self.imageFileKey) as! NSData)
                 println("User's existing image from coredata was shown as portrait")
             }
         } else {
@@ -222,11 +222,11 @@ class AffiliateSettings: UIViewController, UIPickerViewDataSource, UIPickerViewD
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "AffiliateSettingsToResults"{
-            let vc = segue.destinationViewController as Results
+            let vc = segue.destinationViewController as! Results
             vc.type = "merchant"
         }
         if segue.identifier == "AffiliateSettingsToMoreInfo"{
-            let vc = segue.destinationViewController as AffiliateSettingsMoreInfo
+            let vc = segue.destinationViewController as! AffiliateSettingsMoreInfo
             vc.delegate = self
         }
 

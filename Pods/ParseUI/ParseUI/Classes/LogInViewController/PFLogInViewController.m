@@ -1,13 +1,13 @@
 /*
- *  Copyright (c) 2014, Facebook, Inc. All rights reserved.
+ *  Copyright (c) 2014, Parse, LLC. All rights reserved.
  *
  *  You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
  *  copy, modify, and distribute this software in source code or binary form for use
- *  in connection with the web services and APIs provided by Facebook.
+ *  in connection with the web services and APIs provided by Parse.
  *
- *  As with any software that integrates with the Facebook platform, your use of
- *  this software is subject to the Facebook Developer Principles and Policies
- *  [http://developers.facebook.com/policy/]. This copyright notice shall be
+ *  As with any software that integrates with the Parse platform, your use of
+ *  this software is subject to the Parse Terms of Service
+ *  [https://www.parse.com/about/terms]. This copyright notice shall be
  *  included in all copies or substantial portions of the software.
  *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -25,8 +25,10 @@
 
 #import "PFActionButton.h"
 #import "PFAlertView.h"
+#import "PFLocalization.h"
 #import "PFPrimaryButton.h"
 #import "PFSignUpViewController.h"
+#import "PFTextField.h"
 
 NSString *const PFLogInSuccessNotification = @"com.parse.ui.login.success";
 NSString *const PFLogInFailureNotification = @"com.parse.ui.login.failure";
@@ -36,9 +38,13 @@ NSString *const PFLogInCancelNotification = @"com.parse.ui.login.cancel";
  This protocol exists so that we can weakly refer to messages to pass to PFFacebookUtils without
  actually taking a dependency on the symbols.
  */
-@protocol WeaklyReferencedFBUtils
+@protocol WeaklyReferencedFBUtils <NSObject>
 
-+ (void)logInWithPermissions:(NSArray *)permissions block:(void(^)(PFUser *user, NSError *error))block;
+// FBSDKv3
++ (void)logInWithPermissions:(NSArray *)permissions block:(PFUserResultBlock)block;
+// FBSDKv4
++ (void)logInInBackgroundWithReadPermissions:(NSArray *)permissions block:(PFUserResultBlock)block;
++ (void)logInInBackgroundWithPublishPermissions:(NSArray *)permissions block:(PFUserResultBlock)block;
 
 @end
 
@@ -278,6 +284,8 @@ NSString *const PFLogInCancelNotification = @"com.parse.ui.login.cancel";
     }];
 }
 
+#pragma mark Log In With Facebook
+
 - (void)_loginWithFacebook {
     if (self.loading) {
         return;
@@ -288,22 +296,54 @@ NSString *const PFLogInCancelNotification = @"com.parse.ui.login.cancel";
         [(PFActionButton *)_logInView.facebookButton setLoading:YES];
     }
 
-    Class fbUtils = NSClassFromString(@"PFFacebookUtils");
-    [fbUtils logInWithPermissions:_facebookPermissions block:^(PFUser *user, NSError *error) {
-        self.loading = NO;
+    __weak typeof(self) wself = self;
+    PFUserResultBlock resultBlock = ^(PFUser *user, NSError *error) {
+        __strong typeof(wself) sself = wself;
+        sself.loading = NO;
         if ([_logInView.facebookButton isKindOfClass:[PFActionButton class]]) {
             [(PFActionButton *)_logInView.facebookButton setLoading:NO];
         }
 
         if (user) {
-            [self _loginDidSuceedWithUser:user];
+            [sself _loginDidSucceedWithUser:user];
         } else if (error) {
-            [self _loginDidFailWithError:error];
+            [sself _loginDidFailWithError:error];
         } else {
             // User cancelled login.
         }
-    }];
+    };
+
+    Class fbUtils = NSClassFromString(@"PFFacebookUtils");
+    if ([fbUtils respondsToSelector:@selector(logInWithPermissions:block:)]) {
+        // Facebook SDK v3 Login
+        [fbUtils logInWithPermissions:_facebookPermissions block:resultBlock];
+    } else if ([fbUtils respondsToSelector:@selector(logInInBackgroundWithReadPermissions:block:)]) {
+        // Facebook SDK v4 Login
+        if ([self _permissionsContainsFacebookPublishPermission:_facebookPermissions]) {
+            [fbUtils logInInBackgroundWithPublishPermissions:_facebookPermissions block:resultBlock];
+        } else {
+            [fbUtils logInInBackgroundWithReadPermissions:_facebookPermissions block:resultBlock];
+        }
+    } else {
+        [NSException raise:NSInternalInconsistencyException
+                    format:@"Can't find PFFacebookUtils. Please link with ParseFacebookUtils or ParseFacebookUtilsV4 to enable login with Facebook."];
+    }
 }
+
+- (BOOL)_permissionsContainsFacebookPublishPermission:(NSArray *)permissions {
+    for (NSString *permission in permissions) {
+        if ([permission hasPrefix:@"publish"] ||
+            [permission hasPrefix:@"manage"] ||
+            [permission isEqualToString:@"ads_management"] ||
+            [permission isEqualToString:@"create_event"] ||
+            [permission isEqualToString:@"rsvp_event"]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+#pragma mark Log In With Twitter
 
 - (void)_loginWithTwitter {
     if (self.loading) {
@@ -322,7 +362,7 @@ NSString *const PFLogInCancelNotification = @"com.parse.ui.login.cancel";
         }
 
         if (user) {
-            [self _loginDidSuceedWithUser:user];
+            [self _loginDidSucceedWithUser:user];
         } else if (error) {
             [self _loginDidFailWithError:error];
         } else {
@@ -330,6 +370,8 @@ NSString *const PFLogInCancelNotification = @"com.parse.ui.login.cancel";
         }
     }];
 }
+
+#pragma mark Log In
 
 - (void)_loginAction {
     if (self.loading) {
@@ -357,7 +399,7 @@ NSString *const PFLogInCancelNotification = @"com.parse.ui.login.cancel";
         }
 
         if (user) {
-            [self _loginDidSuceedWithUser:user];
+            [self _loginDidSucceedWithUser:user];
         } else {
             [self _loginDidFailWithError:error];
         }
@@ -371,7 +413,7 @@ NSString *const PFLogInCancelNotification = @"com.parse.ui.login.cancel";
     [self presentViewController:self.signUpController animated:YES completion:nil];
 }
 
-- (void)_loginDidSuceedWithUser:(PFUser *)user {
+- (void)_loginDidSucceedWithUser:(PFUser *)user {
     if (_delegateExistingMethods.didLogInUser) {
         [_delegate logInViewController:self didLogInUser:user];
     }
@@ -381,11 +423,17 @@ NSString *const PFLogInCancelNotification = @"com.parse.ui.login.cancel";
 - (void)_loginDidFailWithError:(NSError *)error {
     if (_delegateExistingMethods.didFailToLogIn) {
         [_delegate logInViewController:self didFailToLogInWithError:error];
+    } else {
+        NSString *title = NSLocalizedString(@"Login Failed", @"Login failed alert title in PFLogInViewController");
+        NSString *message = nil;
+        if (error.code == kPFErrorObjectNotFound) {
+            message = NSLocalizedString(@"The username and password you entered don't match", @"Invalid login credentials alert message in PFLogInViewController");
+        } else {
+            message = NSLocalizedString(@"Please try again", @"Generic login failed alert message in PFLogInViewController");
+        }
+        [PFUIAlertView showAlertViewWithTitle:title message:message];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:PFLogInFailureNotification object:self];
-
-    NSString *title = NSLocalizedString(@"Login Error", @"Login error alert title in PFLogInViewController");
-    [PFUIAlertView showAlertViewWithTitle:title error:error];
 }
 
 - (void)cancelLogIn {
